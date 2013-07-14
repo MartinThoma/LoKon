@@ -1,0 +1,115 @@
+Historie
+********
+
+# Version 2.0	geplantes Update
+
+- Eine Schaltung zu einem Element zusammenfassen. Dadurch wird es 
+  möglich, kompliziertere Schaltungen wie zum Beispiel einen kleinen 
+  Mikroprozessor aufzubauen.
+- Eine echte OS/2 und eine echte Windows95/Windows NT Version.
+
+# Version 1.9	 4.10.1996
+
+- Windows95 und OS/2 konform und getestet.
+- Anzeigen der letzten Dateien im Dateimenü.
+
+# Version pur 1.0	28.06.1996
+
+- Gegenüber der Vollversion von LoKon können mit LoKon pur keine 
+  Elementdateien erstellt oder editiert werden. Ansonsten entspricht 
+  die Funktionalität.
+- Folgeversionen erscheinen mit jeder neuen LoKon Version und tragen 
+  die gleiche Versionsnummer.
+
+# Version mini 1.0	28.06.1996
+
+- Zum Einstieg in die Materie der digitalen Schaltungen. Elementdateien
+  können weder erstellt, noch editiert werden. Die Schaltungsgröße ist
+  beschränkt.
+- Folgeversionen erscheinen mit jeder neuen LoKon Version und tragen die 
+  gleiche Versionsnummer.
+
+# Version 1.8	17.07.1996
+
+- Bugfix.
+- Dialoge in grau.
+
+# Version 1.7	10.06.1996
+
+- PLA Baustein.
+
+# Version 1.6b	02.04.1996
+
+- Fehler beim Löschen einer Selektion mit einer Verbindung, die 
+  aufgezeichnet wird, beseitigt.
+- Oszilloskop trägt nun Name der zugehörigen Schaltung.
+
+# Version 1.6a	20.03.1996
+
+- Bilinguale Version (englisch,deutsch).
+- Neue Icons und Speedbarbuttons mit 3D Effekt.
+
+# Version 1.6	06.03.1996
+
+- Kontextsensitive Menüs durch Drücken der rechten Maustaste.
+- Oszilloskop (Aufzeichnung der Leitungszustände).
+
+# Version 1.5a	12.09.1995
+
+- Registrierung mit Compuserve möglich.
+
+# Version 1.5	13.04.1995
+
+- Debug
+    + Berührt ein Element eines verschobenen Bereichs ein vorhandenes, 
+      so wird der Bereich jetzt tatsächlich an die ursprüngliche Position 
+      zurückgesetzt.
+    + Fehlende Routine im Verbindungsknoten wurde ergänzt. Fehler trat auf, 
+      wenn eine markierte Verbindung zum Verschieben mit der linken Maustaste 
+      ausgewählt wurde.
+- Shareware-Version mit Hilfe eines Codes in registrierte Version umwandelbar.
+- Darstellung beschleunigt.
+- Eine englische Version.
+- Einstellungen werden nun in einer INI-Datei (vorher: OPT-Datei) gespeichert.
+- Schalter und Feste_Null/Feste_Eins haben neues Aussehen. (Sie unterscheiden 
+  sich nun.)
+- Verbindungsknoten werden nun auch auf Rasterpunkte gesetzt.
+- Simulation: Darstellung verbessert.
+   Vorher: Simulation und sofortige Anzeige.
+   Dies hat dazugeführt, daß während eines Zeitraster ein Bauelement mehrmals 
+   dargestellt wurde, wenn sich mehrere Eingangspegel eigentlich gleichzeitig 
+   geändert haben.
+   Jetzt: Zuerst wird intern die Simulation eines Zeitrasters durchgeführt, 
+   und danach werden dann alle Elemente neu angezeigt, bei denen sich mindestens 
+   ein Eingangspegel geändert hat.
+- Die Element-Grafik wird nun aufgeteilt in Grafik und Region (vorher: Region
+  aus Grafik berechnet, langsam)
+- Kollisionsabfrage (bei Verschieben in der Schaltung) abschaltbar (siehe: 
+  Kapitel Bedienung unter Einstellungen).
+- Markierte Grafik/Schaltung wird nicht mehr in Region gespeichert (eine Region 
+  ist auf 64KByte beschränkt).
+- Import von Texten und Bitmaps über die Zwischenablage.
+- Hilfe (kotextsensitiv).
+- Setup-Programm.
+- Speedbar verbessert und erweitert. (Ist die Speedbar zu groß, so ordnet sie 
+  sich in mehreren Zeilen an.)
+- Anleitung neu erarbeitet.
+
+# Version 1.1	15.10.1994
+
+- Speedbar
+- Bedienung verbessert
+- neuer Elementtyp: Bool
+- mehr Elemente (Elements, Register und Display)
+
+# Version 1.0	25.08.1994
+
+- Vollversion
+- Schaltung
+- Elementdatei
+- Elementtyp Tabelle
+- Elements
+
+# Version 0.9	19.07.1994
+
+- erste Shareware-Version

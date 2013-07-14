@@ -1,0 +1,26 @@
+Program : LoKon for Windows
+Version : V1.9
+  Date  :  4. October 1996
+
+Purpose : Construction and Simulation of digital circuits. Oscillsocope. Edit and create elements.
+ System : 386er PC with MS-Windows 3.1 or higher respectively OS2 2.11 or higher
+
+ Author : Heiko Roth
+  Firm  : Heiko Roth Software-Entwicklung
+ Adress : Schillerstrasse 14
+          74834 Elztal
+          Germany
+  Phone : +49 06261 36604
+   Fax  : +49 06261 37409
+  email : Heiko.Roth@t-online.de
+   WWW  : http://home.t-online.de/home/Heiko.Roth
+
+Replaces: LOKON17.ZIP, LOKON18.ZIP
+
+Description:
+Construction and Simulation of digital circuits. Contextsensitive
+help (600 KByte) and menues.
+More than 100 elements (gates, flipflops ...), oscillator,
+ROM/RAM, PLA. Oscilloscope.
+Comfortable creation of own elements.
+Registration fee: 35 US$ (50 DM)

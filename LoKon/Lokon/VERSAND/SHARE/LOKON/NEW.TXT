@@ -1,0 +1,21 @@
+Exxx: Description of an error that is FIXED now.
+Dxxx: Description of a development proposal that is build in now.
+
+Now, lower registration fee!
+Only 29 US$ for private use and 59 US$ for commercial use.
+
+     LoKon V2.2      14.05.1997
+     ----------
+
+D154: New graphic function: Draw->Blockelement
+D155: More TTL-elements
+E126: Memory leak at print.
+
+     LoKon V2.1      12.03.1997
+     ----------
+
+D151: Extended element-file Elements.
+D152: New element-file Elements2.
+D153: New Element-file TTL.
+E113: speedbar button for time grid doesn't work.
+D150: Longer element names.

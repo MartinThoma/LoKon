@@ -1,0 +1,8 @@
+Exxx: Fehlerbeschreibung eines Fehlers, der BESEITIGT wurde!
+Dxxx: Beschreibung eines Entwicklungsvorschlags, der eingebaut wurde.
+
+     LoKon V2.4      20.03.1998
+     ----------
+
+D154: InstallShield Installation
+D155: Deinstallationsroutine

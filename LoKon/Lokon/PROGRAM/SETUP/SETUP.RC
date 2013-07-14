@@ -1,0 +1,320 @@
+//#define _small
+//#define _mini
+#define _full
+#undef _manual
+#undef _userdef
+
+#include "..\resdll\define.h"
+1 DIALOG 134, 118, 176, 45
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Verzeichnis"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 3, 28, 44, 14
+	CONTROL "&Abbruch", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 51, 28, 44, 14
+	CONTROL "", -1, "STATIC", SS_BLACKFRAME | WS_CHILD | WS_VISIBLE, 0, 24, 176, 1
+#ifdef _full
+	CONTROL "C:\\LOKON", 100, "EDIT", ES_LEFT | ES_AUTOHSCROLL | ES_UPPERCASE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 4, 7, 168, 12
+#endif
+#ifdef _small
+	CONTROL "C:\\LOKONC", 100, "EDIT", ES_LEFT | ES_AUTOHSCROLL | ES_UPPERCASE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 4, 7, 168, 12
+#endif
+#ifdef _mini
+	CONTROL "C:\\LOKONM", 100, "EDIT", ES_LEFT | ES_AUTOHSCROLL | ES_UPPERCASE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 4, 7, 168, 12
+#endif
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 158, 28, 13, 14
+END
+
+
+2 DIALOG 129, 78, 142, 58
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sprache"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&deutsch", 100, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 46, 8, 50, 12
+	CONTROL "&englisch", 1100, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 46, 20, 50, 12
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 42, 44, 14
+	CONTROL "&Abbruch", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 50, 42, 44, 14
+	CONTROL "", -1, "STATIC", SS_BLACKRECT | WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 39, 142, 1
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 127, 42, 13, 14
+END
+
+
+#ifdef _manual
+3 DIALOG 160, 128, 142, 69
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Installation"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 53, 44, 14
+	CONTROL "&Abbruch", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 49, 53, 44, 14
+	CONTROL "", -1, "STATIC", SS_BLACKRECT | WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 50, 142, 1
+	CONTROL "&Vollinstallation", 100, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 20, 7, 110, 12
+	CONTROL "&Benutzerdefinierte Installation", 101, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_TABSTOP, 20, 19, 110, 12
+	CONTROL "&Minimale Installation", 102, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 20, 31, 110, 12
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 126, 53, 13, 14
+END
+#endif
+
+
+#ifdef _userdef
+4 DIALOG 150, 125, 154, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Benutzerdefinierte Installation"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "Elementdateien", -1, "BUTTON", BS_GROUPBOX | WS_CHILD | WS_VISIBLE, 6, 0, 58, 37
+	CONTROL "&DIN-Norm", 100, "BUTTON", BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 8, 12, 54, 12
+	CONTROL "a&merik. Norm", 101, "BUTTON", BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 8, 24, 54, 12
+	CONTROL "&Beispielschaltungen", 110, "BUTTON", BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 72, 8, 78, 12
+	CONTROL "A&nleitung", 120, "BUTTON", BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 72, 20, 78, 12
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 46, 44, 14
+	CONTROL "&Abbrechen", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 49, 46, 44, 14
+	CONTROL "", -1, "STATIC", SS_BLACKRECT | WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 43, 154, 1
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 138, 46, 13, 14
+END
+#endif
+
+
+5 DIALOG 5, 114, 140, 70
+STYLE DS_ABSALIGN | WS_CHILD | WS_VISIBLE | WS_CAPTION
+CAPTION "Fortschritt"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&Abbruch", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 4, 54, 44, 14
+	CONTROL "", -1, "STATIC", SS_BLACKFRAME | WS_CHILD | WS_VISIBLE, 0, 51, 140, 1
+	CONTROL "", 100, "STATIC", SS_CENTER | WS_CHILD | WS_VISIBLE | WS_GROUP, 11, 6, 117, 8
+	CONTROL "", 110, "BUTTON", BS_OWNERDRAW | BS_LEFTTEXT | WS_CHILD | WS_VISIBLE | WS_BORDER, 4, 19, 132, 12
+	CONTROL "", 120, "BUTTON", BS_OWNERDRAW | BS_LEFTTEXT | WS_CHILD | WS_VISIBLE | WS_BORDER, 4, 34, 132, 12
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 122, 54, 13, 14
+END
+
+
+6 DIALOG 147, 108, 123, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Standard Elemente Norm"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&DIN 40900 Teil 12 (deutsch)", 100, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP, 10, 7, 103, 10
+	CONTROL "&amerikanisch", 101, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE, 10, 23, 103, 12
+	CONTROL "", -1, "STATIC", SS_BLACKRECT | WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 43, 126, 1
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 46, 44, 14
+	CONTROL "&Abbrechen", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 49, 46, 44, 14
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_TABSTOP, 106, 46, 13, 14
+END
+
+
+4097 DIALOG 134, 118, 176, 45
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Directory"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 3, 28, 44, 14
+	CONTROL "&Cancel", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 51, 28, 44, 14
+	CONTROL "", -1, "STATIC", SS_BLACKFRAME | WS_CHILD | WS_VISIBLE, 0, 24, 176, 1
+#ifdef _full
+	CONTROL "C:\\LOKON", 100, "EDIT", ES_LEFT | ES_AUTOHSCROLL | ES_UPPERCASE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 4, 7, 168, 12
+#endif
+#ifdef _small
+	CONTROL "C:\\LOKONP", 100, "EDIT", ES_LEFT | ES_AUTOHSCROLL | ES_UPPERCASE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 4, 7, 168, 12
+#endif
+#ifdef _mini
+	CONTROL "C:\\LOKONM", 100, "EDIT", ES_LEFT | ES_AUTOHSCROLL | ES_UPPERCASE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, 4, 7, 168, 12
+#endif
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 158, 28, 13, 14
+END
+
+
+4098 DIALOG 166, 126, 142, 58
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Language"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&German", 100, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 46, 8, 50, 12
+	CONTROL "&English", 4196, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 46, 20, 50, 12
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 42, 44, 14
+	CONTROL "&Cancel", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 50, 42, 44, 14
+	CONTROL "", -1, "STATIC", SS_BLACKRECT | WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 39, 142, 1
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 127, 42, 13, 14
+END
+
+
+#ifdef _manual
+4099 DIALOG 160, 128, 142, 69
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Installation"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 53, 44, 14
+	CONTROL "&Cancel", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 49, 53, 44, 14
+	CONTROL "", -1, "STATIC", SS_BLACKRECT | WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 50, 142, 1
+	CONTROL "&Complete Installation", 100, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 20, 7, 110, 12
+	CONTROL "&User defined Installation", 101, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_TABSTOP, 20, 19, 110, 12
+	CONTROL "&Minimal Installation", 102, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 20, 31, 110, 12
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 126, 53, 13, 14
+END
+#endif
+
+
+4101 DIALOG 5, 114, 140, 70
+STYLE DS_ABSALIGN | WS_CHILD | WS_VISIBLE | WS_CAPTION
+CAPTION "Progress"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "", 100, "STATIC", SS_CENTER | WS_CHILD | WS_VISIBLE | WS_GROUP, 11, 6, 117, 8
+	CONTROL "", 110, "BUTTON", BS_OWNERDRAW | BS_LEFTTEXT | WS_CHILD | WS_VISIBLE | WS_BORDER, 4, 19, 132, 12
+	CONTROL "", 120, "BUTTON", BS_OWNERDRAW | BS_LEFTTEXT | WS_CHILD | WS_VISIBLE | WS_BORDER, 4, 34, 132, 12
+	CONTROL "&Cancel", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 4, 54, 44, 14
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 122, 54, 13, 14
+	CONTROL "", -1, "STATIC", SS_BLACKFRAME | WS_CHILD | WS_VISIBLE, 0, 51, 140, 1
+END
+
+
+4102 DIALOG 143, 108, 123, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Standard Elements Norm"
+FONT 8, "Helv"
+BEGIN
+	CONTROL "&DIN 40900 part 12 (German)", 100, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP, 10, 7, 103, 10
+	CONTROL "&American", 101, "BUTTON", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE, 10, 23, 103, 12
+	CONTROL "", -1, "STATIC", SS_BLACKRECT | WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 43, 126, 1
+	CONTROL "&OK", 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 46, 44, 14
+	CONTROL "&Cancel", 2, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 49, 46, 44, 14
+	CONTROL "?", 1000, "BUTTON", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_DISABLED | WS_TABSTOP, 106, 46, 13, 14
+END
+
+
+STRINGTABLE LOADONCALL FIXED IMPURE 
+BEGIN
+	1, "Dieses Programm ist SHAREWARE.\nSie dürfen das Programm für 30 Tage testen.\nWenn Sie das Programm danach weiterhin benutzen wollen, müssen Sie sich registrieren."
+	2, "Keine Systemänderungen"
+#ifdef _full
+	3, "Es werden KEINE Dateien in Systemverzeichnisse kopiert.\nSystemdateien (z.B. WIN.INI oder SYSTEM.INI) werden nicht ohne Nachfrage verändert.\nMit der Installation von LoKon beginnen ?"
+	4, "Verzeichnis existiert bereits.\nTrotzdem LoKon in dieses Verzeichnis kopieren ?"
+#endif
+#ifdef _small
+	3, "Es werden KEINE Dateien in Systemverzeichnisse kopiert.\nSystemdateien (z.B. WIN.INI oder SYSTEM.INI) werden nicht ohne Nachfrage verändert.\nMit der Installation von LoKon pur beginnen ?"
+	4, "Verzeichnis existiert bereits.\nTrotzdem LoKon pur in dieses Verzeichnis kopieren ?"
+#endif
+#ifdef _mini
+	3, "Es werden KEINE Dateien in Systemverzeichnisse kopiert.\nSystemdateien (z.B. WIN.INI oder SYSTEM.INI) werden nicht ohne Nachfrage verändert.\nMit der Installation von LoKon mini beginnen ?"
+	4, "Verzeichnis existiert bereits.\nTrotzdem LoKon mini in dieses Verzeichnis kopieren ?"
+#endif
+	5, "Verzeichnis existiert nicht.\nNeues Verzeichnis anlegen ?"
+	6, "Registrierung"
+	7, "Verknüpfungen für die Datei-Endungen '*.LAY' und '*.ELE' in WIN.INI schreiben ?"
+#ifdef _full
+	8, "LoKon-Gruppe in Programm-Manager einfügen ?"
+	10, "LoKon - Hilfe"
+#endif
+#ifdef _small
+	8, "LoKon pur - Gruppe in Programm-Manager einfügen ?"
+	10, "LoKon pur - Hilfe"
+#endif
+#ifdef _mini
+	8, "LoKon mini - Gruppe in Programm-Manager einfügen ?"
+	10, "LoKon mini - Hilfe"
+#endif
+	11, "Shareware lebt von der Ehrlichkeit des Benutzers."
+#ifdef _full
+	12, "Wollen Sie LoKon nach einer Testzeit von 30 Tagen weiterhin benutzen, so müssen Sie sich registrieren."
+#endif
+#ifdef _small
+	12, "Wollen Sie LoKon pur nach einer Testzeit von 30 Tagen weiterhin benutzen, so müssen Sie sich registrieren."
+#endif
+#ifdef _mini
+	12, "Wollen Sie LoKon mini nach einer Testzeit von 30 Tagen weiterhin benutzen, so müssen Sie sich registrieren."
+#endif
+	13, "Ihre Vorteile:\n  - Keine Shareware-Meldungen mehr.\n  - Sie sind legaler Benutzer des Programms\n    auch für alle nachfolgenden Versionen."
+#ifdef _full
+	14, "Die Installation von LoKon ist beendet.\nSie können das Programm nun starten."
+#endif
+#ifdef _small
+	14, "Die Installation von LoKon pur ist beendet.\nSie können das Programm nun starten."
+#endif
+#ifdef _mini
+	14, "Die Installation von LoKon mini ist beendet.\nSie können das Programm nun starten."
+#endif
+	15, "Datei nicht gefunden !\nDiskette wechseln.\nWiederholen ?"
+END
+
+
+STRINGTABLE LOADONCALL FIXED IMPURE 
+BEGIN
+	16, "Hilfe"
+	17, "Geben Sie einen gültigen Verzeichnispfad ein.\nExistiert das Verzeichnis nicht, so legt Setup ein neues Verzeichnis mit dem angegebenen Namen an."
+	18, "Wählen Sie eine Sprache.\nSetup wählt als Voreinstellung die Sprache, die in Windows eingestellt ist, bzw. englisch, wenn die Systemsprache weder deutsch noch englisch ist."
+	19, "Vollinstallation: Alle Dateien werden installiert.\nMinimalinstallation: Installation ohne die Beispieldateien."
+END
+
+
+STRINGTABLE LOADONCALL FIXED IMPURE 
+BEGIN
+	4097, "This program is SHAREWARE.\nYou are allowed to test it for 30 days.\nIf you want to use this program after 30 days, you must register."
+	4098, "No system changes are made."
+	4099, "No files are copied to the system directories.\nSystem files (i.e. WIN.INI or SYSTEM.INI) aren't changed.\nStart setup ?"
+#ifdef _full
+	4100, "Directory exists.\nCopy LoKon to this directory ?"
+#endif
+#ifdef _small
+	4100, "Directory exists.\nCopy LoKon pur to this directory ?"
+#endif
+#ifdef _mini
+	4100, "Directory exists.\nCopy LoKon mini to this directory ?"
+#endif
+	4101, "Directory doesn't exist.\nCreate new directory ?"
+	4102, "Registering"
+	4103, "Links for the file-endings '*.LAY' and '*.ELE' write to WIN.INI ?"
+#ifdef _full
+	4104, "Create LoKon-group in the program manager ?"
+	4106, "LoKon - Help"
+#endif
+#ifdef _small
+	4104, "Create LoKon pur - group in the program manager ?"
+	4106, "LoKon pur - Help"
+#endif
+#ifdef _mini
+	4104, "Create LoKon mini - group in the program manager ?"
+	4106, "LoKon mini - Help"
+#endif
+	4107, "Shareware lives from the honesty of the user."
+#ifdef _full
+	4108, "If you want to use LoKon after 30 days of testing, you must register it."
+#endif
+#ifdef _small
+	4108, "If you want to use LoKon pur after 30 days of testing, you must register it."
+#endif
+#ifdef _mini
+	4108, "If you want to use LoKon mini after 30 days of testing, you must register it."
+#endif
+	4109, "Your advantages:\n  - No more shareware messages.\n  - You are a legal user\n    for all later versions, too."
+#ifdef _full
+	4110, "Installation of LoKon has been completed.\nNow, you can start LoKon."
+#endif
+#ifdef _small
+	4110, "Installation of LoKon pur has been completed.\nNow, you can start LoKon pur."
+#endif
+#ifdef _mini
+	4110, "Installation of LoKon mini has been completed.\nNow, you can start LoKon mini."
+#endif
+	4111, "File not found !\nChange discs.\nResume ?"
+END
+
+
+STRINGTABLE LOADONCALL FIXED IMPURE 
+BEGIN
+	4112, "Help"
+#ifdef _full
+	4113, "Input directory path for LoKon."
+#endif
+#ifdef _small
+	4113, "Input directory path for LoKon pur."
+#endif
+#ifdef _mini
+	4113, "Input directory path for LoKon mini."
+#endif
+	4114, "Choose a language."
+	4115, "All files will be installed."
+END
+
+16384 ICON "setup.ico"

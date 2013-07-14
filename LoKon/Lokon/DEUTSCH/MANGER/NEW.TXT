@@ -1,0 +1,2 @@
+- Windows95 and OS/2 compatible.
+- The last files are listed in the file menu.

@@ -1,0 +1,27 @@
+Other Versions
+**************
+
+# Version pur 1.9
+
+- Like LoKon but without creating or 
+  editing element files.
+- Registration fee: 25 US$
+
+# Version mini 1.9
+
+- Layout size is limited. 
+  For starting with digital circuits.
+- Registration fee: 8 US$
+
+Planned Updates
+***************
+
+# Version 2.0
+
+- Cascading. You can make a new element 
+  out of a circuit. Now you can build 
+  circuits like small processors.
+- A real OS/2 version and a real Windows95/Windows NT version.
+
+Updates are free for registered users of all LoKon versions.
+If you sent me your email address, you will be informed about the updates.

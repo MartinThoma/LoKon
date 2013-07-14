@@ -1,0 +1,53 @@
+Exxx: Description of an error that is FIXED now.
+Dxxx: Description of a development proposal that is build in now.
+
+     LoKon V2.36     09.02.1999
+     -----------
+
+Euro prices
+
+
+     LoKon V2.35     06.11.1998
+     -----------
+
+E130: NT bug fixed.
+
+
+     LoKon V2.34     05.08.1998
+     -----------
+
+New company address:
+  RothSoft
+  Technologiezentrum Warnemünde
+  Friedrich-Barnewitz-Srtaße 3
+  18119 Rostock
+  Germany
+  phone: +49 381 5196 244
+  fax: +49 381 5196 266
+  email:
+   roth@rothsoft.de
+   lokon@rothsoft.de
+  www.rothsoft.de
+
+
+     LoKon V2.32     26.05.1998
+     -----------
+
+New author address:
+  RothSoft
+  Heiko Roth
+  Stephan-Jantzen-Ring 45
+  18106 Rostock
+  Email:
+   roth@rothsoft.de
+   lokon@rothsoft.de
+  www.rothsoft.de
+
+
+     LoKon V2.3      08.01.1998
+     ----------
+
+D200: Scroling oscilloscope at simulation.
+D202: Passive analog elements.
+E127: Crash if an in/output is connected to itself.
+E128: Crash if an in/output isn't connected to another.

@@ -1,0 +1,32 @@
+!define BLANK ""
+d:\proj16\lokon\program\resdll\lokondll.obj : d:\proj16\lokon\program\resdll&
+\lokondll.c .AUTODEPEND
+ @d:
+ cd d:\proj16\lokon\program\resdll
+ *wcc lokondll.c -i=F:\h;F:\h\win -w4 -e25 -d_full -zq -os -bd -zu -3 -bt=wi&
+ndows -ml
+
+d:\proj16\lokon\program\resdll\lokonres.res : d:\proj16\lokon\program\resdll&
+\lokonres.rc .AUTODEPEND
+ @d:
+ cd d:\proj16\lokon\program\resdll
+ *wrc lokonres.rc -bt=windows -d_full -denglish -d__WATCOM__ -i=$[:;F:\h;F:\&
+h\win -q -ad -r -fo=lokonres.res
+
+d:\proj16\lokon\program\resdll\lokonres.dll : d:\proj16\lokon\program\resdll&
+\lokondll.obj d:\proj16\lokon\program\resdll\lokonres.res .AUTODEPEND
+ @d:
+ cd d:\proj16\lokon\program\resdll
+ @%write lokonres.lk1 NAME lokonres
+ @%append lokonres.lk1 FIL lokondll.obj
+ @%append lokonres.lk1 
+!ifneq BLANK ""
+ *wlib -q -n -b lokonres.imp 
+ @%append lokonres.lk1 LIBR lokonres.imp
+!endif
+ *wlink SYS windows_dll op maxe=25 op one op el @lokonres.lk1
+!ifneq BLANK "lokonres.res"
+ wrc -q -ad -s0 lokonres.res lokonres.dll
+!endif
+ wlib -n -b lokonres.lib +lokonres.dll
+

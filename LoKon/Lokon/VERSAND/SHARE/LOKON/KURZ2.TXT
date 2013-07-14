@@ -1,0 +1,2 @@
+Konstruktion und Simulation digitaler Schaltungen. Ausfhrliche kontextsensitive Hilfe und kontextsensitive Mens. šber 200 Bauelemente (Gatter, Flipflops, TTL-Bausteine...), Taktgeber, ROM/RAM und PLA sowie Oszilloskopfenster. Komfortables Erstellen eigener Elemente.
+Neu: .TTL-Bausteine.

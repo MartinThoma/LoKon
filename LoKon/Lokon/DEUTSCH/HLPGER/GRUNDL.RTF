@@ -1,0 +1,151 @@
+#{\footnote Topic47}
+${\footnote Grundlagen des Schaltungsentwurfs}
+K{\footnote Grundlagen}
++{\footnote lokon:005}
+\keepn \cf0 \f1\fs48 {\uldb \{bml LOKON.BMP\}}{\v Topic1}\qc Grundlagen des Schaltungsentwurfs\par\pard\tx360\f0\fs24 Mit dem Programm \b LoKon\b0  k\'F6nnen Sie digitale Schaltungen entwerfen und deren Funktion simulieren.\par
+In diesem Hilfethema erfahren Sie etwas Grundlagenwissen.\par
+\par
+Themen:\par
+\li360{\uldb Boolesche Algebra}{\v Topic48}\par
+{\uldb Schaltnetze}{\v Topic49}\par
+{\uldb Schaltwerke}{\v Topic50}\par \qc
+\pard
+\page
+#{\footnote Topic48}
+${\footnote Boolesche Algebra}
+K{\footnote Grundlagen;Boolesche Algebra;kommutativ;distributiv;neutrales Element;inverses Element;Negation;Konjunktion;Disjunktion;kommutativ;distributiv}
++{\footnote knowhow:005}
+\keepn \cf0 \f1\fs48 {\uldb \{bml LOKON.BMP\}}{\v Topic47}\qc Boolesche Algebra\par\pard\tx360\f0\fs24 Die Boolesche Algebra wurde von dem Mathematiker Boole (1815-1864) als Algebra der Logik eingef\'FChrt und sp\'E4ter nach ihm benannt.\par
+\par
+\b Definition:\b0  Die Boolesche Algebra ist definiert \'FCber  M = \{ 0, 1 \}  mit den Operatoren \'AC(Negation), \f4\fs24 \'D9\f0\fs24 (Konjunktion) und \f4\fs24 \'DA\f0\fs24 (Dijunktion)\par
+\tx400\tx1040{\li360}1.{\tab}Kommutativgesetz{\tab}a \f4\fs24 \'D9\f0\fs24  b   =   b \f4\fs24 \'D9\f0\fs24  a\par
+{\tab}{\tab}{\tab}{\tab}{\tab}a \f4\fs24 \'DA\f0\fs24  b   =   b \f4\fs24 \'DA\f0\fs24  a\par
+2.{\tab}Distributivgesetz{\tab}a \f4\fs24 \'D9\f0\fs24  ( b \f4\fs24 \'DA\f0\fs24  c )   =   ( a \f4\fs24 \'D9\f0\fs24  b ) \f4\fs24 \'DA\f0\fs24  ( a \f4\fs24 \'D9\f0\fs24  c )\par
+{\tab}{\tab}{\tab}{\tab}{\tab}a \f4\fs24 \'DA\f0\fs24  ( b \f4\fs24 \'D9\f0\fs24  c )   =   ( a \f4\fs24 \'DA\f0\fs24  b ) \f4\fs24 \'D9\f0\fs24  ( a \f4\fs24 \'DA\f0\fs24  c )\par
+3.{\tab}Neutrale Elemente{\tab}a \f4\fs24 \'D9\f0\fs24  1   =   a\par
+{\tab}{\tab}{\tab}{\tab}{\tab}a \f4\fs24 \'DA\f0\fs24  0   =   a\par
+4.{\tab}Inverse Elemente{\tab}a \f4\fs24 \'D9\f0\fs24  \'ACa   =   0\par
+{\tab}{\tab}{\tab}{\tab}{\tab}a \f4\fs24 \'DA\f0\fs24  \'ACa   =   1\par
+\li0\par
+\b Gesetze:\b0 \par
+{\li360}1.{\tab}Assoziativ{\tab}{\tab}( a \f4\fs24 \'D9\f0\fs24  b ) \f4\fs24 \'D9\f0\fs24  c   =   a \f4\fs24 \'D9\f0\fs24  ( b \f4\fs24 \'D9\f0\fs24  c )\par
+{\tab}{\tab}{\tab}{\tab}{\tab}( a \f4\fs24 \'DA\f0\fs24  b ) \f4\fs24 \'DA\f0\fs24  c   =   a \f4\fs24 \'DA\f0\fs24  ( b \f4\fs24 \'DA\f0\fs24  c )\par
+2.{\tab}Indempotenz{\tab}a \f4\fs24 \'D9\f0\fs24  a   =   a\par
+{\tab}{\tab}{\tab}{\tab}{\tab}a \f4\fs24 \'DA\f0\fs24  a   =   a\par
+3.{\tab}Absorption{\tab}{\tab}a \f4\fs24 \'D9\f0\fs24  ( a \f4\fs24 \'DA\f0\fs24  b )   =   a\par
+{\tab}{\tab}{\tab}{\tab}{\tab}a \f4\fs24 \'DA\f0\fs24  ( a \f4\fs24 \'D9\f0\fs24  b )   =   a\par
+4.{\tab}DeMorgan{\tab}{\tab}\'AC( a \f4\fs24 \'D9\f0\fs24  b )   =   \'ACa \f4\fs24 \'DA\f0\fs24  \'ACb\par
+{\tab}{\tab}{\tab}{\tab}{\tab}\'AC( a \f4\fs24 \'DA\f0\fs24  b )   =   \'ACa \f4\fs24 \'D9\f0\fs24  \'ACb\par
+\li0Die Gesetze k\'F6nnen aus den Axiomen der Definition hergeleitet werden.\par
+Mit Hilfe der Axiome und Gesetze kann man Boolesche Ausdr\'FCcke vereinfachen.\par
+\par
+\b Boolescher Ausdruck:\b0 \par
+{\li360}1.{\tab}0, 1 und alle Variablen{\tab}{\tab}sind Boolesche Ausdr\'FCcke\par
+2.{\tab}\'AC<Boolescher Ausdruck>{\tab}{\tab}ist ein Boolscher Ausdruck\par
+3.{\tab}( <Boolescher Ausdruck> \f4\fs24 \'D9\f0\fs24  <Boolscher Ausdruck> ){\tab}ist ein Boolscher Ausdruck\par
+{\tab}{\tab}( <Boolescher Ausdruck> \f4\fs24 \'DA\f0\fs24  <Boolscher Ausdruck> ){\tab}ist ein Boolscher Ausdruck\par
+\li0Die obigen drei Punkte definieren, wie ein Boolescher Ausdruck korrekt aufgebaut werden mu\'DF.\par
+Folgende Konventionen dienen der Vereinfachung:\par
+\li360\fi0\'95{\tab}a \f4\fs24 \'D9\f0\fs24  b   =   ab\par
+\'95{\tab}Konjunktion vor Disjunktion:{\tab}ab \f4\fs24 \'DA\f0\fs24  c   =   ( a \f4\fs24 \'D9\f0\fs24  b ) \f4\fs24 \'DA\f0\fs24  c\par
+\par
+\b Boolesche Funktionen:\b0 \pard\par
+{\tab}b{\tab}a{\tab}\'ACa{\tab}a \f4\fs24 \'D9\f0\fs24  b{\tab}a \f4\fs24 \'DA\f0\fs24  b{\tab}\'AC(a \f4\fs24 \'D9\f0\fs24  b){\tab}\'AC(a \f4\fs24 \'DA\f0\fs24  b)\par
+{\tab}0{\tab}0{\tab}1{\tab}0{\tab}0{\tab}1{\tab}1\par
+{\tab}0{\tab}1{\tab}0{\tab}0{\tab}1{\tab}1{\tab}0\par
+{\tab}1{\tab}0{\tab}1{\tab}0{\tab}1{\tab}1{\tab}0\par
+{\tab}1{\tab}1{\tab}0{\tab}1{\tab}1{\tab}0{\tab}0\par
+\par
+Die Axiome und Gesetze der Booleschen Algebra lassen sich direkt auf die Schaltungsalgebra \'FCbertragen. So wie die Boolesche Algebra hier eingef\'FChrt wurde, besteht zwischen der Booleschen Algebra und der Schaltungsalgebra nur ein Notationsunterschied.\par
+Auch die Bauelemente von \b LoKon\b0  gehorchen den Axiomen und Gesetzen der Booleschen Algebra bzw. der Schaltungsalgebra.\par
+Nachfolgend sind einige Axiome und Gesetze aufgelistet. Sie sind jeweils als Term der  Booleschen Algebra sowie als Schaltung angegeben:\par
+\par
+\li360{\ul \{bmc bspnot01.bmp\}}{\v Defin206}\par
+\i Negation\i0 {\tab}\'ACa\par
+\par
+{\ul \{bmc bspand01.bmp\}}{\v Defin206}\par
+\i Konjunktion\i0 {\tab}a \f4\fs24 \'D9\f0\fs24  b{\tab}\par
+\par
+{\ul \{bmc bspor01.bmp\}}{\v Defin206}\par
+\i Disjunktion\i0 {\tab}a \f4\fs24 \'DA\f0\fs24  b\par
+\par
+{\tab}{\ul \{bmc bspand02.bmp\}}{\v Defin207}{\tab}{\ul \{bmc bspor02.bmp\}}{\v Defin207}\par
+\i kommutativ\i0 {\tab}a \f4\fs24 \'D9\f0\fs24  b   =   b \f4\fs24 \'D9\f0\fs24  a{\tab}a \f4\fs24 \'DA\f0\fs24  b   =   b \f4\fs24 \'DA\f0\fs24  a\par
+\par
+\li0Alle weiteren Axiome und Gesetze lassen sich in \'E4hnlicher Weise als Schaltung darstellen.\par
+\par
+Eine weitere interessante Eigenschaft der Booleschen Algebra ist, da\'DF sich alle Funktionen auf wenige Grundfunktionen zur\'FCckf\'FChren lassen. Diese Grundfunktionen nennt man \b vollst\'E4ndiges Operatorensystem\b0 .\par
+Die Funktionen \'AC, \f4\fs24 \'D9\f0\fs24  und \f4\fs24 \'DA\f0\fs24  sind zum Beispiel ein vollst\'E4ndiges Operatorensystem:\par
+\li360\'95 \'AC, \f4\fs24 \'D9\f0\fs24  und \f4\fs24 \'DA\f0\fs24  sind gegeben\par
+\'95 a \f4\fs24 \'AE\f0\fs24  b  =  \'ACa \f4\fs24 \'DA\f0\fs24  b\par
+\'95 a \f4\fs24 \'AB\f0\fs24  b  =  (a \f4\fs24 \'D9\f0\fs24  b) \f4\fs24 \'DA\f0\fs24  (\'ACa \f4\fs24 \'D9\f0\fs24  \'ACb)\par
+\par
+\li0Auch diesen Sachverhalt kann man mit Hilfe von mit \b LoKon\b0  erstellten Schaltungen nachbilden:\par
+\li360\par
+{\ul \{bmc bspxor01.bmp\}}{\v Defin208}\par
+\i Implikation\i0 \par
+\par
+{\ul \{bmc bspequ01.bmp\}}{\v Defin208}   {\ul \{bmc bspequ02.bmp\}}{\v Defin208}\par
+\i \'C4quivalenz\i0 \par
+\par
+\li0\cf12 Achtung:\cf0  Einen gro\'DFen Unterschied zwischen der Booleschen Algebra und den \b LoKon\b0 -Schaltungen gibt es doch:\par
+Die Schaltungen haben ein Zeitverhalten, was bei Termen der Booleschen Algebra nicht der Fall ist.\par
+Dort spielt die Zeit keine Rolle.\par \qc
+\pard
+\page
+#{\footnote Topic49}
+${\footnote Schaltnetze}
+K{\footnote Grundlagen;Schaltnetze}
++{\footnote knowhow:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml LOKON.BMP\}}{\v Topic47}\qc Schaltnetze\par\pard\tx360\f0\fs24 Ein Schaltnetz ist ein Verbund von Gattern.\par
+Es hat Eing\'E4nge und Ausg\'E4nge.\par
+Die Eing\'E4nge sind meist {\uldb Schalter}{\v Topic20}, die Ausg\'E4nge sind meist An/Aus - Bauelemente (zu finden in der Elementdatei \i 'Elements'\i0 ).\par
+Es darf keine R\'FCckkopplung in dieser Schaltung vorkommen, d.h.: Kein Ausgang eines Gatters darf Eingang eines Gatters sein, dessen Ausgang wieder direkt oder indirekt Eingang des ersten Gatters ist.\par
+Der Signalflu\'DF l\'E4uft direkt von den Eing\'E4ngen zu den Ausg\'E4ngen.\par
+Die Ausgangsbelegung h\'E4ngt bei einem Schaltnetz nur von seinen Eing\'E4ngen ab.\par
+Beispiel:\par
+\li360\par
+{\ul \{bmc bsphadd.bmp\}}{\v Defin209}\par
+\i Halbaddierer\i0 \par \qc
+\pard
+\page
+#{\footnote Topic50}
+${\footnote Schaltwerke}
+K{\footnote Grundlagen;Schaltwerke}
++{\footnote knowhow:015}
+\keepn \cf0 \f1\fs48 {\uldb \{bml LOKON.BMP\}}{\v Topic47}\qc Schaltwerke\par\pard\tx360\f0\fs24 Ein Schaltwerk ist ein Verbund von Gattern.\par
+Es hat Eing\'E4nge und Ausg\'E4nge.\par
+Die Eing\'E4nge sind meist {\uldb Schalter}{\v Topic20}, die Ausg\'E4nge sind meist An/Aus - Bauelemente (zu finden in der Elementdatei \i 'Elements'\i0 ).\par
+Im Gegensatz zum Schaltnetz sind bei einem Schaltwerk R\'FCckkopplungen erlaubt, d.h.: ein Ausgang eines Gatters darf Eingang eines Gatters sein, dessen Ausgang wieder direkt oder indirekt Eingang des ersten Gatters ist.\par
+Der Signalflu\'DF l\'E4uft nicht mehr direkt von den Eing\'E4ngen zu den Ausg\'E4ngen.\par
+Die Ausgangsbelegung h\'E4ngt bei einem Schaltwerk nicht nur von den Eing\'E4ngen sondern auch von seinem inneren Zustand ab.\par
+Alle Flipflop- und Register-Bauelemente sind Schaltwerke.\par
+Beispiel:\par
+\li360\par
+{\ul \{bmc bsprsff.bmp\}}{\v Defin210}\par
+\i RS-Flipflop\i0 \par
+\par
+\li0Auch die Schaltnetze k\'F6nnen als Schaltwerke betrachtet werden. Die Anzahl ihrer inneren Zust\'E4nde ist Null.\par \qc
+\pard
+\page
+#{\footnote Defin206}
+Dieses Bild ist ein Ausschnitt aus der Schaltung '\f5\fs24 BSP01.LAY\f0\fs24 '.\par \qc
+\pard
+\page
+#{\footnote Defin207}
+Dieses Bild ist ein Ausschnitt aus der Schaltung '\f5\fs24 BSP02.LAY\f0\fs24 '.\par \qc
+\pard
+\page
+#{\footnote Defin208}
+Dieses Bild ist ein Ausschnitt aus der Schaltung '\f5\fs24 BSP03.LAY\f0\fs24 '.\par \qc
+\pard
+\page
+#{\footnote Defin209}
+Dieses Bild ist ein Ausschnitt aus der Schaltung '\f5\fs24 HALBADD.LAY\f0\fs24 '.\par \qc
+\pard
+\page
+#{\footnote Defin210}
+Dieses Bild ist ein Ausschnitt aus der Schaltung '\f5\fs24 RSFF.LAY\f0\fs24 '.\par \qc
+\pard
+\page
+

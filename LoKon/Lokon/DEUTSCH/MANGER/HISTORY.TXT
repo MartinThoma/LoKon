@@ -1,0 +1,92 @@
+History
+*******
+
+# Version 2.0	planned Update
+
+- Cascading. You can make a new element out of a circuit. Now you
+  can build circuits like small processors.
+- A real OS/2 and a real Windows95/Windows NT version.
+
+# Version 1.9	 4.10.1996
+
+- Windows95 and OS/2 compatible.
+- The last files are listed in the file menu.
+
+# Version 1.8	17.07.1996
+
+- Bugfix.
+- Grey dialogues.
+
+# Version mini 1.0	28.06.1996
+
+- Layout size is limited. For starting with digital circuits.
+- Registration fee: 8 US$
+- New versions apear with every new LoKon version and have the 
+  same version number.
+
+# Version pur 1.0	28.06.1996
+
+- Like LoKon but without creating or editing element files.
+- Registration fee: 25 US$
+- New versions apear with every new LoKon version and have the
+  same version number.
+
+# Version 1.6b	02.04.1996
+
+- Error by deleting a selection that has got a connection that is 
+  recorded is removed.
+- The title of an oscilloscope corresponds to the name of the
+  corresponding circuit.
+
+# Version 1.7	10.06.1996
+
+- PLA element.
+
+# Version 1.6a	20.03.1996
+
+- Bilingual version (English,German).
+- New icons and speedbar buttons with 3d effect
+
+# Version 1.6	06.03.1996
+
+- Contextsensitive menues by clicking on the right mouse button.
+- Oscilloscope (recording of wire states).
+
+# Version 1.5a	12.09.1995
+
+- Now you can register via Compuserve, too.
+
+# Version 1.5	13.04.1995
+
+- Debug
+- Shareware-Version with code in full version transformable
+- speed up
+- first English Version.
+- Options are saved in an INI file.
+- enhanced simulation
+- elements graphic is splitted up into graphic and region
+- collision can be inactivated
+- import of text and bitmaps via the clipboard
+- contextsensitive help
+- Setup-Program.
+- enhanced speedbar
+- new manual
+
+# Version 1.1	15.10.1994
+
+- Speedbar
+- enhanced control
+- new element type: Boole
+- more elements (Elements, Register and Display)
+
+# Version 1.0	25.08.1994
+
+- full version
+- circuit
+- element-file
+- element type table
+- Elements
+
+# Version 0.9	19.07.1994
+
+- first shareware version

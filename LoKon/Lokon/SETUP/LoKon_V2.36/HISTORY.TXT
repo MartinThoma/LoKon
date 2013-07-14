@@ -1,0 +1,215 @@
+History
+*******
+
+Exxx: Description of an error that is FIXED now.
+Dxxx: Description of a development proposal that is build in now.
+
+# LoKon V2.36     09.02.1998
+
+Euro prices
+
+
+# LoKon V2.35     06.11.1998
+
+E130: NT bug fixed.
+
+
+# LoKon V2.34     05.08.1998
+
+New company address:
+  RothSoft
+  Technologiezentrum Warnemünde
+  Friedrich-Barnewitz-Srtaße 3
+  18119 Rostock
+  Germany
+  phone: +49 381 5196 244
+  fax: +49 381 5196 266
+ email:
+   roth@rothsoft.de
+   lokon@rothsoft.de
+  www.rothsoft.de
+
+
+# LoKon V2.32     26.05.1998
+
+New author address:
+  RothSoft
+  Heiko Roth
+  Stephan-Jantzen-Ring 45
+  18106 Rostock
+  Email:
+   roth@rothsoft.de
+   lokon@rothsoft.de
+  www.rothsoft.de
+
+
+# LoKon V2.3      08.01.1998
+
+D200: Scroling oscilloscope at simulation.
+D202: Passive analog elements.
+E127: Crash if an in/output is connected to itself.
+E128: Crash if an in/output isn't connected to another.
+
+
+# LoKon V2.2      13.05.1997
+
+D154: New graphic function: Draw->Blockelement
+D155: More TTL-elements
+E126: Memory leak at print.
+
+# LoKon V2.1      12.03.1997
+
+D151: Extended element-file Elements.
+D152: New element-file Elements2.
+D153: New Element-file TTL.
+E113: Speedbar button for time grid doesn't work.
+D150: Longer element names.
+
+
+# LoKon V2.02     11.02.1997
+
+D149: new menu item of the contextsensitive menu of the macro elements: macro, it shows the corresponding macro window
+E114: out impulse was a tick too late
+
+
+# LoKon V2.01     14.01.1997
+
+E124: Blinking Speedbar when using macro elements
+
+
+# LoKon V2.01     14.01.1997
+
+E124: Blinking Speedbar when using macro elements
+
+
+# LoKon V2.0      20.12.1996
+
+D148: New INI item: [General] Undo=true/false
+D147: New Menu item: Options->Undo on/off
+
+
+# LoKon V2.0 beta3     11.12.1996
+
+D140: if memory is full then free undo memory
+D138: Undo/Redo
+D099: Macro enhanced
+
+
+# LoKon V2.0 beta2     28.11.1996
+
+D131: New window menu item: Full view in all windows
+D130: The oscilloscope close button hides the oscilloscope
+E117: Macro window closeable
+D129: New window menu items: Show/Hide all macros
+D128: New window menu items: Show/Hide all oscilloscopes
+D127: The menu item circuit in the oscilloscope system menu shows the circuit window
+D125: The menu item oscilloscope in the circuit system menu shows the oscilloscope window
+D126: Oscilloscope and macro circuit are opend hidden
+
+
+# LoKon V2.0 beta1     15.11.1996
+
+E109: 2 american elements missed the region graphic
+E107: Initialation error with switches in cooparation with connection nodes at simulation
+E105: Die Reihenfolge der Dateieinträge im Dateimenü wird nach jedem Neustart umgekehrt.
+E105: The list of files in the file menue is scrambled at start.
+E103: If you changed an element with the element specific dialogue, the variable NotClose wan't set to true
+D099: new element type: macro
+
+
+# Version 1.9	 4.10.1996
+
+- Now you can register all over the world with BMT Micro (see register.wri)
+- Windows95 and OS/2 compatible.
+- The last files are listed in the file menu.
+
+
+# Version 1.8	17.07.1996
+
+- Bugfix.
+- Grey dialogues.
+
+
+# Version mini 1.0	28.06.1996
+
+- Layout size is limited. For starting with digital circuits.
+- Registration fee: 8 US$
+- New versions apear with every new LoKon version and have the 
+  same version number.
+
+
+# Version pur 1.0	28.06.1996
+
+- Like LoKon but without creating or editing element files.
+- Registration fee: 25 US$
+- New versions apear with every new LoKon version and have the
+  same version number.
+
+
+# Version 1.6b	02.04.1996
+
+- Error by deleting a selection that has got a connection that is 
+  recorded is removed.
+- The title of an oscilloscope corresponds to the name of the
+  corresponding circuit.
+
+
+# Version 1.7	10.06.1996
+
+- PLA element.
+
+
+# Version 1.6a	20.03.1996
+
+- Bilingual version (English,German).
+- New icons and speedbar buttons with 3d effect
+
+
+# Version 1.6	06.03.1996
+
+- Contextsensitive menues by clicking on the right mouse button.
+- Oscilloscope (recording of wire states).
+
+
+# Version 1.5a	12.09.1995
+
+- Now you can register via Compuserve, too.
+
+
+# Version 1.5	13.04.1995
+
+- Debug
+- Shareware-Version with code in full version transformable
+- speed up
+- first English Version.
+- Options are saved in an INI file.
+- enhanced simulation
+- elements graphic is splitted up into graphic and region
+- collision can be inactivated
+- import of text and bitmaps via the clipboard
+- contextsensitive help
+- Setup-Program.
+- enhanced speedbar
+- new manual
+
+
+# Version 1.1	15.10.1994
+
+- Speedbar
+- enhanced control
+- new element type: Boole
+- more elements (Elements, Register and Display)
+
+
+# Version 1.0	25.08.1994
+
+- full version
+- circuit
+- element-file
+- element type table
+- Elements
+
+
+# Version 0.9	19.07.1994
+
+- first shareware version

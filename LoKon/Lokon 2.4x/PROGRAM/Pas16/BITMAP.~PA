@@ -1,0 +1,336 @@
+unit Bitmap;
+{$I define.inc}
+
+interface
+
+uses
+  Objects,
+  WinTypes, WinProcs,
+  ToolHelp,
+  OWindows,
+  LK_Const,
+  OWinEx,
+  Item;
+
+type
+  pItemBitmap = ^tItemBitmap;
+  tItemBitmap = object (tItem)
+    X, Y : Integer;
+    W, H : Integer;
+    bmp_size : Longint;
+    bmp : tHandle;
+    constructor Init(xbmp : tHandle);
+    destructor Done; virtual;
+    function Copy : pItem; virtual;
+    function Name : pChar; virtual;
+    constructor Load(var S : tStream);
+    procedure Store(var S : tStream);
+    procedure StoreText(var T : Text); virtual;
+    procedure NewPos(Pos : tPosition); virtual;
+    function Position : pPosition; virtual;
+    function GetRegion_ : hRgn; virtual;
+    function GetState(A : tPoint; b : Integer) : Integer; virtual;
+    procedure NotPaint(PaintDC: hDC); virtual;
+    procedure Paint(PaintDC: hDC); virtual;
+    procedure ItemEdit(Window : pWindowsObject); virtual;
+  end;
+
+implementation
+
+{ ------ tItemBitmap ---------------------------------------------------- }
+
+constructor tItemBitmap.Init(xbmp : tHandle);
+var
+  p : Pointer;
+  i : integer;
+begin
+  X := 0;
+  Y := 0;
+  p := GlobalLock(xbmp);
+  with tBitmapInfo(p^).bmiHeader
+  do begin
+    case biBitCount of
+      1 : i:=2;
+      4 : i:=16;
+      8 : i:=256;
+      else i:=0;
+    end;
+    bmp_size := biSize + (i*SizeOf(tRGBQuad)*biPlanes) + biSizeImage;
+    bmp := GlobalAlloc(GPTR, bmp_size);
+    MemoryWrite(bmp, 0, p, bmp_size);
+    W := biWidth;
+    H := biHeight;
+  end;
+  GlobalUnlock(xbmp);
+  CalcItemRect;
+end;
+
+destructor tItemBitmap.Done;
+begin
+  GlobalFree(bmp);
+end;
+
+function tItemBitmap.Copy : pItem;
+var p : pItem;
+begin
+  p := New(pItemBitmap, Init(bmp));
+  Move(
+    X, pItemBitmap(p)^.X,
+    SizeOf(X) + SizeOf(Y) + SizeOf(W) + SIzeOf(H));
+  p^.CalcItemRect;
+  Copy := p;
+end;
+
+function tItemBitmap.Name : pChar;
+begin
+  LoadString2(30);
+  Name := @String2;
+end;
+
+constructor tItemBitmap.Load(var S : tStream);
+var
+  i : Longint;
+  p : Pointer;
+begin
+{$ifdef debug}
+  appendLog('ItemBitmap.Load 1');
+{$endif}
+  S.Read(X, SizeOf(X) + SizeOf(Y) + SizeOf(W) + SizeOf(H));
+  S.Read(bmp_size, SizeOf(bmp_size));
+  bmp := GlobalAlloc(GPTR, bmp_size);
+  GetMem(p, $4000);
+  i := 0;
+  while i < (bmp_size-$4000)
+  do begin
+    S.Read(p^, $4000);
+    MemoryWrite(bmp, i, p, $4000);
+    inc(i, $4000);
+  end;
+  S.Read(p^, bmp_size-i);
+  MemoryWrite(bmp, i, p, bmp_size-i);
+  FreeMem(p, $4000);
+  CalcItemRect;
+{$ifdef debug}
+  appendLog('ItemBitmap.Load 2');
+{$endif}
+end;
+
+procedure tItemBitmap.Store(var S : tStream);
+var
+  i : Longint;
+  p : Pointer;
+begin
+  S.Write(X, SizeOf(X) + SizeOf(Y) + SizeOf(W) + SizeOf(H));
+  S.Write(bmp_size, SizeOf(bmp_size));
+  GetMem(p, $4002);
+  i := 0;
+  while i < (bmp_size-$4000)
+  do begin
+    MemoryRead(bmp, i, p, $4000);
+    S.Write(p^, $4000);
+    inc(i, $4000);
+  end;
+  MemoryRead(bmp, i, p, bmp_size-i);
+  S.Write(p^, bmp_size-i);
+  FreeMem(p, $4002);
+end;
+
+procedure tItemBitmap.StoreText(var t : Text);
+var
+  s : array [0..20] of char;
+  i : Longint;
+  p : Pointer;
+begin
+  StoreInt(t, 'x', X);
+  StoreInt(t, 'y', Y);
+  StoreInt(t, 'w', W);
+  StoreInt(t, 'h', H);
+  StoreInt(t, 'bmp_size', bmp_size);
+end;
+
+procedure tItemBitmap.NewPos(Pos : tPosition);
+begin
+  Move(Pos, X, SizeOf(X)+SizeOf(Y));
+  CalcItemRect;
+end;
+
+function tItemBitmap.Position : pPosition;
+begin
+  Position := @X;
+  CalcItemRect;
+end;
+
+function tItemBitmap.GetRegion_ : hRgn;
+var Rgn : hRgn;
+begin
+  Rgn := CreateRectRgn(0, 0, W, H);
+  OffsetRgn(Rgn, X, Y);
+  GetRegion_ := Rgn;
+end;
+
+function tItemBitmap.GetState(A : tPoint; b : Integer) : Integer;
+begin
+  if (b and lm_Test) = lm_Test
+  then GetState := ls_Test
+  else
+    case (b and lm_First) of
+      lm_MouseMove,
+      lm_LButton : GetState := ls_MoveActItem;
+      lm_Connect : GetState := ls_ConnectionB;
+    end;
+end;
+
+procedure tItemBitmap.NotPaint(PaintDC: hDC);
+begin
+  SetWindowOrg(PaintDC, 0, 0);
+  Rectangle(PaintDC, X, Y, X+W, Y+H);
+end;
+
+procedure tItemBitmap.Paint(PaintDC: hDC);
+var
+  p, p2 : Pointer;
+  i : Word;
+begin
+  SetWindowOrg(PaintDC, 0, 0);
+  p := GlobalLock(bmp);
+  with tBitmapInfo(p^).bmiHeader
+  do begin
+    case biBitCount of
+      1 : i:=1;
+      4 : i:=16;
+      8 : i:=256;
+      else i:=0;
+    end;
+    i := biSize + (i*SizeOf(tRGBQuad)*biPlanes);
+    StretchDIBits(
+      PaintDC,
+      Word(X), Word(Y),
+      Word(W), Word(H),
+      0, 0, biWidth, biHeight,
+      Ptr(Seg(p^), Ofs(p^)+i),
+      tBitmapInfo(p^), DIB_RGB_COLORS, SRCCOPY );
+(*    StretchDIBits(
+      PaintDC,
+      Word(X), Word(Y),
+      Word(W), Word(H),
+      0, 0, biWidth, biHeight,
+      @(pByteArray(p)^[biSize + (i*SizeOf(tRGBQuad)*biPlanes)]),
+      tBitmapInfo(p^), DIB_RGB_COLORS, SRCCOPY );*)
+  end;
+  GlobalUnlock(bmp);
+end;
+
+type
+  pBitmapDlg = ^tBitmapDlg;
+  tBitmapDlg = object (tDialogSB)
+    p : pItemBitmap;
+    constructor Init(
+      xParent : pWindowsObject; xp : pItemBitmap);
+    procedure SetupWindow; virtual;
+    procedure WMDrawItem(var Msg : tMessage);
+      virtual WM_FIRST + WM_DRAWITEM;
+    procedure CMHelp(var Msg : tMessage);
+      virtual CM_FIRST + CM_HELPCONTEXT;
+    procedure OK(var Msg : tMessage);
+      virtual id_First + id_OK;
+  end;
+
+constructor tBitmapDlg.Init(
+  xParent : pWindowsObject; xp : pItemBitmap);
+begin
+  inherited Init(xParent, 'ItemBitmapDLG');
+  p := xp;
+end;
+
+procedure tBitmapDlg.SetupWindow;
+begin
+  inherited SetupWindow;
+  with p^
+  do begin
+    SetDlgItemInt(hWindow, 100, Word(X), True);
+    SetDlgItemInt(hWindow, 101, Word(Y), True);
+    SetDlgItemInt(hWindow, 110, Word(W), True);
+    SetDlgItemInt(hWindow, 111, Word(H), True);
+  end;
+end;
+
+procedure tBitmapDlg.WMDrawItem(var Msg : tMessage);
+var
+  pbmp : Pointer;
+  i : Integer;
+begin
+  with tDrawItemStruct(Pointer(Msg.lParam)^)
+  do begin
+    pbmp := GlobalLock(p^.bmp);
+    with tBitmapInfo(pbmp^).bmiHeader
+    do begin
+      case biBitCount of
+        1 : i:=1;
+        4 : i:=16;
+        8 : i:=256;
+        else i:=0;
+      end;
+      StretchDIBits(
+        hDC,
+        rcItem.left, rcItem.top,
+        rcItem.right, rcItem.bottom,
+        0, 0, biWidth, biHeight,
+        @(pByteArray(pbmp)^[biSize + (i*SizeOf(tRGBQuad)*biPlanes)]),
+        tBitmapInfo(pbmp^), DIB_RGB_COLORS, SRCCOPY );
+    end;
+    GlobalUnlock(p^.bmp);
+  end;
+end;
+
+procedure tBitmapDlg.CMHelp(var Msg : tMessage);
+begin
+  WinHelp(hMainWin, 'LOKON.HLP', HELP_CONTEXT, 850);
+end;
+
+procedure tBitmapDlg.OK(var Msg : tMessage);
+var
+  i : Integer;
+  b : Boolean;
+  s : pChar;
+begin
+  b := False;
+  with p^
+  do begin
+    i := Integer(GetDlgItemInt(hWindow, 100, nil, True));
+    if i <> X then b := True;
+    X := i;
+    i := Integer(GetDlgItemInt(hWindow, 101, nil, True));
+    if i <> Y then b := True;
+    Y := i;
+    i := Integer(GetDlgItemInt(hWindow, 110, nil, True));
+    if i <> W then b := True;
+    W := i;
+    i := Integer(GetDlgItemInt(hWindow, 111, nil, True));
+    if i <> H then b := True;
+    H := i;
+  end;
+  if b then
+    p^.CalcItemRectCon;
+  EndDlg(id_OK);
+end;
+
+procedure tItemBitmap.ItemEdit(Window : pWindowsObject);
+begin
+  Application^.ExecDialog(New(pBitmapDlg, Init(Window, @Self)));
+end;
+
+{ ------ rItemBitmap ---------------------------------------------------- }
+
+const
+  rItemBitmap : TStreamRec = (
+     ObjType : riItemBitmap;
+     VmtLink : Ofs(TypeOf(tItemBitmap)^);
+     Load  : @tItemBitmap.Load;
+     Store : @tItemBitmap.Store
+  );
+
+{ ------ Registrierung -------------------------------------------------- }
+
+begin
+  RegisterType(rItemBitmap);
+end.

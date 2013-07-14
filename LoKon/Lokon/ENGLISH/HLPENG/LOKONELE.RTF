@@ -1,0 +1,732 @@
+{\rtf1\ansi{\fonttbl
+\f0\froman Times New Roman;
+\f1\fswiss Arial;
+\f2\fnil System;
+\f3\fnil Helv;
+\f4\fnil Symbol;
+\f5\fmodern Courier New;}
+{\colortbl;\red0\green0\blue128;\red0\green128\blue0;\red0\green128\blue128;\red128\green0\blue0;\red128\green0\blue128;
+\red128\green128\blue0;\red192\green192\blue192;\red128\green128\blue128;\red0\green0\blue255;\red0\green255\blue0;
+\red0\green255\blue255;\red255\green0\blue0;\red255\green0\blue255;\red255\green255\blue0;\red255\green255\blue255}
+\deff0 \fs24\tx360
+#{\footnote Defin13}
+\{bmc ELEFILE.BMP \} New {\uldb Element file}{\v Topic13}.\par \qc
+\pard
+\page
+#{\footnote Topic13}
+${\footnote Element-File_}
+K{\footnote Element-File_;Element}
++{\footnote lokon:040}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic1}\qc Element-File\par\pard\tx360\qc \f1\fs32 \b Element-File Window\b0 \par
+\{bmc ELEFILE.SHG\}\par
+\ql \f0\fs24 A new element file can be created with the menu command {\uldb File->New->Elements}{\v Topic5}. You can load an element file with {\uldb File->Open}{\v Topic9}. The file format must be Element File ('*.ELE').\par
+You can also edit an {\uldb element graphic}{\v Topic14} by double clicking the desired element in the element list.\par
+\par
+Read also:\par
+\li360{\uldb How to create an element file ?_____}{\v Topic46}\par
+{\uldb Menues of the Element-File}{\v Topic26}\par
+{\uldb Editing ( in the element file )}{\v Topic31}\par
+{\uldb Graphic}{\v Topic14}\par
+{\ul Region}{\v Defin141}\par
+{\uldb Positions of the In-/Outputs}{\v Topic27}\par
+{\uldb In-/Output}{\v Topic28}\par
+{\uldb Basic inputs}{\v Topic29}\par \qc
+\pard
+\page
+#{\footnote Topic14}
+${\footnote Grafic}
+K{\footnote Grafic;Element}
++{\footnote elefile:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic13}\qc Graphic\par\pard\tx360\f1\fs32 \qc \b Graphic-Choice\b0 \par
+\{bmc CHOGR.SHG\}\par
+\ql \f0\fs24 The graphic selection dialog appears, if the element has at least one state. Then also state dependent graphics can be edited.\par
+Here you choose which graphic to edit.\par
+The radio buttons in the middle mean:\par
+\li720\fi-360\'95 \b St.On\b0  The graphic selected with the radio buttons is displayed, if the corresponding state is one.\par
+\'95 \b St. Value\b0  The check boxes mean a combination of states. The graphic is only displayed if the combination appears.\par
+\li0\fi0You can edit the selected state graphic by selecting the button \b St. Graphic\b0 .\par
+\b B. Grafik\b0  means background graphic. This is the real element graphic. It is always displayed in the circuit.\par
+The element graphic window is also opened, when you double click an element.\par
+\par
+Read also:\par
+\li360{\uldb Menues of the Graphic}{\v Topic32} (inclusive mouse pointers)\par
+{\uldb Dialog boxes for objects}{\v Topic33}\par
+{\uldb Editing ( in the graphic )}{\v Topic36}\par
+{\uldb Positions of the In-/Outputs}{\v Topic27}\par
+{\uldb In-/Output}{\v Topic28}\par
+{\uldb Basic inputs}{\v Topic29}\par \qc
+\pard
+\page
+#{\footnote Defin137}
+ \b List of the elements\b0 .\par
+Every element has an index number and a name.\par
+The order doesn't depend on the index.\par
+Every element is identified by its index. You can change the element name but not the index if you do not really know, what you do.\par \qc
+\pard
+\page
+#{\footnote Defin138}
+A \b dummy{BoldOFF}.\par
+Can't be deleted nor changed.\par \qc
+\pard
+\page
+#{\footnote Topic26}
+${\footnote Element file Menues___}
+K{\footnote Element-File_;Element}
++{\footnote elefile:005}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Menues of the Element-File\par\pard\tx360\ql \f0\fs24 \{bmc ELE2BAR.SHG\}\par
+\{bmc ELE2MENU.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin139}
+Create a new element of the type \b table\b0 .\par
+The input/output function is realized with a table.\par \qc
+\pard
+\page
+#{\footnote Defin140}
+Create a new element of the type \b bool\b0 .\par
+The input/output function is realized with a boolean expression.\par \qc
+\pard
+\page
+#{\footnote Defin141}
+Edit the \b region\b0  of the current element.\par
+The region is a graphic, but the available graphic functions are strongly restricted.\par
+Read also {\uldb Graphic}{\v Topic14}.\par \qc
+\pard
+\page
+#{\footnote Topic27}
+${\footnote In-/Outputs__}
+K{\footnote Eingang;Ausgang;Element}
++{\footnote elefile:020}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Positions of the In-/Outputs\par\pard\tx360\{bmc INOUTPOS.SHG\}\par
+\ql \f0\fs24 The number of inputs/outputs is set in the input/output dialog box.\par
+The position of the inputs/outputs first is the point 0/0.\par
+You can move an input/output by selecting it with the left mouse button and move it to the new position (with pressed left mouse button).\par
+\par
+Read also:\par
+\li360{\uldb Menues of the In-/Outputs}{\v Topic37}\par \qc
+\pard
+\page
+#{\footnote Topic28}
+${\footnote In-/Output__}
+K{\footnote Eingabe;Ausgabe;Element}
++{\footnote elefile:030}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc In-/Output\par\pard\tx360\cf0 \ql \f0\fs24 Set the behaviour of the input/output.\par
+There are three types:\par
+\li360{\uldb Table}{\v Topic38}\par
+{\uldb Boolean}{\v Topic39}\par
+{\uldb Macro}{\v eleMacro}\par \qc
+\pard
+\page
+#{\footnote Topic29}
+${\footnote Basic inputs_}
+K{\footnote Basic inputs_;Element}
++{\footnote elefile:040}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Basic inputs\par\pard\tx360\ql \f0\fs24 \{bmc BASICDLG.SHG \} \{bmc BASI2DLG.SHG \} \par
+In this two dialog boxes you set the basic inputs of the states State and the inputs in.\par
+A checked box means one, an empty box mean zero.\par
+\par
+The following is valid in the circuit:\par
+\li360\'95 If you reset a circuit with {\ul Simulation->Reset}{\v Defin89}, the states of every element is set to the basic states.\par
+\'95 While the simulation is on, every input that is not connected, is set to the basic states.\par \qc
+\pard
+\page
+#{\footnote Defin142}
+The \b element menue\b0 .\par
+You can create new elements, change their properties (index, name, graphic, ...) or delete them.\par \qc
+\pard
+\page
+#{\footnote Defin143}
+Create a \b new\b0  element.\par
+You can select an element type in this submenu.\par
+There a two types, that only differ in the input/output:\par
+\li720\fi-360\'95 \b Table\b0 : The input/output function is realized with a table.\par
+\'95 \b Bool\b0 : The input/output function is realized with a boolean expression.\par
+\li0\fi0A new element is inserted after the current element.\par
+The elements are displayed indented in the elment list.\par
+The index of the new element is the highest index of the element file plus one.\par \qc
+\pard
+\page
+#{\footnote Defin144}
+Change the \b index\b0  of the current selected element.\par
+The indexes have to be unequivocal in an element file. An index may not appear twice.\par
+A circuit accesses an element of an element file by its index.\par
+The order in the list and the indexes depend on each other.\par
+You can input the index with a number dialog box (see Standard dialog boxes in the chapter Use).\par
+\cf12 Warning\cf0 : Circuits cannot be loaded when you change the index of an element.\par \qc
+\pard
+\page
+#{\footnote Defin145}
+Create a new \b chapter\b0 .\par
+The name of the chapter is inserted with the text dialog box.\par
+A new chapter is inserted after the current element.\par
+With a chapter you can format the element file.\par
+The chapter ins't indented in the element list.\par
+The index of a chapter doesn't matter.\par \qc
+\pard
+\page
+#{\footnote Defin146}
+\b Rename\b0  the current element or chapter.\par
+You can input the name with a text dialog box.\par
+In contrast to the indexes the name doesn't  matter at all. Elements can be renamed in any way, they still stay compatible for the circuits.\par \qc
+\pard
+\page
+#{\footnote Defin147}
+\b Delete\b0  an element or chapter\par
+\cf12 Warning\cf0 : A circuit, that uses a deleted element, cannot be opened any more.\par \qc
+\pard
+\page
+#{\footnote Topic31}
+${\footnote Editing ( in the element file )_}
+K{\footnote Bearbeiten;Element-File_}
++{\footnote elefile:007}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Editing ( in the element file )\par\pard\tx360\ql \f0\fs24 The element file consists of a list of elements.\par
+An element of the list is selected by clicking it with the mouse.\par
+Several elements are selected by selecting every single one. There you have to additionally press the Ctrl key to not loose the previous selection.\par
+To select a whole block, first select the first element with the left mouse button. Then press the \i shift\i0  key and select the last element (and release the \i shift\i0  key).\par
+To not loose the previous selection you can use the \i Ctrl\i0  key.\par
+You can also select with the keyboard.\par
+There you can select an element with the cursor keys.\par
+A whole block is selected, if you additionally press the \i shift\i0  key.\par
+\par
+\{bmc EDITBAR.SHG\}\par
+\{bmc EDITMENU.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin148}
+The \b fix\b0  point.\par
+An element sticks at this point to the mouse pointer when you move it.\par \qc
+\pard
+\page
+#{\footnote Defin149}
+The\b Graphic\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin150}
+If \b St.On\b0  is checked, the graphic selected with the radio buttons is displayed, if the corresponding state is one.\par
+\cf12 Warning:\cf0  state graphics will be deleted.\par \qc
+\pard
+\page
+#{\footnote Defin151}
+\b St. Value\b0  means a combination of states. The graphic is only displayed if the combination is the state of the element.\par
+\cf12 Warning:\cf0  state graphics will be deleted.\par \qc
+\pard
+\page
+#{\footnote Defin152}
+Choose a state.\par
+The graphic is displayed if the state is one.\par
+To edit the graphic, press \b St. Graphic\b0 .\par
+This radio buttons are active if St. On is checked.\par \qc
+\pard
+\page
+#{\footnote Defin153}
+Choose a state.\par
+The graphic is displayed depending on the state \i combination\i0 .\par
+To edit the graphic, press \b St. Graphic\b0 .\par
+This radio buttons are active if St. Value is checked.\par \qc
+\pard
+\page
+#{\footnote Defin154}
+Edit the checked state graphic.\par \qc
+\pard
+\page
+#{\footnote Defin155}
+Edit the background graphic.\par \qc
+\pard
+\page
+#{\footnote Topic32}
+${\footnote Graphic menues__}
+K{\footnote Grafic}
++{\footnote graphic:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Menues of the graphic\par\pard\tx360\ql \f0\fs24 \{bmc GRCTOBAR.SHG\}\par
+\{bmc GRCTOMEN.SHG\}\par
+In this menu you can adjust the drawing mode.\par
+The speedbar shows the pressed switch that corresponds to the current mode.\par
+The corresponding menu entry is checked in the menu draw.\par
+\par
+\{bmc VIEWBAR.SHG\}\par
+\{bmc GRCVIEW.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin156}
+\{bmc MOVECUR.BMP\}\b Move.\b0 \par
+By pressing the left mouse button, you can drag the graphic element beneath the mouse pointer to another position (positioning.).\par
+While draging a graphic element, you can turn it 90\'B0 clockwise by pressing the right mouse button.\par
+If you select a graphic object with a double click, a {\uldb dialog box}{\v Topic33} appears. \par
+\par
+\{bmc EDITCUR.BMP\}Elements can only be selected in the move mode. It is done by pressing the left mouse button without touching a graphic element.\par
+Then make a rectangular by letting the left mouse button pressed (selection: size). All the elements in the rectangular are selected. The old selection is canceled. The selection is also canceled, if you double click the left mouse button.\par
+You can move the selected graphic elements just like a single one. The can also be turned.\par
+\cf12 Region\cf0 : Yes.\par
+\par \qc
+\pard
+\page
+#{\footnote Defin157}
+\{bmc DELCUR.BMP\}\b Delete.\b0 \par
+You delete an element by selecting it with the left mouse button.\par
+\cf12 Region\cf0 : Yes.\par \qc
+\pard
+\page
+#{\footnote Defin158}
+\{bmc LINECUR.BMP\}\b Line.\b0 \par
+You can draw a line in this mode.\par
+Press the left mouse button at the starting point, drag the line to the end point end and release the mouse button (Line: End point.).\par
+\cf12 Region\cf0 : No.\par
+\par \qc
+\pard
+\page
+#{\footnote Defin159}
+\{bmc TEXTCUR.BMP\}\b Text.\b0 \par
+Press the left mouse button at the desired position, Then insert the text.\par
+Read also: {\uldb Use}{\v Topic5}.\par
+\cf12 Region\cf0 : No.\par \qc
+\pard
+\page
+#{\footnote Defin160}
+\{bmc POLYCUR.BMP\}\b Poylgon.\b0 \par
+Click the left mouse button at the start position.\par
+Set every further point by clicking the left mouse button (not draging) (Polygon: Set points.).\par
+If you have set all points, finish the polygon by pressing the right mouse button.\par
+The last point is automatically connected to the first one.\par
+\cf12 Region\cf0 : No.\par \qc
+\pard
+\page
+#{\footnote Defin161}
+\{bmc POLYFCUR.BMP\}\b Poylgon (filled).\b0 \par
+Just like polygon.\par
+The polygon is filled with black color.\par
+\cf12 Region\cf0 : Yes.\par \qc
+\pard
+\page
+#{\footnote Defin162}
+\{bmc RECTCUR.BMP\}\b Retangle.\b0 \par
+Press the left mouse button at one corner of the rectangle, drag its size and release the mouse button (Rectangle: Make size).\par
+\cf12 Region\cf0 : No.\par \qc
+\pard
+\page
+#{\footnote Defin163}
+\{bmc RECTFCUR.BMP\}\b Rectangle (filled).\b0 \par
+Just like {\ul rectangle}{\v Defin162}.\par
+The rectangle is filled black.\par
+\cf12 Region\cf0 : Yes.\par \qc
+\pard
+\page
+#{\footnote Defin164}
+\{bmc ELLICUR.BMP\}\b Ellipse.\b0 \par
+In this mode you can draw ellipses.\par
+Press the left mouse button, drag the ellipse's size and release the mouse button (Ellipse: Adjust size.).\par
+\cf12 Region\cf0 : No.\par \qc
+\pard
+\page
+#{\footnote Defin165}
+\{bmc ELLIFCUR.BMP\}\b Ellipse (filled).\b0 \par
+Just like {\ul ellipse}{\v Defin164}.\par
+The ellipse is filled black.\par
+\cf12 Region\cf0 : Yes.\par \qc
+\pard
+\page
+#{\footnote Defin166}
+\{bmc SEGMCUR.BMP\}\b Segment.\b0 \par
+Press the left mouse button, drag the segment's size and release the mouse button (Segment: Adjust size.).\par
+Then choose the start angle with the left mouse button (Segment: start angle.) and drag to the end angle (Segment: end angle.).\par
+The last two positons musn't and normally aren't on the ellipse.\par
+\cf12 Region\cf0 : No.\par \qc
+\pard
+\page
+#{\footnote Defin167}
+\{bmc SEGMFCUR.BMP\}\b Segment (filled).\b0 \par
+Just like {\ul segment}{\v Defin166}.\par
+The segment is filled black.\par
+\cf12 Region\cf0 : No.\par \qc
+\pard
+\page
+#{\footnote Defin168}
+The \b draw menue\b0 .\par \qc
+\pard
+\page
+#{\footnote Topic33}
+${\footnote Dialog boxes for objects_}
+K{\footnote Dialog boxes for objects_;Grafic}
++{\footnote graphic:020}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Dialog boxes for objects\par\pard\tx360\ql \f0\fs24 \li360{\uldb Line}{\v Topic34}\par
+{\uldb Text}{\v Topic35}\par
+{\uldb Rectangle}{\v Topic34}\par
+{\uldb Ellipse}{\v Topic34}\par
+{\uldb Segment}{\v Topic34}\par
+\par
+\li0Polygons can't be changed after their creation.\par \qc
+\pard
+\page
+#{\footnote Topic34}
+${\footnote Graphic object dialog_}
+K{\footnote Dialog boxes for objects_;Graficelement;Linie;Rechteck;Ellipse;Segment;Ellipsenabschnitt}
++{\footnote graphic:021}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Graphic object dialog\par\pard\tx360\ql \f0\fs24 \{bmc GELEDLG.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin169}
+Change to line.\par
+Active for {\ul Line}{\v Defin169}, {\ul Rectangle}{\v Defin170} und {\ul Ellipse}{\v Defin171}.\par \qc
+\pard
+\page
+#{\footnote Defin170}
+Change to rectangle.\par
+Active for {\ul Line}{\v Defin169}, {\ul Rectangle}{\v Defin170} und {\ul Ellipse}{\v Defin171}.\par \qc
+\pard
+\page
+#{\footnote Defin171}
+Change to ellipse.\par
+Active for {\ul Line}{\v Defin169}, {\ul Rectangle}{\v Defin170} und {\ul Ellipse}{\v Defin171}.\par \qc
+\pard
+\page
+#{\footnote Defin172}
+Displays a segment.\par
+Can't be changed.\par \qc
+\pard
+\page
+#{\footnote Defin173}
+Graphic element is filled.\par \qc
+\pard
+\page
+#{\footnote Topic35}
+${\footnote Text - Dialog (Grafic)}
+K{\footnote Dialog boxes for objects_;Graficelement;Text}
++{\footnote graphic:022}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Text - Dialog\par\pard\tx360\ql \f0\fs24 \{bmc TEXTDLG.SHG\}\par
+The text dialog box appears if you select a text element by double click in the move mode.\par \qc
+\pard
+\page
+#{\footnote Topic36}
+${\footnote Editing ( in the graphic )}
+K{\footnote Grafic;Bearbeiten}
++{\footnote graphic:030}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Editing ( in the graphic )\par\pard\tx360\ql \f0\fs24 \li360\{bmc NORMCUR.BMP \} \b Move.\b0 \par
+If you press the left mouse button, while no graphic element is touched,\par
+\li720\{bmc EDITCUR.BMP \} \b Selection: size.\b0 \par
+you can drag a rectanle in the graphic (by pressing the left mouse button). Atfer you released the mouse button, all graphic object inside the rectangle are selected. The previous selection is canceled.\par
+\li360 The selection is also cancel, if you double click the left mouse button, while not touching a graphic element.\par
+\par
+\li360\{bmc MOVECUR.BMP \} \b Positioning.\b0 \par
+The mouse pointer is just over a selected graphic element. All selected graphic elements are moved at the same time. While moving (while pressing the left mouse button), the whole block of selected elements can be turned 90\'B0 clockwise by pressing the right mouse button.\par
+\par
+\li0\{bmc EDITBAR.SHG\}\par
+\{bmc EDITMENU.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin174}
+An \b input\b0 .\par
+The input number is displayed at the arrow.\par \qc
+\pard
+\page
+#{\footnote Defin175}
+An \b output\b0 .\par
+The output number is displayed at the arrow.\par \qc
+\pard
+\page
+#{\footnote Topic37}
+${\footnote Menus of the In/Outputs}
+K{\footnote Eingang;Ausgang}
++{\footnote inout:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic27}\qc Menues of the In-/Output Positions\par\pard\tx360\ql \f0\fs24 \{bmc VIEWBAR.SHG\}\par
+\{bmc GRCVIEW.SHG\}\par
+\par
+\{bmc POSBAR.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin176}
+The basic states of the inputs.\par
+They are used if an input isn't connected.\par \qc
+\pard
+\page
+#{\footnote Defin177}
+The basic states of the inputs.\par
+They are used if an input isn't connected.\par \qc
+\pard
+\page
+#{\footnote Topic38}
+${\footnote Table dialog box}
+K{\footnote Tabelle;Element;Eingabe;Ausgabe}
++{\footnote io:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic28}\qc Table dialog box\par\pard\tx360\ql \f0\fs24 \{bmc TABDLG.SHG\}\par
+\cf12 Warning:\cf0  The highest number of inputs, outputs and states is 10.\par \qc
+\pard
+\page
+#{\footnote Topic39}
+${\footnote Bool - Dialog}
+K{\footnote Bool;Element;Eingabe;Ausgabe}
++{\footnote io:020}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic28}\qc Bool - Dialog\par\pard\tx360\ql \f0\fs24 \{bmc BOOLDLG.SHG\}\par
+The In-/Output functions is programmed in a script.\par
+The language is the Boolean Algebra.\par
+\par
+A line has the following format:\par
+term = variable  Warning: no input is allowed here.\par
+Variable: xxR - xx is a two-digit hexadecimal number, R is a register\par
+There are four registers:\par
+e or i \tab input\par
+a or o \tab output\par
+z or s \tab state\par
+m \tab memory\par
+If you write a register name with big letters, the negative conents is returned.\par
+In a assignment, a register name can also be written with big letters. This has no effects.\par
+\par
+The term:\par
+f \tab constant for false\par
+w or t \tab constant for true\par
+Term- or Term! \tab negation, corresponds to NOT(Term)\par
+Term op VarKonst \tab a two-digit operator, corresponds to (Term) op VarKonst\par
++ oder | \tab logical OR\par
+* oder & \tab logical AND\par
+@ \tab negated OR or NOR\par
+\'A7 \tab negated AND or NAND\par
+x oder \'5E \tab exclusive OR resp. antivalence or XOR\par
+> \tab implikation =>\par
+< \tab implikation <=\par
+~ \tab equivalence <=>\par
+operands, that are represented by letters, can also be represented by the corresponing big letters.\par
+A comment starts with a slash (/) . Everything after the slash is ignored.\par
+If you confirm the dialog box with OK, a syntax check is done before closing the dialog box.\par \qc
+\pard
+\page
+#{\footnote Defin178}
+Fill the table with zero.\par \qc
+\pard
+\page
+#{\footnote Defin179}
+Fill the table with one.\par \qc
+\pard
+\page
+#{\footnote Defin180}
+Add an input.\par \qc
+\pard
+\page
+#{\footnote Defin181}
+Delete an input.\par \qc
+\pard
+\page
+#{\footnote Defin182}
+Add an output.\par \qc
+\pard
+\page
+#{\footnote Defin183}
+Delete an output.\par \qc
+\pard
+\page
+#{\footnote Defin184}
+Add a state.\par \qc
+\pard
+\page
+#{\footnote Defin185}
+Delete a state.\par \qc
+\pard
+\page
+#{\footnote Defin186}
+State number as input.\par \qc
+\pard
+\page
+#{\footnote Defin187}
+Input number.\par \qc
+\pard
+\page
+#{\footnote Defin188}
+Output number.\par \qc
+\pard
+\page
+#{\footnote Defin189}
+State number as output.\par \qc
+\pard
+\page
+#{\footnote Defin190}
+The table.\par \qc
+\pard
+\page
+#{\footnote Topic40}
+${\footnote Zeiten - Dialog}
+K{\footnote Zeiten;Tabelle}
++{\footnote io:015}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic28}\qc Reaction Time\par\pard\tx360\ql \f0\fs24 \{bmc TIMEDLG.SHG\}\par
+The time value zero is not possible. So you can't create ideal gates.\par
+Ideal gates will lead to an infinity loop in the simulation, if they are coupled back.\par \qc
+\pard
+\page
+#{\footnote Defin191}
+Set all times to one.\par \qc
+\pard
+\page
+#{\footnote Defin192}
+Set all times to ten.\par \qc
+\pard
+\page
+#{\footnote Defin193}
+The \b reaction time\b0  of an output in {\uldb Time Grid}{\v Topic11} units.\par \qc
+\pard
+\page
+#{\footnote Defin194}
+\par \qc
+\pard
+\page
+#{\footnote Defin195}
+Information: \b No error.\b0 \par \qc
+\pard
+\page
+#{\footnote Defin196}
+Set the number of inputs.\par
+You can input the number with the vertical scroll bars or directly with the entry field.\par \qc
+\pard
+\page
+#{\footnote Defin197}
+Set the number of outputs.\par
+You can input the number with the vertical scroll bars or directly with the entry field.\par \qc
+\pard
+\page
+#{\footnote Defin198}
+Set the number of states.\par
+The states are saved internally and are valid during the whole simulation.\par
+You can input the number with the vertical scroll bars or directly with the entry field.\par \qc
+\pard
+\page
+#{\footnote Defin199}
+Set the number of memory.\par
+The memories are not saved internally. They are only temporary memories during the calculation of the new state and the output. They replace the braces.\par
+You can input the number with the vertical scroll bars or directly with the entry field.\par \qc
+\pard
+\page
+#{\footnote Defin200}
+On the right side is the input field for the script.\par
+   There you can input your program for the element. The program sets the state/input -\par
+state/output function.\par
+The reaction times are calculated from the terms. Every operator has the delay of one time grid unit. So the same type of elements can have different reaction times, depending on the realisation.\par
+Text can be copied with the clipboard:\par
+\li360Ctrl+Ins \tab copy to the clipboard\par
+Shift+Ins \tab copy from the clipboard\par
+Shift+Del \tab cut to the clipboard\par
+\li0Only selected text regions are copied/cut.\par
+Text regions are selected by moving the cursor with the cursor keys while you press the Shift key.\par
+If you insert something, selected text is overwritten.\par \qc
+\pard
+\page
+#{\footnote Topic41}
+${\footnote Syntax check_____}
+K{\footnote Syntax;Bool}
++{\footnote io:022}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic39}\qc Syntax\par\pard\tx360\ql \f0\fs24 Syntax check checks for:\par
+\li360\'95 Correct written operators.\par
+\'95 Register numbers may not be larger than the number of adjusted registers.\par
+\par
+\li0\{bmc SYNTAXNE.SHG\}\par
+No error.\par
+\par
+\{bmc SYNTAXER.SHG\}\par
+An error occured.\par
+The position of the error appears in the title bar. Move the cursor to the corresponding line.\par
+The error occured before the text, that is between the two quotation marks 'text'.\par
+\par
+The list of error messages:\par
+\li360\'95  \b No register name!\b0 \par
+\li720A variable was expected. The index of the register is correct but the idendification doesn't exist.\par
+\cf2 Eliminate\cf0 : Insert a correct idendification, see register.\par
+\li360\'95  \b An input only can be read.\b0 \par
+\li720You assigned a value to an input. An input may not be on the right side of the sign of equality.\par
+\cf2 Eliminate\cf0 : Insert a correct idendification, see register.\par
+\li360\'95  \b An output only can be written.\b0 \par
+\li720The value of an output can't be read, but only set.\par
+\cf2 Eliminate\cf0 : Insert a correct idendification, see register.\par
+\li360\'95  \b Register not available. (input, output, state or memory)\b0 \par
+\li720You tried to use a register that doesn't exist.\par
+\cf2 Eliminate\cf0 : Correct the register index or raise the number of registers of the given type.\par
+\li360\'95  \b Double assignment!\b0 \par
+\li720A value was assigned to an output or state before.\par
+\cf2 Eliminate\cf0 : Change or delete one of the assignments.\par
+A state should't be used for a temporary memory, instead use a memory register.\par
+\li360\'95  \b Syntax error!\b0 \par
+\li720A general syntax error.\par
+\cf2 Eliminate\cf0 : Remove typing error. Read the syntax description again.\par \qc
+\pard
+\page
+#{\footnote Defin201}
+Stop: \b Error\b0 .\par \qc
+\pard
+\page
+#{\footnote Topic46}
+${\footnote How to create an element file ?_____}
+K{\footnote How to do ?___;Elementdatei}
++{\footnote howtodo:030}
+\keepn \cf0 \f1\fs48 {\uldb \{bml LOKON.BMP\}}{\v Topic43}\qc How to create an element file ?\par\pard\tx360\qc \f1\fs32 \b A new element file window\b0 \par
+\ql \f0\fs24 First you need a work window for your element file.\par
+\{bmc HOWNEWEL.SHG\}\par
+For that you have to select the menu command  New in the menu File.\par
+Then select the menu command Elements.\par
+\{bmc HOWELE.SHG\}\par
+A new element file window appears. It is called Elements.\par
+The dummy entry ___elements___ does always exist and cannot be deleted. It contains no information.\par
+It is used to insert a new element at the beginning.\par
+\par
+\qc \f1\fs32 \b Create a new element\b0 \par
+\ql \f0\fs24 There a two different element types. They differ is in the realisation of the output and transition function.\par
+\par
+\{bmc heletab.shg\}\par
+To create an element of the type table, select the speed bar button. You can also select the upper\par
+menu command.\par
+\par
+ \{bmc helebool.shg\}\par
+To create an element of the type bool, select the button or the upper menu command.\par
+\par
+\{bmc TEXTINPU.SHG\}\par
+A text dialog box appears to give your new element a name.\par
+The new element appears in the element list right after the last selected element.\par
+The index of the new element is the largest index of the element file plus one.\par
+\par
+\qc \f1\fs32 \b In-/Output\b0 \par
+\ql \f0\fs24 Select the desired element by clicking it in the element list. Now there are three ways:\par
+\par
+\li360\'95 Select the menu command Input/Output in the menu Element.\par
+\'95 Press this {\uldb \{bmc inout.bmp\}}{\v Topic28} button.\par
+\'95 Press the keys Ctrl+A.\par
+\li0The dialog box, that appears depends on the element type of the selected element.\par
+Further descriptions are in the section Input/Output.\par
+\par
+For every element, you have to create a graphic and fix its region.\par
+Then you have to set the positions of the inputs and outputs and the initial state.\par
+You can read how to do it in the section Menu commands of the element file in the respective sections.\par
+You can also read there how to delete and rename elements.\par
+\par
+\qc \f1\fs32 \b Use an element file in a circuit\b0 \par
+\ql \f0\fs24 An element file cannot be included into a circuit directly.\par
+You first have to create a new alias and assign it to your file. Then include your file with this alias into the circuit.\par
+Further descriptions are in the chapter Use in Element files.\par
+\par
+\qc \f1\fs32 \b The index and compatible element files\b0 \par
+\ql \f0\fs24 The index of an element has to be unequivocal in the element file.\par
+If two element files shall be compatible, e.g. they can be included with the same alias name in the\par
+dialog box element files, corresponding elements must have the same index. The names don't have to\par
+be the same. The graphic, region and the position of the inputs/outputs also don't have to be the\par
+same. The element type also doesn't matter.\par
+Only the index and the number of inputs/outputs has to be the same.\par \qc
+\pard
+\page
+#{\footnote eleMacro}
+${\footnote Macro - Circuit}
+K{\footnote macro;element;input;output;circuit}
++{\footnote io:030}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic28}\qc Macro - Circuit\par\pard\tx360\ql \f0\fs24 \{bmc MACROCIR.SHG\}\par
+During the {\uldb simulation}{\v Topic16}, input signals are given to the element. The output signals are given to the circuit in the same way.\par
+With the help of the states, the element can change its shape (graphic).\par \qc
+\pard
+\page
+#{\footnote macroIn}
+Inputs.\par
+You can increase the number of inputs and connect them here.\par \qc
+\pard
+\page
+#{\footnote macroOut}
+Outputs.\par
+You can increase the number of outputs and connect them here.\par \qc
+\qc
+\pard
+\page
+#{\footnote macroState}
+States.\par
+You can increase the number of states and connect them here.\par \qc
+\qc
+\pard
+\page
+}

@@ -1,0 +1,61 @@
+Nummerierung von Vorschlägen von Beta-Testern: Initialen + 2 stellige Nummer
+Beispiel: Harald Roth, Vorschlag Nummer 9 => HR09
+Die Versionsnummer vor einem Vorschlag zeigt an, ab welcher Version dieser in LoKon eingebaut ist.
+
+V2.0 >D099: Neuer Elementtyp: Makro.
+      D100: kontextsensitive Menüs in Element-Datei
+      D101: kontextsensitive Menüs in Grafik
+      D102: Farben und Pens einstell- und speicherbar
+      D103: Elementdateinamen mit .\ installieren
+      D104: Dateien nicht zweimal laden
+      D105: Möglichkeit, eingebundene Element-Dateien aus Schaltung zu löschen
+      D106: Nach Registrierung: LoKon auf Wunsch beenden und neu starten
+      D107: -----
+      D108: Überflüssige Verbindungsknoten entfernen
+      D109: Oszilloskop: nach links scrollen, wenn keine Info mehr, unnötig
+      D110: Installation: Bei Elementnorm hinzuschreiben, daß beide installiert werden
+      D111: neuer Elementtyp: PLA
+      D112: Taktgeber: abgelaufene Zeiteinheiten auf dem Taktgeber anzeigen.
+V2.0 >D113: Versionsinformation (voll, pur, mini) steht in lokon.ini bzw. setup.ini
+      D114: Rückgängig/Wiederherstellen Funktion.
+      D115: Falsche Verknüpfung von einem Ausgang grafisch anzeigen
+      D116: Umschaltung zwischen DIN und amerikanischer Norm mittels Radio-Buttons
+      D117: Dateien im Datei-Menü nummerieren und mit ALT-Nr starten
+      D118: Elementtypen umwandlen (Tabelle->Bool->Macro)
+      D119: Bool Element optimieren
+      D120: Elemente spiegeln in X und Y Richtung zusätzlich zum Drehen
+      D121: Elementdatei wieder aus Schaltung löschen
+      D122: DDE-Baustein (Einbindung eines Elementes, dessen Funktionalität in eine DLL programmiert wurde)
+      D123: Oszilloskop während der Simulation automatisch scrollen
+      D124: Falls Alias nicht auffindbar, Elementdatei auch von Hand zuweisbar
+V2.0 >D125: Der Menüpunkt Oszilloskop im Systemmenü der Schaltung zeigt das Oszilloskop an
+V2.0 >D126: Oszilloskop und Makroschaltung werden verdeckt geöffnet
+V2.0 >D127: Der Menüpunkt Schaltung im Systemmenü des Oszilloskop zeigt die Schaltung an
+V2.0 >D128: Neue Menüpunkte im Fenstermenü: Zeige/Verberge alle Oszilloskope
+V2.0 >D129: Neue Menüpunkte im Fenstermenü: Zeige/Verberge alle Makros
+V2.0 >D130: Der Schließen-Button des Oszilloskops verbirgt dieses
+V2.0 >D131: Neuer Menüpunkt im Fenstermenü: Volle Ansicht in allen Fenstern
+      D132: Ein zu einer Schaltung gehörendes Textfenster für Erklärungen
+      D133: Jedes Element/jeder Impulse bekommt Zeiger auf Schaltung, zu der es/er gehört [intern] => keine globale Variable mehr, mehr Stabilität
+      D134: Größere Speedbar Buttons
+      D135: Element-Auswahl nicht-modal und nach belieben ein- und ausblendbar
+      D136: Element-Speedbar mit allen benutzten Elementen, nach Zeitpunkt des letzten Einfügens geordnet
+      D137: Taktgeber: Noch ablaufende Zeit bis zur nächsten Signaländerung anzeigen
+V2.0 >D138: Undo/Redo
+      D139: Tips zu Programmstart
+V2.0 >D140: Bei Speicherknappheit Undo-Speicher teilweise freigeben
+      D141: Speedbar buttons für Rückgängig
+      D142: Abfrage offener Eingänge
+      D143: Möglichkeit bei Taktgeneratoren zeitversetzt zu takten
+      D144: Bausteine bezeichnen
+      D145: Automatisches rechtwinkliges Verlegen der Leitungen
+      D146: Automatisches Generieren einer Grafik, Region und Ein-/Ausgangsposition bei einem neuen Element
+V2.0 >D147: Neuer Menüpunkt: Einstellungen->Rückgängig ein/aus
+V2.0 >D148: Neuer INI-Eintrag: [General] Undo=true/false  (Rückgängig an/aus)
+V2.02>D149: neuer Menpunkt im kontextsensitiven Men eines Makroelements: Makro, ”ffnet das zugeh”rige Makrofenster
+V2.1 >D150: L„ngere Elementnamen.
+V2.1 >D151: Elementdatei Elements erweitert.
+V2.1 >D152: Neue Elementdatei Elements2.
+V2.1 >D153: Neue Elementdatei TTL.
+V2.4 >D154: InstallShield Installation
+V2.4 >D155: Deinstallationsroutine

@@ -1,0 +1,782 @@
+{\rtf1\ansi{\fonttbl
+\f0\froman Times New Roman;
+\f1\fswiss Arial;
+\f2\fnil System;
+\f3\fnil Helv;
+\f4\fnil Symbol;
+\f5\fmodern Courier New;}
+{\colortbl;\red0\green0\blue128;\red0\green128\blue0;\red0\green128\blue128;\red128\green0\blue0;\red128\green0\blue128;
+\red128\green128\blue0;\red192\green192\blue192;\red128\green128\blue128;\red0\green0\blue255;\red0\green255\blue0;
+\red0\green255\blue255;\red255\green0\blue0;\red255\green0\blue255;\red255\green255\blue0;\red255\green255\blue255}
+\deff0 \fs24\tx360
+#{\footnote Defin13}
+\{bmc ELEFILE.BMP \} Neue {\uldb Element-Datei}{\v Topic13}.\par \qc
+\pard
+\page
+#{\footnote Topic13}
+${\footnote Element-Datei}
+K{\footnote Element-Datei;Element}
++{\footnote lokon:040}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic1}\qc Element-Datei\par\pard\tx360\qc \f1\fs32 \b Das Fenster der Element-Datei\b0 \par
+\{bmc ELEFILE.SHG\}\par
+\ql \f0\fs24 Eine neue Element-Datei erstellen Sie mit dem Hauptmen\'FCpunkt {\uldb Datei->Neu->Elementdatei}{\v Topic5}.\par
+Eine Elementdatei laden Sie mit {\uldb Datei->\'D6ffnen}{\v Topic9}, wobei Sie als Dateiformat \f2\fs24 Elementdatei ('*.ELE')\f0\fs24  einstellen m\'FCssen.\par
+Das Bearbeiten einer {\uldb Elementgrafik}{\v Topic14} wird auch gestartet, wenn man das gew\'FCnschte Element in der {\ul Elementliste}{\v Defin137} durch einen Doppelklick anw\'E4hlt. (s. {\uldb Zeichnen->Grafik}{\v Topic32})\par
+\par
+Siehe auch:\par
+\li360{\uldb Wie erstelle ich eine Elementdatei ?}{\v Topic46}\par
+{\uldb Men\'fcs der Elementdatei}{\v Topic26}\par
+{\uldb Bearbeiten (in der Elementdatei)}{\v Topic31}\par
+{\uldb Grafik}{\v Topic14}\par
+{\ul Region}{\v Defin141}\par
+{\uldb Ein/Ausg\'e4nge}{\v Topic27}\par
+{\uldb Ein/Ausgabe}{\v Topic28}\par
+{\uldb Basisbelegung}{\v Topic29}\par \qc
+\pard
+\page
+#{\footnote Topic14}
+${\footnote Grafik}
+K{\footnote Grafik;Element}
++{\footnote elefile:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic13}\qc Grafik\par\pard\tx360\f1\fs32 \qc \b Grafik-Auswahl\b0 \par
+\{bmc CHOGR.SHG\}\par
+\ql \f0\fs24 Besitzt ein Element Zust\'E4nde, so kann man zus\'E4tzlich zur eigentlichen Elementgrafik noch zustandsspezifische Grafiken erstellen.\par
+Welche Grafik Sie bearbeiten wollen, w\'E4hlen Sie in diesem Dialog aus.\par
+Hierbei bedeuten die \i Radio-Buttons\i0  in der Mitte folgendes:\par
+\li720\fi-360\'95 \b Z.An\b0  - Die mit Hilfe der \i Radio-Buttons\i0  ausgew\'E4hlte  Grafik wird angezeigt, wenn der entsprechende Zustand \i Eins\i0  ist.\par
+\'95 \b Z. Wert\b0  - Die \i Check-Boxes\i0  stellen eine Zustandskombination dar. Die Grafik wird nur dann angezeigt, wenn die Zustandskombination eintritt.\par
+\li0\fi0Die ausgew\'E4hlte Zustandsgrafik bearbeiten Sie, wenn Sie den Button \b Z. Grafik\b0  anw\'E4hlen.\par
+\b H. Grafik\b0  steht f\'FCr Hintergrundgrafik. Das ist die eigentliche Elementgrafik. Sie wird in der Schaltung immer angezeigt.\par
+\cf12 Grenzen:\cf0  Es k\'F6nnen nur die ersten 10 Zust\'E4nde verwendet werden.\par
+\par
+\qc \f1\fs32 \b Das Garfikfenster\b0 \par
+\{bmc GRAPHIC.SHG\}\par
+\ql \f0\fs24 Ein Element hat mehrere Grafiken.\par
+Auch die Region eines Elementes ist eine Grafik.\par
+Beim Bearbeiten der Region sind jedoch einige Grafikfunktionen gesperrt. Diese sind f\'FCr die Region unerheblich. Sie w\'FCrden die Berechnung nur unn\'F6tig verlangsamen.\par
+Manchmal wird in die Grafik eine Hintergrundgrafik eingeblendet (bei der Region und bei den Zustandsgrafiken). Diese wird schraffiert dargestellt und kann nicht bearbeitet werden.\par
+\par
+Siehe auch:\par
+\li360{\uldb Men\'fcs der Grafik}{\v Topic32} (inklusive Mauszeiger)\par
+{\uldb Objektspezifische Dialoge}{\v Topic33}\par
+{\uldb Bearbeiten (in der Grafik)}{\v Topic36}\par
+{\uldb Ein-/Ausg\'e4nge}{\v Topic27}\par
+{\uldb Ein-/Ausgabe}{\v Topic28}\par
+{\uldb Basisbelegung}{\v Topic29}\par \qc
+\pard
+\page
+#{\footnote Defin137}
+Die \b Liste der Elemente\b0 .\par
+In ihr ist jedes Element mit seinem Index und Namen eingetragen.\par
+Die Reihenfolge der Auflistung ist nicht von den Indizes abh\'E4ngig.\par
+Es wird nicht auf doppelte Indizes gepr\'FCft.\par \qc
+\pard
+\page
+#{\footnote Defin138}
+Der \b Dummy-Eintrag\b0 .\par
+Er ist immer vorhanden, kann nicht gel\'F6scht werden und enth\'E4lt \'FCberhaupt keine Information.\par
+Ihn braucht man, um ein neues Element auch ganz vorn einf\'FCgen zu k\'F6nnen.\par \qc
+\pard
+\page
+#{\footnote Topic26}
+${\footnote Menüs der Elementdatei}
+K{\footnote Element-Datei;Element}
++{\footnote elefile:005}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Men\'FCs der Elementdatei\par\pard\tx360\ql \f0\fs24 \{bmc ELE2BAR.SHG\}\par
+\{bmc ELE2MENU.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin139}
+\b Neue\b0 s Element vom Typ \b Tabelle\b0  erzeugen.\par
+Die Ein-/Ausgabefunktion wird \'FCber eine Tabelle verwirklicht.\par
+Ein neues Element wieder \i hinter\i0  das aktuelle Element eingef\'FCgt (siehe {\ul Dummy-Eintrag}{\v Defin138}).\par
+Der Elementname wird in einem {\uldb Text-Dialog}{\v Topic30} eingegeben.\par \qc
+\pard
+\page
+#{\footnote Defin140}
+\b Neue\b0 s Element vom Typ \b Bool\b0  erzeugen.\par
+Die Ein-/Ausgabefunktion wird in einer Art \i Boolscher Term\i0  festgelegt.\par
+Ein neues Element wieder \i hinter\i0  das aktuelle Element eingef\'FCgt (siehe {\ul Dummy-Eintrag}{\v Defin138}).\par
+Der Elementname wird in einem {\uldb Text-Dialog}{\v Topic30} eingegeben.\par \qc
+\pard
+\page
+#{\footnote Defin141}
+\b Region\b0  des aktuellen Elementes bearbeiten.\par
+Dieser Men\'FCpunkt ist nur dann aktiv, wenn in der {\ul Elementliste}{\v Defin137} ein Element (kein Kapitel) ausgew\'E4hlt ist.\par
+Die Region ist eine Grafik, allerdings sind die verf\'FCgbaren Grafikfunktionen stark eingeschr\'E4nkt.\par
+Siehe auch {\uldb Grafik}{\v Topic14}.\par \qc
+\pard
+\page
+#{\footnote Topic27}
+${\footnote Ein-/Ausgänge}
+K{\footnote Eingang;Ausgang;Element}
++{\footnote elefile:020}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Ein-/Ausg\'E4nge\par\pard\tx360\f1\fs32 \b Das Ein-/Ausg\'E4nge Fenster\b0 \par
+\{bmc INOUTPOS.SHG\}\par
+\ql \f0\fs24 Die Anzahl der Ein-/Ausg\'E4nge wird im {\uldb Ein-/Ausgabe}{\v Topic28}-Dialog festgelegt.\par
+Die Position der Ein-/Ausg\'E4nge ist zun\'E4chst der Nullpunkt.\par
+Einen Ein-/Ausgang verschiebt man, indem Sie ihn mit der linken Maustaste anw\'E4hlen und (bei gedr\'FCckt gehaltener linker Maustaste) an die neue Position ziehen.\par
+\par
+Siehe auch:\par
+\li360{\uldb Men\'fcs der Ein-/Ausg\'e4nge}{\v Topic37}\par \qc
+\pard
+\page
+#{\footnote Topic28}
+${\footnote Ein-/Ausgabe}
+K{\footnote Eingabe;Ausgabe;Element}
++{\footnote elefile:030}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Ein-/Ausgabe\par\pard\tx360\cf0 \ql \f0\fs24 In \b LoKon \b0  stehen drei Typen zur Verf\'FCgung:\par
+\li360{\uldb Tabelle}{\v Topic38}\par
+{\uldb Bool}{\v Topic39}\par
+{\uldb Makro}{\v eleMacro}\par \qc
+\pard
+\page
+#{\footnote Topic29}
+${\footnote Basisbelegung}
+K{\footnote Basisbelegung;Element}
++{\footnote elefile:040}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Basisbelegung\par\pard\tx360\ql \f0\fs24 \{bmc BASICDLG.SHG \} \{bmc BASI2DLG.SHG \} \par
+In diesem Dialog legt man die Basisbelegung der Zust\'E4nde und Eing\'E4nge fest.\par
+Ist ein K\'E4stchen angekreuzt, so steht es f\'FCr die Eins, ein leeres K\'E4stchen steht f\'FCr die Null.\par
+Folgendes gilt in der {\uldb Schaltung}{\v Topic6}:\par
+\li360\'95 Setzt man eine Schaltung zur\'FCck ({\uldb Simulation->Zur\'fccksetzen}{\v Topic16}), so wird den Zust\'E4nden jedes Elementes die Basisbelegung zugeordnet.\par
+\'95 W\'E4hrend der Simulation wird allen Eing\'E4ngen, die nicht verbunden sind, die Basisbelegung zugeordnet.\par \qc
+\pard
+\page
+#{\footnote Defin142}
+Das \b Element-Men\'FC\b0 .\par
+Mit den Men\'FCpunkten dieses Men\'FCs k\'F6nnen Sie neue Elemente erstellen, ihre Eigenschaften (Index, Name, Grafik, ...) \'E4ndern und sie auch wieder l\'F6schen.\par \qc
+\pard
+\page
+#{\footnote Defin143}
+\b Neues Element\b0  erstellen.\par
+In diesem Untermen\'FC k\'F6nnen Sie sich einen Elementtyp ausw\'E4hlen.\par
+Zwei Typen stehen zur Auswahl, sich nur in der Ein-/Ausgabe unterscheiden:\par
+\li720\fi-360\'95 \b Tabelle\b0 : Die Ein-/Ausgabefunktion wird \'FCber eine Tabelle verwirklicht.\par
+\'95 \b Bool\b0 : Die Ein-/Ausgabefunktion wird in einer Art \i Boolscher Term\i0  festgelegt.\par
+\li0\fi0Ein neues Element wieder hinter das aktuelle Element eingef\'FCgt (siehe {\ul Dummy-Eintrag}{\v Defin138}).\par
+Die Elemente werden in der {\ul Elementliste}{\v Defin137} einger\'FCckt.\par \qc
+\pard
+\page
+#{\footnote Defin144}
+Den \b Index\b0  des aktuell ausgew\'E4hlten Elements \b \'E4ndern\b0 .\par
+In einer Elementdatei m\'FCssen die Indizes EINDEUTIG sein. Es d\'FCrfen KEINE doppelten Indizes vorkommen.\par
+Eine Schaltung greift auf ein Element einer Elementdatei \'FCber den Index zu.\par
+Der Index eines Kapitel ist ohne Bedeutung.\par
+Der Index eines neuen Elementes ist um eins h\'F6her als der momentan h\'F6chste Index in der Elementdatei.\par
+Die Reihenfolge in der Liste und die Indizes sind voneinander unabh\'E4ngig.\par
+Der Index wird in einem {\uldb Zahl-Dialog}{\v Topic30} eingegeben.\par
+\cf12 Achtung:\cf0  Schaltungen k\'F6nnen nicht mehr geladen werden, wenn Sie den Index eines Elementes ver\'E4ndern.\par \qc
+\pard
+\page
+#{\footnote Defin145}
+\b Neues Kapitel\b0  anlegen.\par
+Der Kapitelname wird \'FCber einen {\uldb Text-Dialog}{\v Topic30} eingegeben.\par
+Ein neues Kapitel wird \i hinter\i0  das aktuelle Element eingef\'FCgt (siehe {\ul Dummy-Eintrag}{\v Defin138}).\par
+Ein Kapitel bringt \'DCbersicht in eine Elementdatei.\par
+Im Gegensatz zu den Elementen wird das Kapitel in der {\ul Elementliste}{\v Defin137} nicht einger\'FCckt.\par
+Bei einem Kapitel ist der Index egal.\par \qc
+\pard
+\page
+#{\footnote Defin146}
+Das aktuelle \b Element oder Kapitel umbennen\b0 .\par
+Der Name wird mit dem {\uldb Text-Dialog}{\v Topic30} eingegeben.\par
+Im Gegensatz zu den Indizes sind die Namen wie Schall und Rauch. Elemente k\'F6nnen beliebig umbenannt werden, sie bleiben f\'FCr die Schaltungen dann immer noch kompatibel.\par \qc
+\pard
+\page
+#{\footnote Defin147}
+Ein \b Element oder Kapitel l\'F6schen\b0 .\par
+\cf12 Achtung:\cf0  Schaltungen k\'F6nnen nicht mehr geladen werden, wenn Sie ein Element l\'F6schen.\par \qc
+\pard
+\page
+#{\footnote Topic31}
+${\footnote Bearbeiten (in der Elementdatei)}
+K{\footnote Bearbeiten;Element-Datei}
++{\footnote elefile:007}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic13}\qc Bearbeiten (in der Elementdatei)\par\pard\tx360\ql \f0\fs24 Die Elementdatei besteht aus einer Liste von Elementen.\par
+In einer Liste markiert man ein Element, indem man es anklickt.\par
+Mehere Elemente markiert man, indem man sie einzeln anw\'E4hlt. Hierbei h\'E4lt man zus\'E4tzlich die \i Strg\i0 -Taste gedr\'FCckt, damit die schon getroffene Auswahl nicht verloren geht.\par
+Um einen ganzen Block zu markieren, w\'E4hlt man zun\'E4chst das erste Element mit der linken Maustaste an, dann dr\'FCckt man die \i Umschalt\i0 -Taste und w\'E4hlt das letzte Element an (erst jetzt lassen Sie die \i Umschalt\i0 -Taste wieder los).\par
+Auch die \i Strg\i0 -Taste kann hier wieder eingesetzt werden, will man die schon getroffene Auswahl nicht l\'F6schen.\par
+Man kann auch mit der Tastatur markieren.\par
+Hierbei w\'E4hlt man ein Element mit den Cursor-Tasten aus.\par
+Ein ganzer Block wird markiert, wenn man zus\'E4tzlich die \i Umschalt\i0 -Taste dr\'FCckt.\par
+\par
+\{bmc EDITBAR.SHG\}\par
+\{bmc EDITMENU.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin148}
+Der \b Nullpunkt\b0 .\par
+Ein Element klebt beim Verschieben in der {\uldb Schaltung}{\v Topic6} an diesem Punkt am Mauszeiger.\par
+Der Nullpunkt ist immer sichtbar. Er kann eventuell Grafik verdecken.\par \qc
+\pard
+\page
+#{\footnote Defin149}
+Die \b Grafik\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin150}
+Zustandsgrafik auf \b Zustand An\b0  umstellen.\par
+Die mit Hilfe der \i Radio-Buttons\i0  ausgew\'E4hlte  Grafik wird angezeigt, wenn der entsprechende Zustand \i Eins\i0  ist.\par
+\cf12 Achtung:\cf0 e Zustandsgrafiken werden gel\'F6scht.\par \qc
+\pard
+\page
+#{\footnote Defin151}
+Zustandsgrafik auf \b Zustand Wert\b0  umstellen.\par
+Die \i Check-Boxes\i0  stellen eine Zustandskombination dar. Die Grafik wird nur dann angezeigt, wenn die Zustandskombination eintritt.\par
+\cf12 Achtung:\cf0 e Zustandsgrafiken werden gel\'F6scht.\par \qc
+\pard
+\page
+#{\footnote Defin152}
+Einen \b Zustand ausw\'E4hlen\b0 .\par
+Diese Grafik wird angezeigt, wenn der gew\'E4hlte Zustand \i Eins\i0  ist.\par
+Dieses Grafik k\'F6nnen Sie bearbeiten, wenn Sie den \i Button\i0  \b Z. Grafik\b0  anw\'E4hlen.\par
+Die \i Radio-Buttons\i0  sind nur aktiv, wenn \b Z. An\b0  angew\'E4hlt ist.\par \qc
+\pard
+\page
+#{\footnote Defin153}
+Eine \b Zustandskombination ausw\'E4hlen\b0 .\par
+Diese Grafik wird angezeigt, wenn die gew\'E4hlte Zustandskombination eintritt.\par
+Dieses Grafik k\'F6nnen Sie bearbeiten, wenn Sie den \i Button\i0  \b Z. Grafik\b0  anw\'E4hlen.\par
+Die \i Check-Boxes\i0  sind nur aktiv, wenn \b Z. Wert\b0  angew\'E4hlt ist.\par \qc
+\pard
+\page
+#{\footnote Defin154}
+Die ausgew\'E4hlte \b Zustandsgrafik bearbeiten\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin155}
+Die \b Hintergrundgrafik\b0  (die eigentliche Elementgrafik) \b bearbeiten\b0 .\par \qc
+\pard
+\page
+#{\footnote Topic32}
+${\footnote Menüs der Grafik}
+K{\footnote Grafik}
++{\footnote graphic:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Men\'FCs der Grafik\par\pard\tx360\ql \f0\fs24 \{bmc GRCTOBAR.SHG\}\par
+\{bmc GRCTOMEN.SHG\}\par
+In der {\ul Speedbar}{\v Defin19} wird der zum aktuellen Modus korrespondierende Schalter gedr\'FCckt dargestellt.\par
+Im Men\'FC {\ul Zeichnen}{\v Defin168} wird der korrespondierende Men\'FCpunkt mit einem H\'E4kchen versehen.\par
+\par
+\{bmc VIEWBAR.SHG\}\par
+\{bmc GRCVIEW.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin156}
+\{bmc MOVECUR.BMP\}\b Bewegen.\b0 \par
+Dr\'FCckt man die linke Maustaste, so kann man das Grafikelement auf dem sich der Mauszeiger befindet bei gedr\'FCckt gehaltener linker Maustaste an eine neue Position ziehen (\b Positionieren.\b0 ).\par
+W\'E4hrend man ein Grafikelement zieht kann man es durch Dr\'FCcken der rechten Maustaste um 90 Grad drehen.\par
+W\'E4hlt man ein Grafikobjekt durch einen Doppelklick an, so erscheint ein {\uldb objektspezifischer Dialog}{\v Topic33}.\par
+\{bmc EDITCUR.BMP\}Nur im Bewegungsmodus k\'F6nnen Elemente markiert werden. Dies geschieht, wenn Sie die linke Maustaste dr\'FCcken ohne eine Grafikelement zu ber\'FChren.\par
+Sie ziehen dann bei gedr\'FCckt gehaltener linker Maustaste ein Rechteck (\b Markierung: Gr\'F6\'DFe\b0 ). Alle im Rechteck befindlichen Grafikelemente werden markiert. Die alte Markierung wird aufgehoben. Die Markierung wird auch gel\'F6scht, wenn Sie einen Doppelklick mit der linken Maustaste ausf\'FChren.\par
+Die markierten Grafikelemente bewegen Sie genauso wie ein einzelnes. Ebenso k\'F6nnen sie gedreht werden.\par
+\cf12 Region:\cf0  Ja.\par \qc
+\pard
+\page
+#{\footnote Defin157}
+\{bmc DELCUR.BMP\}\b L\'F6schen.\b0 \par
+Sie l\'F6schen ein Element, wenn Sie es mit der linken Maustaste anw\'E4hlen.\par
+\cf12 Region:\cf0  Ja.\par \qc
+\pard
+\page
+#{\footnote Defin158}
+\{bmc LINECUR.BMP\}\b Linie.\b0 \par
+In diesem Modus k\'F6nnen Sie Linien zeichnen.\par
+An der gew\'FCnschten Position die linke Maustaste dr\'FCcken und bei gedr\'FCckt gehaltener linker Maustaste die Linie ziehen (\b Linie: Endpunkt.\b0 ).\par
+\cf12 Region:\cf0  Nein.\par \qc
+\pard
+\page
+#{\footnote Defin159}
+\{bmc TEXTCUR.BMP\}\b Text.\b0 \par
+An der gew\'FCnschten Position des Textes die linke Maustaste dr\'FCcken, danach den Text eingeben.\par
+Siehe auch {\uldb Text-Dialog}{\v Topic30}.\par
+\cf12 Region:\cf0  Nein.\par \qc
+\pard
+\page
+#{\footnote Defin160}
+\{bmc POLYCUR.BMP\}\b Poylgon.\b0 \par
+An gew\'FCnschter Startposition die linke Maustaste dr\'FCcken.\par
+Jeden weiteren Punkt durch dr\'FCcken (nicht ziehen) der linken Maustaste setzen (\b Polygon: Punkte setzen.\b0 ).\par
+Haben Sie alle Punkte gesetzt, so schlie\'DFen Sie das Polygon durch dr\'FCcken der rechten Maustaste.\par
+Der letzte Punkt wird dann automatisch mit dem ersten verbunden.\par
+\cf12 Region:\cf0  Nein.\par \qc
+\pard
+\page
+#{\footnote Defin161}
+\{bmc POLYFCUR.BMP\}\b Poylgon (gef\'FCllt).\b0 \par
+Entspricht {\ul Polygon}{\v Defin160}.\par
+Das Polygon wird schwarz ausgef\'FCllt.\par
+\cf12 Region:\cf0  Ja.\par \qc
+\pard
+\page
+#{\footnote Defin162}
+\{bmc RECTCUR.BMP\}\b Rechteck.\b0 \par
+An der gew\'FCnschten Position des Rechtecks die linke Maustaste dr\'FCcken und bei gedr\'FCckt gehaltener linker Maustaste die Gr\'F6\'DFe des Rechteckes ziehen (\b Rechteck: Gr\'F6\'DFe festlegen.\b0 ).\par
+\cf12 Region:\cf0  Nein.\par \qc
+\pard
+\page
+#{\footnote Defin163}
+\{bmc RECTFCUR.BMP\}\b Rechteck (gef\'FCllt).\b0 \par
+Entspricht {\ul Rechteck}{\v Defin162}.\par
+Das Rechteck wird schwarz ausgef\'FCllt.\par
+\cf12 Region:\cf0  Ja.\par \qc
+\pard
+\page
+#{\footnote Defin164}
+\{bmc ELLICUR.BMP\}\b Ellipse.\b0 \par
+In diesem Modus k\'F6nnen Sie Ellipsen zeichnen.\par
+An der gew\'FCnschten Position die linke Maustaste dr\'FCcken und bei gedr\'FCckt gehaltener linker Maustaste die Gr\'F6\'DFe der Ellipse ziehen (\b Ellipse: Gr\'F6\'DFe festlegen.\b0 ).\par
+\cf12 Region:\cf0  Nein.\par \qc
+\pard
+\page
+#{\footnote Defin165}
+\{bmc ELLIFCUR.BMP\}\b Ellipse (gef\'FCllt).\b0 \par
+Entspricht {\ul Ellipse}{\v Defin164}.\par
+Die Ellipse wird schwarz ausgef\'FCllt.\par
+\cf12 Region:\cf0  Ja.\par \qc
+\pard
+\page
+#{\footnote Defin166}
+\{bmc SEGMCUR.BMP\}\b Ellipsenabschnitt.\b0 \par
+An der gew\'FCnschten Position des Ellipsenabschnitts die linke Maustaste dr\'FCcken und bei gedr\'FCckt gehaltener linker Maustaste die Gr\'F6\'DFe des Ellipsenabschnittes ziehen (\b Ellipsenabschnitt: Gr\'F6\'DFe festlegen.\b0 ).\par
+Dann mit der linken Maustaste den Startwinkel w\'E4hlen (\b Ellipsenabschnitt: Startwinkel.\b0 ) und zum Endwinkel ziehen (\b Ellipsenabschnitt: Endwinkel.\b0 ).\par
+Die letzten beiden Position m\'FCssen und werden im Normalfall nicht auf der Ellipse liegen.\par
+\cf12 Region:\cf0  Nein.\par \qc
+\pard
+\page
+#{\footnote Defin167}
+\{bmc SEGMFCUR.BMP\}\b Ellipsenabschnitt (gef\'FCllt).\b0 \par
+Entspricht {\ul Ellipsenabschnitt}{\v Defin166}.\par
+Der Ellipsenabschnitt wird schwarz ausgef\'FCllt.\par
+\cf12 Region:\cf0  Nein.\par \qc
+\pard
+\page
+#{\footnote Defin168}
+Das \b Zeichnen-Men\'FC\b0 .\par
+Hier k\'F6nnen Sie den Zeichenmodus einstellen.\par \qc
+\pard
+\page
+#{\footnote Topic33}
+${\footnote Objektspezifische Dialoge}
+K{\footnote Objektspezifische Dialoge;Grafik}
++{\footnote graphic:020}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Objektspezifische Dialoge\par\pard\tx360\ql \f0\fs24 \li360{\uldb Linie}{\v Topic34}\par
+{\uldb Text}{\v Topic35}\par
+{\uldb Rechteck}{\v Topic34}\par
+{\uldb Ellipse}{\v Topic34}\par
+{\uldb Kreisabschnitt/Segment}{\v Topic34}\par
+\par
+\li0Polygone k\'F6nnen nachtr\'E4glich nicht ver\'E4ndert werden.\par \qc
+\pard
+\page
+#{\footnote Topic34}
+${\footnote Grafikelement - Dialog}
+K{\footnote Objektspezifische Dialoge;Grafikelement;Linie;Rechteck;Ellipse;Segment;Ellipsenabschnitt}
++{\footnote graphic:021}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Grafikelement - Dialog\par\pard\tx360\ql \f0\fs24 \{bmc GELEDLG.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin169}
+Grafikelement auf \b Linie\b0  umstellen.\par
+Geht nur f\'FCr {\ul Linie}{\v Defin169}, {\ul Rechteck}{\v Defin170} und {\ul Ellipse}{\v Defin171}.\par \qc
+\pard
+\page
+#{\footnote Defin170}
+Grafikelement auf \b Rechteck\b0  umstellen.\par
+Geht nur f\'FCr {\ul Linie}{\v Defin169}, {\ul Rechteck}{\v Defin170} und {\ul Ellipse}{\v Defin171}.\par \qc
+\pard
+\page
+#{\footnote Defin171}
+Grafikelement auf \b Ellipse\b0  umstellen.\par
+Geht nur f\'FCr {\ul Linie}{\v Defin169}, {\ul Rechteck}{\v Defin170} und {\ul Ellipse}{\v Defin171}.\par \qc
+\pard
+\page
+#{\footnote Defin172}
+Grafikelement auf \b Ellipsenabschnitt/Segment\b0  umstellen.\par
+Dient nur der Anzeige, da ein Ellipsenabschnitt in keines der anderen Objekte \'FCberf\'FChrt werden kann\par \qc
+\pard
+\page
+#{\footnote Defin173}
+Ist diese \i Check-Box\i0  angekreuzt, wird das Grafikelement \b gef\'FCllt\b0  dargestellt.\par \qc
+\pard
+\page
+#{\footnote Topic35}
+${\footnote Text - Dialog (Grafik)}
+K{\footnote Objektspezifische Dialoge;Grafikelement;Text}
++{\footnote graphic:022}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Text - Dialog\par\pard\tx360\ql \f0\fs24 \{bmc TEXTDLG.SHG\}\par
+Der Text-Dialog erscheint, wenn man ein Text-Element durch einen Doppelklick anw\'E4hlt.\par \qc
+\pard
+\page
+#{\footnote Topic36}
+${\footnote Bearbeiten (in der Grafik)}
+K{\footnote Grafik;Bearbeiten}
++{\footnote graphic:030}
+\keepn \cf0 \f1\fs48 {\uldb \{bml GRAPHIC.BMP\}}{\v Topic14}\qc Bearbeiten (in der Grafik)\par\pard\tx360\ql \f0\fs24 \li360\{bmc NORMCUR.BMP \} \b Bewegen.\b0 \par
+Dr\'FCckt man die linke Maustaste wenn kein Grafikobjekt ber\'FChrt wird,\par
+\li720\{bmc EDITCUR.BMP \} \b Markierung: Gr\'F6\'DFe.\b0 \par
+so k\'F6nnen Sie (bei gedr\'FCckt gehaltener linker Maustaste) ein Rechteck in der Grafik ziehen. Nachdem Sie die Maustaste wieder losgelassen haben, werden alle Grafikobjekte, die sich in dem Rechteck befinden, markiert. Die vorherige Markierung wird gel\'F6scht.\par
+\li360Die Markierung wird gel\'F6scht, wenn Sie einen Doppelklick mit der linken Maustaste durchf\'FChren, ohne ein Grafikobjekt zu ber\'FChren.\par
+\par
+\li360\{bmc MOVECUR.BMP \} \b Positionieren.\b0 \par
+Der Mauszeiger zeigt gerade auf ein markiertes Grafikobjekt. Alle markierten Grafikobjekte werden gleichzeitig bewegt. W\'E4hrend des Verschiebens (bei gedr\'FCckter linker Maustaste) kann der ganze Block der markierten Grafikobjekte durch dr\'FCcken der rechten Maustaste um 90\'B0 im Uhrzeigersinn gedreht werden.\par
+\par
+\li0\{bmc EDITBAR.SHG\}\par
+\{bmc EDITMENU.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin174}
+Ein \b Eingang\b0 .\par
+Die Ziffer am Pfeil gibt die Eingangsnummer an.\par \qc
+\pard
+\page
+#{\footnote Defin175}
+Ein \b Ausgang\b0 .\par
+Die Ziffer am Pfeil gibt die Ausgangsnummer an.\par \qc
+\pard
+\page
+#{\footnote Topic37}
+${\footnote Menüs der Ein-/Ausgänge}
+K{\footnote Eingang;Ausgang}
++{\footnote inout:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic27}\qc Men\'FCs der Ein-/Ausg\'E4nge\par\pard\tx360\ql \f0\fs24 \{bmc VIEWBAR.SHG\}\par
+\{bmc GRCVIEW.SHG\}\par
+\par
+\{bmc POSBAR.SHG\}\par \qc
+\pard
+\page
+#{\footnote Defin176}
+In dieser \i Check-Box\i0  legt man die Basisbelegung der einzelnen \b Zust\'E4nde\b0  fest.\par
+Ein angekreuztes K\'E4stchen bedeutet Eins, ein leeres K\'E4stchen bedeutet Null.\par
+Durch anklicken des jeweiligen K\'E4stchens wird sein Zustand gekippt, d.h. aus angekreuzt (Eins) wird leer (Null) und aus leer (Null) wird angekreuzt (Eins).\par \qc
+\pard
+\page
+#{\footnote Defin177}
+In dieser \i Check-Box\i0  legt man die Basisbelegung der einzelnen \b Eing\'E4nge\b0  fest.\par
+Ein angekreuztes K\'E4stchen bedeutet Eins, ein leeres K\'E4stchen bedeutet Null.\par
+Durch anklicken des jeweiligen K\'E4stchens wird sein Zustand gekipt, d.h. aus angekreuzt (Eins) wird leer (Null) und aus leer (Null) wird angekreuzt (Eins).\par \qc
+\pard
+\page
+#{\footnote Topic38}
+${\footnote Tabelle - Dialog}
+K{\footnote Tabelle;Element;Eingabe;Ausgabe}
++{\footnote io:010}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic28}\qc Tabelle - Dialog\par\pard\tx360\ql \f0\fs24 \{bmc TABDLG.SHG\}\par
+W\'E4hrend der {\uldb Simulation}{\v Topic16} einer {\uldb Schaltung}{\v Topic6} wird mit Hilfe der Funktionstabelle einer Eingangs- und Zustandsbelegung eine Ausgangs- und Zustandsbelegung zugeordnet.\par
+\cf12 Achtung:\cf0  Es k\'F6nnen nur Elemente mit h\'F6chstens 10 Eing\'E4ngen, Zust\'E4nden und Ausg\'E4ngen mit der Funktionstabelle modelliert werden. Allerdings wird die Funktionstabelle ab 32 Eintr\'E4gen sehr un\'FCbersichtlich.\par \qc
+\pard
+\page
+#{\footnote Topic39}
+${\footnote Bool - Dialog}
+K{\footnote Bool;Element;Eingabe;Ausgabe}
++{\footnote io:020}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic28}\qc Bool - Dialog\par\pard\tx360\ql \f0\fs24 \{bmc BOOLDLG.SHG\}\par
+Ein \i Bool\i0 -Element wird quasi programmiert. Die Ein-/Ausgabefunktion wird mit einem Skript realisiert.\par
+Die Programmiersprache orientiert sich an den Funktionen der Boolschen Algebra.\par
+Es sind nur 1- und 2-stellige Operanden und Konstanten vorhanden.\par
+\par
+Eine \b Zeile\b0  hat folgendes Format:\par
+\li360\i Term\i0  = \i Variable\i0   \cf12 Achtung:\cf0  hier ist kein Eingang erlaubt.\par
+\par
+\li0\b Variable\b0 :\par
+\li360xxR - xx ist eine Nummer in 2-stelligem hexadezimalen Format, \i R\i0  ist ein \i Register\i0 \par
+\par
+\li0Es gibt vier \b Register\b0 :\par
+{\pard\tx800\tx2400\li360}1)\tab  \b \f3\fs24 e\b0 \f0\fs24  oder \b \f3\fs24 i\b0 \f0\fs24 \tab \i Eingang\i0  oder \i Input\i0 \par
+2)\tab  \b \f3\fs24 a\b0 \f0\fs24  oder \b \f3\fs24 o\b0 \f0\fs24 \tab \i Ausgang\i0  oder \i Output\i0 \par
+3)\tab  \b \f3\fs24 z\b0 \f0\fs24  oder \b \f3\fs24 s\b0 \f0\fs24 \tab \i Zustand\i0  oder \i State\i0 \par
+4)\tab  \b \f3\fs24 m\b0 \f0\fs24 \tab \i Merke\i0  oder \i Memory\i0 \par
+\li0Schreibt man einen Registernamen \i gro\'DF\i0 , so wird der \i negative Registerinhalt\i0  zur\'FCckgegeben.\par
+Auch bei der Zuordnung kann ein Register gro\'DF geschrieben werden, das hat allerdings keineerlei Auswirkungen.\par
+\par
+Der \b Term\b0 :\par
+{\li360}0a)\tab \b \f3\fs24 f\b0 \f0\fs24 \tab Konstante f\'FCr \i Falsch\i0  oder \i False\i0 \par
+0b)\tab \b \f3\fs24 w\b0 \f0\fs24  oder \b \f3\fs24 t\b0 \f0\fs24 \tab Konstante f\'FCr \i Wahr\i0 \par
+1)\tab \i Term\i0 \b \f3\fs24 -\b0 \f0\fs24  oder \b \f3\fs24 !\b0 \f0\fs24 \tab \i Negation\i0  entspricht: \f4\fs24 \'D8\f0\fs24 (\i Term\i0 )\par
+2)\tab \i Term\i0  op \i VarKonst\i0 \tab ein zweistelliger Operator, entspricht: (\i Term\i0 ) op \i VarKonst\i0 \line Die vorhandenen 2-stelligen Operatoren\par
+\pard\tx2400\li720\'95  \b \f3\fs24 +\b0 \f0\fs24  oder \b \f3\fs24 |\b0 \f0\fs24 \tab logisches \i Oder\i0  oder \i OR\i0 \par
+\'95  \b \f3\fs24 *\b0 \f0\fs24  oder \b \f3\fs24 &\b0 \f0\fs24 \tab logisches \i Und\i0  oder \i AND\i0 \par
+\'95  \b \f3\fs24 @\b0 \f0\fs24 \tab \i negiertes Oder\i0  oder \i NOR\i0 \par
+\'95  \b \f3\fs24 \'A7\b0 \f0\fs24 \tab \i negiertes Und\i0  oder \i NAND\i0 \par
+\'95  \b \f3\fs24 x\b0 \f0\fs24  oder \b \f3\fs24 ^\b0 \f0\fs24 \tab \i exklusives Oder\i0  bzw. \i Antivalenz\i0  oder \i XOR\i0 \par
+\'95  \b \f3\fs24 >\b0 \f0\fs24 \tab \i Implikation\i0  (\i Term\i0 )\f4\fs24 \'AE\f0\fs24 \i VarKonst\i0 \par
+\'95  \b \f3\fs24 <\b0 \f0\fs24 \tab \i Implikation\i0  (\i Term\i0 )\f4\fs24 \'AC\f0\fs24 \i VarKonst\i0 \par
+\'95  \b \f3\fs24 ~\b0 \f0\fs24 \tab \i \'C4quivalenz\i0  (\i Term\i0 )\f4\fs24 \'AB\f0\fs24 \i VarKonst\i0 \par
+\pard\i VarKonst\i0  ist eine \i Variable\i0  oder eine \i Konstante\i0 .\par
+Operanden, die mit Buchstaben dargestellt werden, k\'F6nnen auch mit dem entsprechenden Gro\'DFbuchstaben dargestellt werden.\par
+\par
+Ein \b Kommentar\b0  wird mit dem Schr\'E4gstrich \b \f3\fs24 /\b0 \f0\fs24  eingeleitet. Alles, was hinter einem Schr\'E4gstrich steht wird ignoriert.\par
+\par
+Best\'E4tigt man den Dialog mit \b OK\b0 , so wird vor Beenden des Dialoges noch eine {\uldb Syntax\'fcberpr\'fcfung}{\v Topic41} durchgef\'FChrt.\par \qc
+\pard
+\page
+#{\footnote Defin178}
+Alle Tabelleneintr\'E4ge mit \b Null\b0  initialisieren.\par \qc
+\pard
+\page
+#{\footnote Defin179}
+Alle Tabelleneintr\'E4ge mit \b Eins\b0  initialisieren.\par \qc
+\pard
+\page
+#{\footnote Defin180}
+Einen \b Eingang hinzuf\'FCgen\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin181}
+Einen \b Eingang l\'F6schen\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin182}
+Einen \b Ausgang hinzuf\'FCgen\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin183}
+Einen \b Ausgang l\'F6schen\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin184}
+Einen \b Zustand hinzuf\'FCgen\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin185}
+Einen \b Zustand l\'F6schen\b0 .\par \qc
+\pard
+\page
+#{\footnote Defin186}
+\b Zustandsbelegung\b0  \'FCber \i Check-Boxes\i0  einstellen.\par
+Die \i Check-Boxes\i0  zeigen die Zustandsbelegung des aktuellen Tabelleneintrags an.\par
+Durch Ver\'E4ndern der \i Check-Boxes\i0  w\'E4hlt man einen Tabelleneintrag aus.\par \qc
+\pard
+\page
+#{\footnote Defin187}
+\b Eingangsbelegung\b0  \'FCber \i Check-Boxes\i0  einstellen.\par
+Die \i Check-Boxes\i0  zeigen die Eingangssbelegung des aktuellen Tabelleneintrags an.\par
+Durch Ver\'E4ndern der \i Check-Boxes\i0  w\'E4hlt man einen Tabelleneintrag aus.\par \qc
+\pard
+\page
+#{\footnote Defin188}
+\b Ausgangsbelegung\b0  \'FCber \i Check-Boxes\i0  einstellen.\par
+Die \i Check-Boxes\i0  zeigen die Ausgangsbelegung der Ausgabe an.\par
+Durch Ver\'E4ndern der \i Check-Boxes\i0  ver\'E4ndert man die Ausgabe.\par \qc
+\pard
+\page
+#{\footnote Defin189}
+\b Zustandsbelegung\b0  \'FCber \i Check-Boxes\i0  einstellen.\par
+Die \i Check-Boxes\i0  zeigen die Zustandsbelegung der Ausgabe an.\par
+Durch Ver\'E4ndern der \i Check-Boxes\i0  ver\'E4ndert man die Ausgabe.\par \qc
+\pard
+\page
+#{\footnote Defin190}
+Die \b Funktionstabelle\b0 .\par
+Ein Eintrag der Tabelle kann mit der {\ul Scrollbar}{\v Defin26} und durch anklicken mit der linken Maustaste oder \'FCber die links stehenden \i Check-Boxes\i0  {\ul Zustandsbelegung}{\v Defin186} und {\ul Eingangsbelegung}{\v Defin187} ausgew\'E4hlt werden.\par
+Der Eintrag wird dann mit den rechts stehenden \i Check-Boxes\i0  {\ul Ausgangsbelegung}{\v Defin188} und {\ul Zustandsbelegung}{\v Defin189} angezeigt und ver\'E4ndert werden.\par \qc
+\pard
+\page
+#{\footnote Topic40}
+${\footnote Zeiten - Dialog}
+K{\footnote Zeiten;Tabelle}
++{\footnote io:015}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic28}\qc Zeiten - Dialog\par\pard\tx360\ql \f0\fs24 \{bmc TIMEDLG.SHG\}\par
+In diesem Dialog werden die Reaktionszeiten der Ausg\'E4nge eingestellt.\par
+Nullzeiten sind nicht zugelassen, es sind also keine idealen Gatter m\'F6glich.\par
+Ideale Gatter w\'FCrden zu einer Endlosschleife in der Simulation f\'FChren, wenn sie r\'FCckgekoppelt w\'E4ren.\par \qc
+\pard
+\page
+#{\footnote Defin191}
+Alle Zeiten mit \b Eins\b0  initialisieren.\par \qc
+\pard
+\page
+#{\footnote Defin192}
+Alle Zeiten mit \b Zehn\b0  initialisieren.\par \qc
+\pard
+\page
+#{\footnote Defin193}
+Die \b Reaktionszeit\b0  eines Ausganges in {\uldb Zeitraster}{\v Topic11}-Einheiten.\par
+Siehe auch: {\uldb Zahl-Dialog}{\v Topic30}\par \qc
+\pard
+\page
+#{\footnote Defin195}
+Information: \b Keine Fehler entdeckt.\b0 \par \qc
+\pard
+\page
+#{\footnote Defin196}
+\b Anzahl der Eingangsregister\b0 .\par
+Die Anzahl kann \'FCber die vertikale Scrollbar oder mit Hilfe des Eingabefeldes eingegeben werden.\par
+Es k\'F6nnen Werte \'FCber die Zwischenablage kopiert werden:\par
+\li360\tx1440\b Strg+Einfg\b0 \tab in die Zwischenablage kopieren\par
+\b Umschalt+Einfg\b0 \tab aus der Zwischenablage einf\'FCgen\par
+\b Umschalt+Entf\b0 \tab in die Zwischenablage entfernen\par
+\li0Kopiert bzw. entfernt werden markierte Textbereiche.\par
+Textbereiche werden markiert, indem man bei gedr\'FCckter Umschalt-Taste den Cursor mit den Cursor-Tasten bewegt.\par
+Beim einf\'FCgen wird markierter Text \'FCberschrieben.\par \qc
+\pard
+\page
+#{\footnote Defin197}
+\b Anzahl der Ausgangsregister\b0 .\par
+Die Anzahl kann \'FCber die vertikale Scrollbar oder mit Hilfe des Eingabefeldes eingegeben werden.\par
+Es k\'F6nnen Werte \'FCber die Zwischenablage kopiert werden:\par
+\li360\tx1440\b Strg+Einfg\b0 \tab in die Zwischenablage kopieren\par
+\b Umschalt+Einfg\b0 \tab aus der Zwischenablage einf\'FCgen\par
+\b Umschalt+Entf\b0 \tab in die Zwischenablage entfernen\par
+\li0Kopiert bzw. entfernt werden markierte Textbereiche.\par
+Textbereiche werden markiert, indem man bei gedr\'FCckter Umschalt-Taste den Cursor mit den Cursor-Tasten bewegt.\par
+Beim einf\'FCgen wird markierter Text \'FCberschrieben.\par \qc
+\pard
+\page
+#{\footnote Defin198}
+\b Anzahl der Zustandsregister\b0 .\par
+Die Zustandsregister werden intern abgespeichert und sind w\'E4hrend der gesamten Simulation g\'FCltig.\par
+Die Anzahl kann \'FCber die vertikale Scrollbar oder mit Hilfe des Eingabefeldes eingegeben werden.\par
+Es k\'F6nnen Werte \'FCber die Zwischenablage kopiert werden:\par
+\li360\tx1440\b Strg+Einfg\b0 \tab in die Zwischenablage kopieren\par
+\b Umschalt+Einfg\b0 \tab aus der Zwischenablage einf\'FCgen\par
+\b Umschalt+Entf\b0 \tab in die Zwischenablage entfernen\par
+\li0Kopiert bzw. entfernt werden markierte Textbereiche.\par
+Textbereiche werden markiert, indem man bei gedr\'FCckter Umschalt-Taste den Cursor mit den Cursor-Tasten bewegt.\par
+Beim einf\'FCgen wird markierter Text \'FCberschrieben.\par \qc
+\pard
+\page
+#{\footnote Defin199}
+\b Anzahl der Merkeregister\b0 .\par
+Die Merkeregister werden intern nicht abgespeichert. Sie sind nur Zwischenspeicher w\'E4hrend der Berechnung des neuen Zustandes und der Ausgabe. Sie ersetzen die Klammerung.\par
+Die Anzahl kann \'FCber die vertikale Scrollbar oder mit Hilfe des Eingabefeldes eingegeben werden.\par
+Es k\'F6nnen Werte \'FCber die Zwischenablage kopiert werden:\par
+\li360\tx1440\b Strg+Einfg\b0 \tab in die Zwischenablage kopieren\par
+\b Umschalt+Einfg\b0 \tab aus der Zwischenablage einf\'FCgen\par
+\b Umschalt+Entf\b0 \tab in die Zwischenablage entfernen\par
+\li0Kopiert bzw. entfernt werden markierte Textbereiche.\par
+Textbereiche werden markiert, indem man bei gedr\'FCckter Umschalt-Taste den Cursor mit den Cursor-Tasten bewegt.\par
+Beim einf\'FCgen wird markierter Text \'FCberschrieben.\par \qc
+\pard
+\page
+#{\footnote Defin200}
+Das \b Eingabefeld\b0 .\par
+Hier geben Sie Ihr Programm f\'FCr das Element ein. Das Programm legt die Zustand/Eingang-Ausgang/Zustand - Funktion fest.\par
+Die Reaktionszeiten werden aus den Termen berechnet. Jeder Operator hat die Verz\'F6gerung von \i einer Zeitraster-Einheit\i0 . Es k\'F6nnen also gleiche Bausteine verschiedene Reaktionszeiten haben, je nach Realisierung.\par
+Es kann Text \'FCber die Zwischenablage kopiert werden:\par
+\li360\tx1440\b Strg+Einfg\b0 \tab in die Zwischenablage kopieren\par
+\b Umschalt+Einfg\b0 \tab aus der Zwischenablage einf\'FCgen\par
+\b Umschalt+Entf\b0 \tab in die Zwischenablage entfernen\par
+\li0Kopiert bzw. entfernt werden markierte Textbereiche.\par
+Textbereiche werden markiert, indem man bei gedr\'FCckt gehaltener Umschalt-Taste den Cursor mit den Cursor-Tasten bewegt.\par
+Beim Einf\'FCgen wird markierter Text \'FCberschrieben.\par \qc
+\pard
+\page
+#{\footnote Topic41}
+${\footnote Syntaxüberprüfung}
+K{\footnote Syntax;Bool}
++{\footnote io:022}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic39}\qc Syntax\par\pard\tx360\ql \f0\fs24 Die \b Syntax-\'DCberpr\'FCfung\b0  pr\'FCft auf:\par
+\li360\'95 Korrekt geschriebene Operatoren.\par
+\'95 Registernummern d\'FCrfen nicht gr\'F6\'DFer als die eingestellte Anzahl der Register sein.\par
+\par
+\li0\{bmc SYNTAXNE.SHG\}\par
+Kein Fehler.\par
+\par
+\{bmc SYNTAXER.SHG\}\par
+Es wurde ein Fehler entdeckt.\par
+In der Titelzeile steht die Position des Fehlers. Bewegen Sie den Cursor in die entsprechende Zeile.\par
+Der Fehler ist dann vor dem Text aufgetreten, der zwischen den beiden Hochkommata steht '\i Text\i0 '.\par
+\par
+Die Liste der Fehlermeldungen:\par
+\li360\'95  \b Keine Registerkennung!\b0 \par
+\li720Es wurde eine \i Variable\i0  erwartet. Die Registernummer ist korrekt, die Kennung gibt es aber nicht.\par
+\cf2 Beheben:\cf0  Geben Sie eine korrekte Kennung ein, siehe {\uldb Bool-Dialg -> Register}{\v Topic39}.\par
+\li360\'95  \b Einem Eingang kann kein Wert zugewiesen werden.\b0 \par
+\li720Sie haben einem Eingang einen Wert zugewiesen. Rechts vom Gleichheitszeichen darf kein Eingang stehen.\par
+\cf2 Beheben:\cf0  Geben Sie eine korrekte Kennung ein, siehe {\uldb Bool-Dialog -> Register}{\v Topic39}.\par
+\li360\'95  \b Auf einen Ausgang darf nicht lesend zugegriffen werden.\b0 \par
+\li720Der Wert eines Ausganges kann nicht gesetzt sondern nur gelesen werden.\par
+\cf2 Beheben:\cf0  Geben Sie eine korrekte Kennung ein, siehe {\uldb Bool-Dialog -> Register}{\v Topic39}.\par
+\li360\'95  \i Register\i0 \b  nicht vorhanden.\b0 . (\b Eingang\b0 , \b Ausgang\b0 , \b Zustand\b0  oder \b Merke\b0 )\par
+\li720Sie haben auf ein Register zugegriffen, das es nicht gibt.\par
+\cf2 Beheben:\cf0  Entweder Sie korrigieren die Registernummer oder Sie erh\'F6hen die Anzahl der Register des angegebenen Typs.\par
+\li360\'95  \b Doppelte Zuweisung!\b0 \par
+\li720Einem Ausgang oder Zustand wurde schon weiter oben im Skript ein Wert zugewiesen.\par
+\cf2 Beheben:\cf0  \'C4ndern oder entfernen Sie eine der Zuweisungen.\par
+Ein Zustand sollte nicht als tempor\'E4rer Zwischenspeicher in einer Rechnung benutzt werden, benutzen Sie ein Merkeregister.\par
+\li360\'95  \b Syntaxfehler!\b0 \par
+\li720Ein allgemeiner Syntaxfehler.\par
+\cf2 Beheben:\cf0  Tippfehler beseitigen. Die Syntaxbeschreibung nochmals durchlesen ({\uldb Bool-Dialog}{\v Topic39}).\par \qc
+\pard
+\page
+#{\footnote Defin201}
+Stop: \b Fehlermeldung\b0 .\par \qc
+\pard
+\page
+#{\footnote Topic46}
+${\footnote Wie erstelle ich eine Elementdatei ?}
+K{\footnote Wie geht das ?;Elementdatei}
++{\footnote howtodo:030}
+\keepn \cf0 \f1\fs48 {\uldb \{bml LOKON.BMP\}}{\v Topic43}\qc Wie erstelle ich eine Elementdatei ?\par\pard\tx360\qc \f1\fs32 \b Ein neues Elementdateifenster\b0 \par
+\ql \f0\fs24 Zun\'E4chst brauchen Sie ein Arbeitsfenster f\'FCr Ihre Elementdatei.\par
+\{bmc HOWNEWEL.SHG\}\par
+Hierf\'FCr w\'E4hlen Sie im Men\'FC \i Datei\i0  das Untermen\'FC \i Neu\i0  an.\par
+In diesem Men\'FC w\'E4hlen Sie den Men\'FCpunkt \i Elementdatei\i0  aus.\par
+\{bmc HOWELE.SHG\}\par
+Es erscheint nun ein neues Elementdateifenster. Dieses tr\'E4gt den Titel \i Elemente\i0 .\par
+\par
+\qc \f1\fs32 \b Ein neues Element erstellen\b0 \par
+\ql \f0\fs24 Es gibt zwei verschiedene Element-Typen. Diese Unterscheiden sich in der Realisierung der Ausgangs- und \'DCbergangsfunktion.\par
+\{bmc heletab.shg\}\par
+Um ein Element vom Typ Tabelle zu erstellen, w\'E4hlen Sie in der Speedbar den {\ul \{bmc newtab.bmp\}}{\v Defin139} Button aus. Sie k\'F6nnen auch den obigen Men\'FCpunkt  aufrufen.\par
+ \{bmc helebool.shg\}\par
+Um ein Element vom Typ Bool zu erstellen, w\'E4hlen Sie den \{bmc newbool.bmp\} Button oder den obigen Men\'FCpunkt.\par
+\par
+\{bmc TEXTINPU.SHG\}\par
+Es erscheint dann ein Text-Dialog, mit dem Sie Ihrem neuen Element einen Namen geben.\par
+Das neue Element erscheint in der Elementliste hinter dem zuletzt ausgew\'E4hlten Element.\par
+Der Index des neuen Elementes ist um Eins gr\'F6\'DFer als der bisher gr\'F6\'DFte Index der Elementdatei.\par
+\par
+\qc \f1\fs32 \b Ein-/Ausgabe\b0 \par
+\ql \f0\fs24 Das gew\'FCnschte Element durch einfaches Anklicken in der Elementliste ausw\'E4hlen. Nun gibt es drei M\'F6glichkeiten:\par
+\li360\'95 Im Men\'FC \i Element\i0  den Men\'FCpunkt \i Ein-/Ausgabe\i0  anw\'E4hlen.\par
+\'95 Den {\uldb \{bmc inout.bmp\}}{\v Topic28} Button dr\'FCcken.\par
+\'95 Die Tastenkombination \i Strg+A\i0  dr\'FCcken.\par
+\li0Welcher Dialog dann erscheint, h\'E4ngt vom Elementtyp des ausgew\'E4hlten Elementes ab.\par
+Alles weitere steht im Thema {\uldb Ein-/Ausgabe}{\v Topic28}.\par
+\par
+F\'FCr jedes Element m\'FCssen Sie weiterhin eine {\uldb Grafik}{\v Topic14} erstellen und seine {\ul Region}{\v Defin141} festlegen.\par
+Weiterhin sind die Positionen der {\uldb Ein- und Ausg\'e4nge}{\v Topic27} zu setzen und die {\uldb Basisbelegung}{\v Topic29} ist anzugeben.\par
+\par
+Wie Sie das tun k\'F6nnen steht im Thema {\uldb Men\'fcs der Elementdatei}{\v Topic26}.\par
+\par
+Dort steht auch, wie man Elemente l\'F6scht und umbenennt.\par
+\par
+\qc \f1\fs32 \b Eine Elementdatei in einer Schaltung verwenden\b0 \par
+\ql \f0\fs24 Eine Elementdatei kann nicht direkt in einer Schaltung eingebunden werden.\par
+Sie m\'FCssen zuerst einen neuen Alias erzeugen, dem Sie Ihre Datei zuordnen. Danach binden sie Ihre Datei \'FCber diesen Alias in eine Schaltung ein.\par
+N\'E4heres steht im Thema {\uldb Element-Dateien}{\v Topic10}.\par
+\par
+\qc \f1\fs32 \b Der Index und kompatible Elementdateien\b0 \par
+\ql \f0\fs24 Der Index eines Elementes mu\'DF innerhalb einer Elementdatei eindeutig sein.\par
+Sollen zwei Elementdateien zueinander kompatibel sein, d.h. sie k\'F6nnen \'FCber den gleichen Aliasnamen im Dialog {\uldb Element-Dateien}{\v Topic10} eingebunden werden, so m\'FCssen korrespondierende Elemente den gleichen Index haben, die Namen m\'FCssen nicht \'FCbereinstimmen. Auch die Grafik, Region und die Lage der Ein- und Ausg\'E4nge d\'FCrfen abweichen. Der Elementtyp ist ebenfalls egal.\par
+\'DCbereinstimmen mu\'DF der Index und die Anzahl der Ein- und Ausg\'E4nge.\par \qc
+\pard
+\page
+#{\footnote eleMacro}
+${\footnote Makro - Schaltung}
+K{\footnote Makro;Element;Eingabe;Ausgabe;Schaltung}
++{\footnote io:030}
+\keepn \cf0 \f1\fs48 {\uldb \{bml ELEFILE.BMP\}}{\v Topic28}\qc Makro - Schaltung\par\pard\tx360\ql \f0\fs24 \{bmc MACROCIR.SHG\}\par
+W\'E4hrend der {\uldb Simulation}{\v Topic16} werden die Eingangssignale an das Element weitergegeben. Genauso werden die Ausgangssignale an die \'FCbergeordnete Schaltung weitergereicht.\par
+Mit Hilfe der Zust\'E4nde kann das Element sein Aussehen (Grafik) ver\'E4ndern.\par \qc
+\pard
+\page
+#{\footnote macroIn}
+Eing\'E4nge.\par
+Hier werden die Eing\'E4nge angeschlossen und die Anzahl der Eing\'E4nge festgelegt.\par \qc
+\pard
+\page
+#{\footnote macroOut}
+Ausg\'E4nge.\par
+Hier werden die Ausg\'E4nge angeschlossen und die Anzahl der Ausg\'E4nge festgelegt.\par \qc
+\pard
+\page
+#{\footnote macroState}
+Zust\'E4nde.\par
+Hier werden die Zust\'E4nde angeschlossen und die Anzahl der Zust\'E4nde festgelegt.\par \qc
+\pard
+\page
+}

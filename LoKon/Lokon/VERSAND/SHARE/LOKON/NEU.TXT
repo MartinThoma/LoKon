@@ -1,0 +1,18 @@
+Exxx: Fehlerbeschreibung eines Fehlers, der BESEITIGT wurde!
+Dxxx: Beschreibung eines Entwicklungsvorschlags, der eingebaut wurde.
+
+     LoKon V2.2      14.05.1997
+     ----------
+
+D154: Neue Grafikfunktion: Zeichnen->Blockelement
+D155: Mehr TTL-Bausteine
+E126: Memory leak beim Ausdruck.
+
+     LoKon V2.1      12.03.1997
+     ----------
+
+D151: Elementdatei Elements erweitert.
+D152: Neue Elementdatei Elements2.
+D153: Neue Elementdatei TTL.
+E113: Zeitraster! Speedbar button wird nicht aktiviert.
+D150: l„ngere Elementnamen

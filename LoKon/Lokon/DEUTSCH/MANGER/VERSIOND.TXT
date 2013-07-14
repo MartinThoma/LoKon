@@ -1,0 +1,26 @@
+Weitere Versionen
+*****************
+
+# Version pur 1.9
+
+- Gegenüber der Vollversion von LoKon können mit 
+  LoKon pur keine Elementdateien erstellt oder editiert 
+  werden. Ansonsten entspricht die Funktionalität.
+- Registriergebühren: 35 DM
+
+# Version mini 1.9
+
+- Zum Einstieg in die Materie der digitalen Schaltungen. 
+  Elementdateien können weder erstellt, noch editiert werden. 
+  Die Schaltungsgröße ist beschränkt.
+- Registriergebühren: 10 DM
+
+Geplante Updates
+****************
+
+# Version 2.0:
+
+- Eine Schaltung zu einem Element zusammenfassen.
+  Dadurch wird es möglich, kompliziertere Schaltungen 
+  wie zum Beispiel einen kleinen Mikroprozessor aufzubauen.
+- Eine echte OS/2 und eine echte Windows95/Windows NT Version.

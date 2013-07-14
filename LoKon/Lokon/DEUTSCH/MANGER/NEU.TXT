@@ -1,0 +1,2 @@
+- Windows95 und OS/2 konform und getestet.
+- Anzeigen der letzten Dateien im Dateimenü.

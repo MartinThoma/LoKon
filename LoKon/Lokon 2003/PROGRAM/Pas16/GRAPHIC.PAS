@@ -1,0 +1,2371 @@
+unit Graphic;
+{$I define.inc}
+
+interface
+
+uses
+  LK_Const,
+  Messages,
+  Strings,
+  Objects,
+  WinTypes, WinProcs,
+  OWindows,
+  OWinEx, ScrolOrg,
+  Paint,
+  EleWinCh;
+
+type
+  tPolyRec = record
+    NumPos, NumPt : Integer;
+    Pt : array [0..MaxPolyPoints-1] of tPoint;
+  end;
+
+type
+  pGraphic = ^tGraphic;
+
+  pPaintWindow = ^tPaintWindow;
+  tPaintWindow = object ( tEleWinChild )
+    Bg, Graphic : pGraphic;
+    EditStart : Integer;
+    constructor Init(
+      xName : pChar; xParent : pWindowsObject;
+      xBg, xGraphic : pGraphic; i : Integer);
+    destructor Done; virtual;
+    procedure GetWindowClass(var AWndClass: TWndClass); virtual;
+    function GetClassName : pChar; virtual;
+    procedure SetupWindow; virtual;
+    procedure MSGraphicTool(var Msg : tMessage);
+      virtual ms_GraphicTool;
+    procedure MDI_Menu(b : Boolean); virtual;
+    procedure MDI_Act; virtual;
+    procedure SetCursorOfState(xState : Integer); virtual;
+    procedure EndDrag;
+    procedure Paint(PaintDC: HDC; var PaintInfo: TPaintStruct); virtual;
+    procedure WMMouseMove(var Msg : tMessage);
+      virtual wm_First + wm_MouseMove;
+    procedure WMLButtonDown(var Msg : tMessage);
+      virtual wm_First + wm_LButtonDown;
+    procedure WMLButtonUp(var Msg : tMessage);
+      virtual wm_First + wm_LButtonUp;
+    procedure WMRButtonDown(var Msg : tMessage);
+      virtual wm_First + wm_RButtonDown;
+    procedure WMLButtonDblClk(var Msg : tMessage);
+      virtual wm_First + wm_LButtonDblClk;
+    procedure msZoomAll(var Msg : tMessage);
+      virtual ms_ZoomAll;
+    procedure msExport(var Msg : tMessage);
+      virtual ms_Export;
+    procedure CalcEdit(R : tRect); virtual;
+    procedure DelEdit; virtual;
+    function IsEditEmpty : Boolean; virtual;
+    procedure InvertEdit(PaintDC : HDC); virtual;
+    procedure cmEditCopy(var Msg : tMessage);
+      virtual cm_First + cm_EditCopy;
+    procedure cmEditPaste(var Msg : tMessage);
+      virtual cm_First + cm_EditPaste;
+    procedure cmEditDelete(var Msg : tMessage);
+      virtual cm_First + cm_EditDelete;
+    procedure cmHelpContext(var Msg : tMessage);
+      virtual cm_First + cm_HelpContext;
+  end;
+
+{type
+  pGraphic = ^tGraphic;}
+  tGraphic = object (tObject)
+    GraphicSize : Integer;
+    Graphic : pIntegerArray;
+    constructor Init;
+    destructor Done; virtual;
+    constructor Load(var S : tStream);
+    procedure Store(var S : tStream);
+    procedure InsertInteger(i : Integer);
+    procedure SetInteger(Pos, i : Integer);
+    procedure Insert2Byte(i, j : Byte);
+    procedure InsertPoint(X, Y : Integer);
+    procedure InsertPoint_(xPoint : tPoint);
+    procedure InsertRect(xRect : tRect);
+    function GraphicEleRgn(
+      Start : Integer; var Rgn : hRgn; Direction : Shortint) : Integer;
+    function SelectGraphicPt_(Pt : tPoint; var Start : Integer) : Integer;
+    function GraphicMove(i, j, l : Integer) : Integer;
+    procedure SelectGraphicPt(Pt : tPoint; var Start : Integer);
+    procedure DeleteGraphic(Start : Integer);
+    procedure NotDraw(i : Integer; PaintDC : hDC; Direction : Shortint);
+    procedure Paint(PaintDC : HDC; Direction : Shortint);
+    procedure Paint_(PaintDC : HDC; Direction : Shortint);
+    procedure PaintRgn(PaintDC : HDC; Direction : Shortint);
+    function CalcRgn(Direction : Shortint) : hRgn;
+    procedure ChangeGraphic(
+      xName : pChar; xParent : pWindowsObject;
+      xBg : pGraphic; i : Integer);
+    procedure ChangeRegion(
+      xName : pChar; xParent : pWindowsObject;
+      xBg : pGraphic; i : Integer);
+  end;
+
+implementation
+
+const
+  dsBlockLen = 9;
+
+{ ------ tGraphicBlockDlg ----------------------------------------------- }
+
+type
+  pGraphicBlockDlg = ^tGraphicBlockDlg;
+  tGraphicBlockDlg = object (tDialogSB)
+    Graphic : pIntegerArray;
+    Graphic_ : pGraphic;
+    start : integer;
+    FontData : tFontData;
+    constructor Init(
+      xParent : pWindowsObject; xGraphic : pGraphic; xstart : integer);
+    procedure SetupWindow; virtual;
+    procedure idFont(var Msg : tMessage); virtual id_First + 120;
+    procedure idUpdate(var Msg : tMessage); virtual id_First + 190;
+    procedure Update;
+    procedure OK(var Msg : tMessage); virtual id_First + id_OK;
+(*    procedure CMHelp(var Msg : tMessage);
+      virtual CM_FIRST + CM_HELPCONTEXT;*)
+  end;
+
+{ ------ tPaintWindow --------------------------------------------------- }
+
+constructor tPaintWindow.Init(
+      xName : pChar; xParent : pWindowsObject;
+      xBg, xGraphic : pGraphic; i : Integer);
+begin
+  inherited Init(xParent, xName);
+  Attr.Style :=
+    ws_Child or
+    ws_Visible or ws_ClipSiblings or
+    ws_SysMenu or ws_Border or
+    ws_VScroll or ws_HScroll;
+  State := ds_Line;
+  SetCursorActState;
+  FontData := FontDataOpt;
+  Bg := xBg;
+  Graphic := xGraphic;
+  IsRasterPos := False;
+  EditStart := $7fff;
+end;
+
+destructor tPaintWindow.Done;
+begin
+  if NotClose then
+    SendMessage(EleWinParent^.hWindow, ms_NotClose, 0, 0);
+  inherited Done;
+end;
+
+procedure tPaintWindow.GetWindowClass(var AWndClass: TWndClass);
+begin
+  inherited GetWindowClass(aWndClass);
+  with aWndClass
+  do begin
+  (*cbClsExtra := 0;
+    cbWndExtra := 0;
+    hInstance := HInstance;*)
+    hIcon := LoadIcon(hRes, 'GRAPHICON');
+    hCursor := 0;
+    hbrBackground := GetStockObject(White_Brush);
+  (*lpszMenuName := nil;
+    lpszClassName := GetClassName;*)
+    Style :=
+      cs_HRedraw or cs_VRedraw or
+      $08{cs_DblClk};
+  (*lpfnWndProc := @InitWndProc;*)
+  end;
+end;
+
+function tPaintWindow.GetClassName : pChar;
+begin
+  GetClassName := 'LoKon-PAINTWINDOW';
+end;
+
+procedure tPaintWindow.SetupWindow;
+begin
+  inherited SetupWindow;
+  PostMessage(hWindow, wm_Command, cm_ZoomAll, 0);
+end;
+
+procedure tPaintWindow.MSGraphicTool(var Msg : tMessage);
+begin
+  with pMDIWindow(Application^.MainWindow)^.Attr
+  do begin
+    CheckMenuItem(Menu, cm_ToolFirst+State, MF_BYCOMMAND or MF_UNCHECKED);
+    SendMessage(
+      hMainWin, ms_Speedbar, SBActivate, SBActive+cm_ToolFirst+State);
+    State := Msg.wParam-cm_ToolFirst;
+    CheckMenuItem(Menu, cm_ToolFirst+State, MF_BYCOMMAND or MF_CHECKED);
+    SendMessage(
+      hMainWin, ms_Speedbar, SBActivate, SBDown+SBActive+cm_ToolFirst+State);
+    DrawMenuBar(hMainWin);
+  end;
+end;
+
+procedure tPaintWindow.SetCursorOfState(xState : Integer);
+begin
+  case xState of
+    { States mit einem Modus. }
+    ds_Move,
+    ds_MoveTo    :  SetCursor(LoadCursor(hRes, 'IDC_MOVEACTITEM'));
+    ds_Delete    :  SetCursor(LoadCursor(hRes, 'IDC_DELETE'));
+    ds_Line      :  SetCursor(LoadCursor(hRes, 'IDC_LINE'));
+    ds_Text      :  SetCursor(LoadCursor(hRes, 'IDC_TEXT'));
+    { States mit zwei Modi : leer oder gefüllt. }
+    ds_Polygon   :  SetCursor(LoadCursor(hRes, 'IDC_POLYGON'));
+    ds_PolygonF  :  SetCursor(LoadCursor(hRes, 'IDC_POLYGONF'));
+    ds_Rectangle :  SetCursor(LoadCursor(hRes, 'IDC_RECT'));
+    ds_RectangleF:  SetCursor(LoadCursor(hRes, 'IDC_RECTF'));
+    ds_Ellipse   :  SetCursor(LoadCursor(hRes, 'IDC_ELLIPSE'));
+    ds_EllipseF  :  SetCursor(LoadCursor(hRes, 'IDC_ELLIPSEF'));
+    ds_Chord     :  SetCursor(LoadCursor(hRes, 'IDC_CHORD'));
+    ds_ChordF    :  SetCursor(LoadCursor(hRes, 'IDC_CHORDF'));
+    (**){ds_Block}
+  end;
+  inherited SetCursorOfState(xState);
+end;
+
+procedure tPaintWindow.MDI_Menu(b : Boolean);
+var
+  Menu : hMenu;
+begin
+  Menu := pWindow(Application^.MainWindow)^.Attr.Menu;
+  if b
+  then begin
+    InsertMenu(Menu, 2 + MenuInc,
+      mf_Enabled + mf_ByPosition + mf_Popup,
+      LoadMenu(hRes, 'GRAPHVIEW'), LoadString0(128));
+    InsertMenu(Menu, 2 + MenuInc,
+      mf_Enabled + mf_ByPosition + mf_Popup,
+      LoadMenu(hRes, 'GRTOOLMENU'), LoadString0(129));
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, cm_EditCut);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, cm_EditCopy);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, cm_EditPaste);
+    { Graphic-Tools }
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Move);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Delete);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBDown or SBActive or cm_Line);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Text);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Polygon);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_PolygonF);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Rectangle);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_RectangleF);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Ellipse);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_EllipseF);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Chord);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_ChordF);
+    { Ansicht }
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Zoom50);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Zoom75);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_Zoom90);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_ZoomBox);
+    SendMessage(hMainWin, ms_Speedbar, SBInsert, SBActive or cm_ZoomAll);
+    SendMessage(hMainWin, ms_ChildMenuPos, +1, 0);
+  end
+  else begin
+    DestroyMenu(GetSubMenu(Menu, 2 + MenuInc));
+    RemoveMenu(Menu, 2 + MenuInc, mf_ByPosition);
+    DestroyMenu(GetSubMenu(Menu, 2 + MenuInc));
+    RemoveMenu(Menu, 2 + MenuInc, mf_ByPosition);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_EditCut);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_EditCopy);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_EditPaste);
+    { Graphic-Tools }
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Move);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Delete);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Line);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Text);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Polygon);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_PolygonF);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Rectangle);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_RectangleF);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Ellipse);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_EllipseF);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Chord);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_ChordF);
+    { Ansicht }
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Zoom50);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Zoom75);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_Zoom90);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_ZoomBox);
+    SendMessage(hMainWin, ms_Speedbar, SBDelete, cm_ZoomAll);
+    SendMessage(hMainWin, ms_ChildMenuPos, Word(-1), 0);
+    SendMessage(hMainWin, ms_UpdateInfo, 0, 0);
+{$ifdef test}
+    EnableMenuItem(Menu, 1+MenuInc, mf_ByPosition or mf_Enabled);
+{$endif}
+  end;
+  inherited MDI_Menu(b);
+end;
+
+procedure tPaintWindow.MDI_Act;
+var
+  Menu : hMenu;
+  i : Integer;
+begin
+  Menu:=pWindow(Application^.MainWindow)^.Attr.Menu;
+  { Edit-Menu. }
+  EnableMenuItem(Menu, cm_EditPaste, mf_ByCommand or mf_Enabled);
+  SendMessage(hMainWin, ms_Speedbar, SBActivate, SBActive or cm_EditPaste);
+  for i:=CM_MOVE to CM_CHORDF do
+    SendMessage(hMainWin, MS_SPEEDBAR, SBActivate, SBActive or i);
+  SendMessage(
+    hMainWin, MS_SPEEDBAR, SBActivate,
+    SBDown or SBActive or ((State and ds_Type)+CM_TOOLFIRST));
+  EnableMenuItem(Menu, cm_FileSave, mf_ByCommand or mf_Grayed);
+  SendMessage(hMainWin, ms_Speedbar, SBActivate, cm_FileSave);
+  inherited MDI_Act;
+end;
+
+procedure tPaintWindow.EndDrag;
+begin
+  inherited EndDrag;
+  State := State and ds_Type;
+  EditDel;
+end;
+
+procedure tPaintWindow.Paint(PaintDC: HDC; var PaintInfo: TPaintStruct);
+var
+  Brush : hBrush;
+  Pen : hPen;
+  Rgn : hRgn;
+begin
+  if Bg <> nil
+  then begin
+    Bg^.Paint(PaintDC, 0);
+    Brush := CreateHatchBrush(hs_DiagCross, co_White);
+    Rgn := Bg^.CalcRgn(0);
+    FillRgn(PaintDC, Rgn, Brush);
+    DeleteObject(Rgn);
+    DeleteObject(Brush);
+  end;
+  Graphic^.Paint(PaintDC, 0);
+  Pen := SelectObject(PaintDC, CreatePen(PS_SOLID, 1, co_red));
+  MoveTo(PaintDC, -2, -2);
+  LineTo(PaintDC, 2, 2);
+  MoveTo(PaintDC, -2, 2);
+  LineTo(PaintDC, 2, -2);
+  DeleteObject(SelectObject(PaintDC, Pen));
+end;
+
+type
+  tMoveToRec = record
+    xA : tPoint;
+    xEditStart : Integer;
+  end;
+
+procedure tPaintWindow.WMMouseMove(var Msg : tMessage);
+procedure LineTo_;
+begin
+  with tRect_(Poi^)
+  do begin
+    MoveTo(DragDC, Left, Top);
+    LineTo(DragDC, Right, Bottom);
+    tRect_(Poi^).B := tPoint(Msg.lParam);
+    MoveTo(DragDC, Left, Top);
+    LineTo(DragDC, Right, Bottom);
+  end;
+end;
+procedure dsMoveTo;
+var
+  A : tPoint;
+  i, j,
+  k : Integer;
+begin
+  with tMoveToRec(Poi^)
+  do begin
+    Graphic^.NotDraw(xEditStart, DragDC, 0);
+    A.X := tPoint(Msg.lParam).X - xA.X;
+    A.Y := tPoint(Msg.lParam).Y - xA.Y;
+    with Graphic^
+    do begin
+      i := xEditStart;
+      while i < GraphicSize
+      do begin
+        case (Graphic^[i] and ds_Type) of
+        ds_Text :
+        begin
+          inc(Graphic^[i+1], A.X);
+          inc(Graphic^[i+2], A.Y);
+          inc(i, 7 + ((Graphic^[i+6]+1) shr 1));
+        end;
+        ds_Block :
+        begin
+          inc(Graphic^[i+1], A.X);
+          inc(Graphic^[i+2], A.Y);
+          k := Graphic^[i+4];
+          inc(i, dsBlockLen);
+          for j := 0 to ((2*k)-1)
+          do begin
+            inc( i );
+            inc( i, (StrLen(@Graphic^[i])+2) div 2 );
+          end;
+        end;
+        else begin
+          case Graphic^[i] and ds_TypeF of
+            ds_Line,
+            ds_Rectangle,
+            ds_Ellipse : k := 2;
+            ds_Chord : k := 4;
+            ds_Polygon :
+              begin
+                inc(i);
+                k := Graphic^[i];
+              end;
+          end;
+          inc(i);
+          for j := 1 to k
+          do begin
+            inc(Graphic^[i], A.X);
+            inc(i);
+            inc(Graphic^[i], A.Y);
+            inc(i);
+          end;
+        end;
+        end;
+      end;
+    end;
+    Longint(xA) := Msg.lParam;
+    Graphic^.NotDraw(xEditStart, DragDC, 0);
+  end;
+end;
+begin
+  SetCursorActState;
+  inherited wmMouseMove(Msg);
+  SendMessage(Parent^.hWindow, ms_Position, 0, Msg.lParam);
+  if (State and ds_Type) <= 3
+  then begin
+    case State of
+      ds_LineTo : LineTo_;
+      ds_MoveTo : dsMoveTo;
+    end;
+  end
+  else begin
+    case State and $fffe of
+      ds_PolyPoints :
+        with tPolyRec(Poi^)
+        do begin
+          with Pt[NumPt-1] do MoveTo(DragDC, X, Y);
+          with Pt[NumPt] do LineTo(DragDC, X, Y);
+          Pt[NumPt] := tPoint(Msg.lParam);
+          with Pt[NumPt-1] do MoveTo(DragDC, X, Y);
+          with Pt[NumPt] do LineTo(DragDC, X, Y);
+        end;
+      ds_RectSize :
+        with tRect_(Poi^)
+        do begin
+          Rectangle(DragDC, Left, Top, Right, Bottom);
+          tRect_(Poi^).B := tPoint(Msg.lParam);
+          Rectangle(DragDC, Left, Top, Right, Bottom);
+        end;
+      ds_EllipseSize :
+        with tRect_(Poi^)
+        do begin
+          Ellipse(DragDC, Left, Top, Right, Bottom);
+          tRect_(Poi^).B := tPoint(Msg.lParam);
+          Ellipse(DragDC, Left, Top, Right, Bottom);
+        end;
+      ds_ChordSize :
+        with t2Rect(Poi^)
+        do begin
+          Ellipse(DragDC, Left, Top, Right, Bottom);
+          t2Rect(Poi^).B := tPoint(Msg.lParam);
+          Ellipse(DragDC, Left, Top, Right, Bottom);
+        end;
+      ds_ChordEnd :
+        with t2Rect(Poi^)
+        do begin
+          if WordBool(State and ds_Filled)
+          then Pie(DragDC, Left, Top, Right, Bottom,
+                 Left2, Top2, Right2, Bottom2)
+          else Arc(DragDC, Left, Top, Right, Bottom,
+                 Left2, Top2, Right2, Bottom2);
+          t2Rect(Poi^).D := tPoint(Msg.lParam);
+          if WordBool(State and ds_Filled)
+          then Pie(DragDC, Left, Top, Right, Bottom,
+                 Left2, Top2, Right2, Bottom2)
+          else Arc(DragDC, Left, Top, Right, Bottom,
+                 Left2, Top2, Right2, Bottom2);
+        end;
+    end;
+  end;
+end;
+
+procedure tPaintWindow.WMLButtonDown(var Msg : tMessage);
+procedure dsMove;
+var
+  j, Start : Integer;
+begin
+  with Graphic^
+  do begin
+    Start := GraphicSize;
+    j := SelectGraphicPt_(tPoint(Msg.lParam), Start);
+    if Start = GraphicSize
+    then DragEdit(tPoint(Msg.lParam))
+    else begin
+      BeginDrag;
+      GetMem(Poi, SizeOf(tMoveToRec));
+      Longint(Poi^) := Msg.lParam;
+      if Start >= EditStart
+      then begin
+        InvertEdit(DragDC);
+        tMoveToRec(Poi^).xEditStart := EditStart;
+      end
+      else begin
+        EditDel;
+        tMoveToRec(Poi^).xEditStart:=GraphicMove(Start, j, GraphicSize);
+      end;
+      State := ds_MoveTo;
+    end;
+  end;
+end;
+procedure dsDelete;
+var
+  Start : Integer;
+begin
+  with Graphic^
+  do begin
+    Start := GraphicSize;
+    SelectGraphicPt(tPoint(Msg.lParam), Start);
+    if Start = GraphicSize
+    then BeepMessage(98)
+    else begin
+      if Start >= EditStart
+      then SendMessage(hWindow, wm_Command, cm_EditDelete, 0)
+      else begin
+        DeleteGraphic(Start);
+        InvalidateRect(hWindow, nil, True);
+      end;
+    end;
+  end;
+end;
+procedure dsText;
+var
+  s : tInputStr;
+  font, font_ : hFont;
+  i : Integer;
+begin
+  s[0]:=#0;
+  if Application^.ExecDialog(
+       New(pTextDlg, Init(@Self, @s, 48, InputStrLen))) = id_OK
+  then begin
+    BeginDrag;
+    SetROP2(DragDC, R2_CopyPen);
+    with FontData do
+      font := CreateFont(
+        Height, Width,
+        Direct, Direct,
+        400 + 300 * (FontFlag and $01),
+        FontFlag and $02,
+        FontFlag and $04,
+        FontFlag and $08, ANSI_Charset, Font_Precis,
+        0, Font_Quality, 1, FontName[FontNr]);
+    font_ := SelectObject(DragDC, font);
+    TextOut(DragDC, Integer(Msg.lParamLo), Integer(Msg.lParamHi),
+      @s, StrLen(@s));
+    SelectObject(DragDC, font_);
+    DeleteObject(font);
+    with Graphic^
+    do begin
+      InsertInteger(ds_Text);
+      InsertPoint_(tPoint(Msg.lParam));
+      with FontData
+      do begin
+        Insert2Byte(Height, Width);
+        InsertInteger(Direct);
+        Insert2Byte(FontNr, FontFlag);
+      end;
+      InsertInteger(StrLen(@s));
+      i := 0;
+      while i < StrLen(@s)
+      do begin
+        Insert2Byte(Byte(s[i]), Byte(s[i+1]));
+        inc(i, 2);
+      end;
+    end;
+    EndDrag;
+  end;
+end;
+procedure dsBlock;
+var
+  i : Integer;
+begin
+  with Graphic^
+  do begin
+    i := GraphicSize;
+    InsertInteger(ds_Block);
+    InsertPoint_(tPoint(Msg.lParam));
+    InsertInteger(0); { direct }
+    InsertInteger(0); { PinNum/2 }
+    InsertInteger(4); { Height }
+    with FontData
+    do begin
+      Insert2Byte( Height, Width );
+      InsertInteger( direct );
+      Insert2Byte( FontNr, FontFlag );
+    end;
+  end;
+  if Application^.ExecDialog(
+       New(pGraphicBlockDlg, Init(@Self, Graphic, i))) = id_OK
+  then begin
+    InvalidateRect( hWindow, nil, true );
+  end
+  else begin
+  end;
+end;
+procedure Polygon_;
+begin
+  GetMem(Poi, SizeOf(tPolyRec));
+  with tPolyRec(Poi^)
+  do begin
+    Pt[0] := tPoint(Msg.lParam);
+    Pt[1] := tPoint(Msg.lParam);
+    NumPt := 1;
+    Graphic^.InsertInteger(State);
+    NumPos := Graphic^.GraphicSize;
+    Graphic^.InsertInteger(1);
+    inc(State, $0100);
+  end;
+end;
+var
+  State_ : Integer;
+begin
+  inherited wmLButtonDown(Msg);
+  if (State>=ds_Line) and (State<=ds_Last) then
+    DelEdit;
+  case State of
+    ds_Move : dsMove;
+    ds_Delete : dsDelete;
+    ds_Line :
+      begin
+        BeginDrag;
+        GetMem(Poi, SizeOf(tRect));
+        RectPt(tRect(Poi^), tPoint(Msg.lParam));
+        with Msg
+        do begin
+          MoveTo(DragDC, Integer(lParamLo), Integer(lParamHi));
+          LineTo(DragDC, Integer(lParamLo), Integer(lParamHi));
+        end;
+        State := ds_LineTo;
+      end;
+    ds_Text : dsText;
+    ds_Block : dsBlock;
+    else begin
+      if (State>=ds_Polygon) and (State<=ds_Last)
+      then begin
+        BeginDrag;
+        if WordBool(State and ds_Filled)
+        then SelectObject(DragDC, GetStockObject(Black_Brush))
+        else SelectObject(DragDC, GetStockObject(Null_Brush));
+      end;
+      case State and $fffe of
+        ds_Polygon : Polygon_;
+        ds_PolyPoints :
+          with tPolyRec(Poi^)
+          do begin
+            Pt[NumPt] := tPoint(Msg.lParam);
+            inc(NumPt);
+            Pt[NumPt] := tPoint(Msg.lParam);
+          end;
+        ds_Rectangle :
+          begin
+            GetMem(Poi, SizeOf(tRect_));
+            RectPt(tRect(Poi^), tPoint(Msg.lParam));
+            with Msg do
+              Rectangle(DragDC, Integer(lParamLo), Integer(lParamHi),
+                Integer(lParamLo), Integer(lParamHi));
+            inc(State, $0100);
+          end;
+        ds_Ellipse :
+          begin
+            GetMem(Poi, SizeOf(tRect_));
+            RectPt(tRect(Poi^), tPoint(Msg.lParam));
+            with Msg do
+              Ellipse(DragDC, Integer(lParamLo), Integer(lParamHi),
+                Integer(lParamLo), Integer(lParamHi));
+            inc(State, $0100);
+          end;
+        ds_Chord :
+          begin
+            GetMem(Poi, SizeOf(t2Rect));
+            RectPt(t2Rect(Poi^).R1, tPoint(Msg.lParam));
+            with Msg
+            do Ellipse(DragDC, Integer(lParamLo), Integer(lParamHi),
+                 Integer(lParamLo), Integer(lParamHi));
+            inc(State, $0100);
+          end;
+        ds_ChordStart :
+          with t2Rect(Poi^)
+          do begin
+            RectPt(t2Rect(Poi^).R2, tPoint(Msg.lParam));
+            if WordBool(State and ds_Filled)
+            then Pie(DragDC, Left, Top, Right, Bottom,
+                   Left2, Top2, Right2, Bottom2)
+            else Arc(DragDC, Left, Top, Right, Bottom,
+                   Left2, Top2, Right2, Bottom2);
+            inc(State, $0100);
+          end;
+      end;
+    end;
+  end;
+end;
+
+procedure tPaintWindow.WMLButtonUp(var Msg : tMessage);
+procedure dsChordEnd;
+begin
+  with t2Rect(Poi^)
+  do begin
+    SetROP2(DragDC, R2_CopyPen);
+    if WordBool(State and ds_Filled)
+    then Pie(DragDC, Left, Top, Right, Bottom,
+           Left2, Top2, Right2, Bottom2)
+    else Arc(DragDC, Left, Top, Right, Bottom,
+           Left2, Top2, Right2, Bottom2);
+    with Graphic^
+    do begin
+      InsertInteger(State);
+      InsertRect(t2Rect(Poi^).R1);
+      InsertRect(t2Rect(Poi^).R2);
+    end;
+  end;
+  FreeMem(Poi, SizeOf(t2Rect));
+  EndDrag;
+end;
+procedure dsMoveTo;
+var
+  i : Integer;
+  Rgn : hRgn;
+begin
+  FreeMem(Poi, SizeOf(tMoveToRec));
+  inherited EndDrag;
+  State := State and DS_TYPE;
+  InvalidateRect(hWindow, nil, True);
+  MDI_Act;
+end;
+begin
+  inherited wmLButtonUp(Msg);
+  case State of
+    ds_LineTo :
+      with tRect_(Poi^)
+      do begin
+        SetROP2(DragDC, R2_CopyPen);
+        MoveTo(DragDC, Left, Top);
+        LineTo(DragDC, Right, Bottom);
+        with Graphic^
+        do begin
+          InsertInteger(State);
+          InsertRect(tRect(Poi^));
+        end;
+        FreeMem(Poi, SizeOf(tRect_));
+        EndDrag;
+      end;
+    ds_MoveTo : dsMoveTo;
+    else begin
+      case State and $fffe of
+        ds_RectSize :
+          with tRect_(Poi^)
+          do begin
+            SetROP2(DragDC, R2_CopyPen);
+            Rectangle(DragDC, Left, Top, Right, Bottom);
+            with Graphic^
+            do begin
+              InsertInteger(State);
+              InsertRect(tRect(Poi^));
+            end;
+            FreeMem(Poi, SizeOf(tRect_));
+            EndDrag;
+          end;
+        ds_EllipseSize :
+          with tRect_(Poi^)
+          do begin
+            SetROP2(DragDC, R2_CopyPen);
+            Ellipse(DragDC, Left, Top, Right, Bottom);
+            with Graphic^
+            do begin
+              InsertInteger(State);
+              InsertRect(tRect(Poi^));
+            end;
+            FreeMem(Poi, SizeOf(tRect_));
+            EndDrag;
+          end;
+        ds_ChordSize :
+          with t2Rect(Poi^)
+          do begin
+            Ellipse(DragDC, Left, Top, Right, Bottom);
+            inc(State, $0100);
+          end;
+        ds_ChordEnd : dsChordEnd;
+      end;
+    end;
+  end;
+end;
+
+procedure tPaintWindow.WMRButtonDown(var Msg : tMessage);
+procedure PolyPoints;
+var
+  Rgn : hRgn;
+  i : Integer;
+begin
+  with tPolyRec(Poi^)
+  do begin
+    with Pt[NumPt-1] do MoveTo(DragDC, X, Y);
+    with Pt[NumPt] do LineTo(DragDC, X, Y);
+    SetROP2(DragDC, R2_CopyPen);
+    for i := 0 to NumPt-1 do
+      Graphic^.InsertPoint_(Pt[i]);
+    Graphic^.SetInteger(NumPos, NumPt);
+    Polygon(DragDC, Pt, NumPt);
+    FreeMem(Poi, SizeOf(tPolyRec));
+    EndDrag;
+  end;
+end;
+procedure dsMoveTo;
+var
+  i, j,
+  k : Integer;
+begin
+  with Graphic^ do
+  with tMoveToRec(Poi^)
+  do begin
+    NotDraw(xEditStart, DragDC, 0);
+    { Um 90 Grad drehen. }
+    i := xEditStart;
+    while i < GraphicSize
+    do begin
+      case (Graphic^[i] and ds_Type) of
+      ds_Text :
+      begin
+        dec(Graphic^[i+4], 900);
+        if Graphic^[i+4] < 0 then inc(Graphic^[i+4], 3600);
+        with tPoint(Msg.lParam)
+        do begin
+          dec(Graphic^[i+1], X);
+          dec(Graphic^[i+2], Y);
+          GetPos(Graphic^[i+1], Graphic^[i+2], Graphic^[i+1], Graphic^[i+2], 1);
+          inc(Graphic^[i+1], X);
+          inc(Graphic^[i+2], Y);
+        end;
+       inc(i, 7 + ((Graphic^[i+6]+1) shr 1));
+      end;
+      ds_Block :
+      begin
+        inc(Graphic^[i+3]);
+        Graphic^[i+3] := Graphic^[i+3] and 3;
+        k := Graphic^[i+4];
+        inc(i, dsBlockLen);
+        for j := 0 to ((2*k)-1)
+        do begin
+          inc( i );
+          inc( i, (StrLen(@Graphic^[i])+2) div 2 );
+        end;
+      end;
+      else begin
+        case Graphic^[i] and ds_TypeF of
+          ds_Line,
+          ds_Rectangle,
+          ds_Ellipse : k := 2;
+          ds_Chord : k := 4;
+          ds_Polygon :
+            begin
+              inc(i);
+              k := Graphic^[i];
+            end;
+        end;
+        inc(i);
+        for j := 1 to k do
+          with tPoint(Msg.lParam)
+          do begin
+            dec(Graphic^[i], X);
+            dec(Graphic^[i+1], Y);
+            GetPos(Graphic^[i], Graphic^[i+1], Graphic^[i], Graphic^[i+1], 1);
+            inc(Graphic^[i], X);
+            inc(Graphic^[i+1], Y);
+            inc(i,2);
+          end;
+      end;
+      end;
+    end;
+    NotDraw(xEditStart, DragDC, 0);
+  end;
+end;
+begin
+  inherited WMRButtonDown(Msg);
+  case State and $fffe of
+    ds_PolyPoints : PolyPoints;
+    ds_MoveTo : dsMoveTo;
+  end;
+end;
+
+procedure tPaintWindow.cmHelpContext(var Msg : tMessage);
+begin
+  WinHelp(hWindow, 'LOKON.HLP', HELP_CONTEXT, 600);
+end;
+
+{ ------ tRegionWindow -------------------------------------------------- }
+
+type
+  pRegionWindow = ^tRegionWindow;
+  tRegionWindow = object (tPaintWindow)
+    constructor Init(
+      xName : pChar; xParent : pWindowsObject;
+      xBg, xGraphic : pGraphic; i : Integer);
+    function GetClassName : pChar; virtual;
+    procedure SetupWindow; virtual;
+    procedure MDI_Act; virtual;
+  end;
+
+constructor tRegionWindow.Init(
+  xName : pChar; xParent : pWindowsObject;
+  xBg, xGraphic : pGraphic; i : Integer);
+begin
+  inherited Init(xName, xParent, xBg, xGraphic, i);
+  State := DS_RECTANGLEF;
+end;
+
+function tRegionWindow.GetClassName : pChar;
+begin
+  GetClassName := 'LoKon-REGIONWINDOW';
+end;
+
+procedure tRegionWindow.SetupWindow;
+begin
+  inherited SetupWindow;
+  with pMDIWindow(Application^.MainWindow)^.Attr
+  do begin
+    CheckMenuItem(Menu, CM_LINE, MF_BYCOMMAND or MF_UNCHECKED);
+    CheckMenuItem(Menu, CM_RECTANGLEF, MF_BYCOMMAND or MF_CHECKED);
+  end;
+end;
+
+procedure tRegionWindow.MDI_Act;
+const
+  gray : array [0..6] of Word =
+    ( CM_LINE, CM_TEXT, CM_POLYGON, CM_RECTANGLE,
+      CM_ELLIPSE, CM_CHORD, CM_CHORDF );
+var
+  i : Integer;
+begin
+  inherited MDI_Act;
+  with pWindow(Application^.MainWindow)^.Attr do
+    for i:=0 to 6
+    do begin
+      EnableMenuItem(Menu, gray[i], MF_BYCOMMAND or MF_GRAYED);
+      SendMessage(hMainWin, MS_SPEEDBAR, SBActivate, gray[i]);
+    end;
+end;
+
+{ ------ tGraphicEleDlg ------------------------------------------------- }
+
+type
+  pGraphicEleDlg = ^tGraphicEleDlg;
+  tGraphicEleDlg = object (tDialogSB)
+    Graphic : pIntegerArray;
+    constructor Init(xParent : pWindowsObject; xGraphic : Pointer);
+    procedure SetupWindow; virtual;
+    procedure OK(var Msg : tMessage); virtual id_First + id_OK;
+    procedure CMHelp(var Msg : tMessage);
+      virtual CM_FIRST + CM_HELPCONTEXT;
+  end;
+
+constructor tGraphicEleDlg.Init(
+  xParent : pWindowsObject; xGraphic : Pointer);
+begin
+  inherited Init(xParent, 'GRAPHICELEDLG');
+  Graphic := xGraphic;
+end;
+
+procedure tGraphicEleDlg.SetupWindow;
+var
+  i : Integer;
+begin
+  inherited SetupWindow;
+  CheckDlgButton(hWindow, 300 + (Graphic^[0] and ds_TypeF), Word(True));
+  for i := 0 to 3 do
+    SetDlgItemInt(hWindow, 100+i, Word(Graphic^[1+i]), True);
+  if (Graphic^[0] and ds_TypeF) = ds_Chord
+  then begin
+    EnableWindow(GetItemHandle(302), False);
+    EnableWindow(GetItemHandle(306), False);
+    EnableWindow(GetItemHandle(308), False);
+    EnableWindow(GetItemHandle(310), True);
+    for i := 0 to 3
+    do begin
+      EnableWindow(GetItemHandle(110+i), True);
+      EnableWindow(GetItemHandle(210+i), True);
+      EnableWindow(GetItemHandle(410+i), True);
+      SetDlgItemInt(hWindow, 110+i, Word(Graphic^[5+i]), True);
+    end;
+  end;
+  if WordBool(Graphic^[0] and ds_Filled)
+  then CheckDlgButton(hWindow, 320, Word(True));
+end;
+
+procedure tGraphicEleDlg.OK(var Msg : tMessage);
+var
+  i : Integer;
+begin
+  Graphic^[0] := ds_Line;
+  for i := 0 to 2 do
+    if WordBool(IsDlgButtonChecked(hWindow, 306 + (2*i)))
+    then Graphic^[0] := ds_Rectangle + (2*i);
+  for i := 0 to 3 do
+    Graphic^[1+i] := Integer(GetDlgItemInt(hWindow, 100+i, nil, True));
+  if (Graphic^[0] and ds_TypeF) = ds_Chord then
+    for i := 0 to 3 do
+      Graphic^[5+i] := Integer(GetDlgItemInt(hWindow, 110+i, nil, True));
+  if not(WordBool(IsDlgButtonChecked(hWindow, 302))) and
+     WordBool(IsDlgButtonChecked(hWindow, 320))
+  then Graphic^[0] := Graphic^[0] or ds_Filled;
+  EndDlg(id_OK);
+end;
+
+procedure tGraphicEleDlg.CMHelp(var Msg : tMessage);
+begin
+  WinHelp(hMainWin, 'LOKON.HLP', HELP_CONTEXT, 621);
+end;
+
+{ ------ tGraphicBlockDlg ----------------------------------------------- }
+
+constructor tGraphicBlockDlg.Init(
+  xParent : pWindowsObject; xGraphic : pGraphic; xstart : integer);
+var
+  k : integer;
+begin
+  inherited Init(xParent, 'GRAPHICBLOCKDLG');
+  Graphic_ := xGraphic;
+  start := xstart;
+  Graphic := @(Graphic_^.Graphic^[start]);
+  with FontData
+  do begin
+    k := Graphic^[6];
+    Height := Lo(k);
+    Width := Hi(k);
+    k := Graphic^[8];
+    FontNr := Lo(k);
+    FontFlag := Hi(k);
+    Direct := Graphic^[7];
+  end;
+end;
+
+procedure tGraphicBlockDlg.Update;
+var
+  i, k : Integer;
+begin
+  k := Integer(GetDlgItemInt(hWindow, 103, nil, True)) * 2;
+  for i := 0 to (k-1)
+  do begin
+    EnableWindow( GetItemHandle( 1000+(10*i)), true );
+    EnableWindow( GetItemHandle( 1001+(10*i) ), true );
+  end;
+  for i := k to 63
+  do begin
+    EnableWindow(GetItemHandle(1000+(10*i)), false);
+    EnableWindow(GetItemHandle(1001+(10*i)), false);
+  end;
+end;
+
+procedure tGraphicBlockDlg.SetupWindow;
+var
+  i, k, j : Integer;
+begin
+  inherited SetupWindow;
+  for i := 0 to 4 do
+    SetDlgItemInt(hWindow, 100+i, Word(Graphic^[1+i]), True);
+  k := Integer(GetDlgItemInt(hWindow, 103, nil, True)) * 2;
+  j := dsBlockLen;
+  Update;
+  for i := 0 to (k-1)
+  do begin
+    CheckDlgButton( hWindow, 1000+(10*i), Graphic^[j] );
+    inc(j);
+    SetDlgItemText( hWindow, 1001+(10*i), @(Graphic^[j]) );
+    inc(j, (StrLen(@(Graphic^[j]))+2)div 2);
+  end;
+end;
+
+procedure tGraphicBlockDlg.idFont(var Msg : tMessage);
+begin
+  Application^.ExecDialog(New(pFontDialog, Init(@Self, @FontData)));
+end;
+
+procedure tGraphicBlockDlg.idUpdate(var Msg : tMessage);
+begin
+  Update;
+end;
+
+procedure tGraphicBlockDlg.OK(var Msg : tMessage);
+var
+  i, j, k : Integer;
+  s : tInputStr;
+begin
+  with Graphic_^
+  do begin
+    DeleteGraphic(start);
+    InsertInteger(ds_Block);
+    for i := 0 to 4 do
+      InsertInteger( Integer(GetDlgItemInt(hWindow, 100+i, nil, True)) );
+    with FontData
+    do begin
+      Insert2Byte( Height, Width );
+      InsertInteger( Direct );
+      Insert2Byte( FontNr, FontFlag );
+    end;
+    k := Graphic^[start+4] * 2;
+    for i := 0 to (k-1)
+    do begin
+      InsertInteger(IsDlgButtonChecked( hWindow, 1000+(10*i) ) and 3);
+      GetDlgItemText( hWindow, 1001+(10*i), @s, InputStrLen );
+      for j := 0 to (StrLen(@s) div 2) do
+        Insert2Byte( Byte(s[2*j]), Byte(s[(2*j)+1]) );
+    end;
+  end;
+  EndDlg(id_OK);
+end;
+
+(*procedure tGraphicEleDlg.CMHelp(var Msg : tMessage);
+begin
+  WinHelp(hMainWin, 'LOKON.HLP', HELP_CONTEXT, 621);
+end;*)
+
+{ ------ tGraphicTextDlg ------------------------------------------------ }
+
+type
+  pGraphicTextDlg = ^tGraphicTextDlg;
+  tGraphicTextDlg = object (tDialogSB)
+    Pos : Integer;
+    Graphic : pGraphic;
+    FontData : tFontData;
+    constructor Init(
+      xParent : pWindowsObject; xGraphic : pGraphic; xPos : Integer);
+    procedure SetupWindow; virtual;
+    procedure idFont(var Msg : tMessage); virtual id_First + 120;
+    procedure OK(var Msg : tMessage); virtual id_First + id_OK;
+  end;
+
+constructor tGraphicTextDlg.Init(
+      xParent : pWindowsObject; xGraphic : pGraphic; xPos : Integer);
+var
+  k : Integer;
+begin
+  inherited Init(xParent, 'ITEMTEXTDLG');
+  Graphic := xGraphic;
+  Pos := xPos;
+  with Graphic^ do
+    with FontData
+    do begin
+      k := Graphic^[Pos+3];
+      Height := Lo(k);
+      Width := Hi(k);
+      k := Graphic^[Pos+5];
+      FontNr := Lo(k);
+      FontFlag := Hi(k);
+      Direct := Graphic^[Pos+4];
+    end;
+end;
+
+procedure tGraphicTextDlg.SetupWindow;
+var
+  p : pChar;
+  i : Integer;
+begin
+  inherited SetupWindow;
+  with Graphic^
+  do begin
+    SetDlgItemInt(hWindow, 100, Word(Graphic^[Pos+1]), True);
+    SetDlgItemInt(hWindow, 101, Word(Graphic^[Pos+2]), True);
+    GetMem(p, Graphic^[Pos+6]+1);
+    StrLCopy(p, pChar(@(Graphic^[Pos+7])), Graphic^[Pos+6]);
+    SetDlgItemText(hWindow, 102, p);
+    StrDispose(p);
+  end;
+end;
+
+procedure tGraphicTextDlg.idFont(var Msg : tMessage);
+begin
+  Application^.ExecDialog(New(pFontDialog, Init(@Self, @FontData)));
+end;
+
+procedure tGraphicTextDlg.OK(var Msg : tMessage);
+var
+  p : pIntegerArray;
+  l, newsize : Integer;
+begin
+  with Graphic^
+  do begin
+    Graphic^[Pos+1] := Integer(GetDlgItemInt(hWindow, 100, nil, True));
+    Graphic^[Pos+2] := Integer(GetDlgItemInt(hWindow, 101, nil, True));
+    with FontData
+    do begin
+      Graphic^[Pos+3] := Word(Height) or (Word(Width) shl 8);
+      Graphic^[Pos+5] := Word(FontNr) or (Word(FontFlag) shl 8);
+      Graphic^[Pos+4] := Direct;
+    end;
+    l := SendDlgItemMsg(102, WM_GETTEXTLENGTH, 0, 0);
+    newsize := GraphicSize-((Graphic^[Pos+6]+1) shr 1)+((l+1) shr 1);
+    GetMem(p, newsize shl 1);
+    Move(Graphic^, p^, (Pos+6) shl 1);
+    p^[Pos+6] := l;
+    GetDlgItemText(hWindow, 102, pChar(@p^[Pos+7]), l+1);
+    Move(
+      Graphic^[Pos+7+((Graphic^[Pos+6]+1) shr 1)],
+      p^[Pos+7+((l+1) shr 1)],
+      (GraphicSize-(Pos+7+((Graphic^[Pos+6]+1) shr 1))) shl 1);
+    FreeMem(Graphic, GraphicSize shl 1);
+    Graphic := p;
+    GraphicSize := newsize;
+  end;
+  EndDlg(id_OK);
+end;
+
+procedure tPaintWindow.WMLButtonDblClk(var Msg : tMessage);
+var Start : Integer;
+begin
+  pScrollerOrg(Scroller)^.ZoomCoord(tPoint(Msg.lParam));
+  if State = ds_Move then
+    with Graphic^
+    do begin
+      Start := GraphicSize;
+      SelectGraphicPt_(tPoint(Msg.lParam), Start);
+      if Start = GraphicSize
+      then EditDel
+      else begin
+        if Start >= EditStart then EditDel;
+        case Graphic^[Start] and ds_Type of
+          ds_Line,
+          ds_Rectangle, ds_RectangleF,
+          ds_Ellipse, ds_EllipseF,
+          ds_Chord, ds_ChordF :
+            if Application^.ExecDialog(
+                 New(pGraphicEleDlg, Init(@Self, @(Graphic^[Start]))))
+               = id_OK
+            then InvalidateRect(hWindow, nil, True);
+          ds_Text :
+            if Application^.ExecDialog(
+                 New(pGraphicTextDlg, Init(@Self, Self.Graphic, Start)))
+               = id_OK
+            then InvalidateRect(hWindow, nil, True);
+          ds_Block :
+            if Application^.ExecDialog(
+                 New(pGraphicBlockDlg, Init(@Self, Self.Graphic, Start)))
+               = id_OK
+            then InvalidateRect(hWindow, nil, True);
+          else MessageBeep(mb_OK);
+        end;
+      end;
+    end;
+end;
+
+procedure tPaintWindow.msZoomAll(var Msg : tMessage);
+var
+  R, R_ : tRect;
+  Rgn : hRgn;
+begin
+  Rgn := Graphic^.CalcRgn(0);
+  GetRgnBox(Rgn, R);
+  DeleteObject(Rgn);
+  if Bg <> nil
+  then begin
+    Rgn := Bg^.CalcRgn(0);
+    GetRgnBox(Rgn, R_);
+    DeleteObject(Rgn);
+    UnionRect(R, R, R_);
+  end;
+  if not IsRectEmpty(R)
+  then begin
+    InflateRect(R, 5, 5);
+    pScrollerOrg(Scroller)^.SetRectZoom(R);
+  end;
+end;
+
+procedure tPaintWindow.msExport(var Msg : tMessage);
+var s : pChar;
+begin
+  inherited msExport(Msg);
+  if not Boolean(Msg.Result) then
+    case Msg.wParam of
+      ext_GRC : MessageBox(hWindow, 'GRC', nil, mb_OK);
+      else begin
+        GetMem(s, StrLen(LoadString0(82)) + 2 {+4-2});
+        wvsprintf(s, @String0, extName[Msg.wParam]);
+        MessageBox(hWindow, s, LoadString0(96), mb_IconStop or mb_OK);
+        StrDispose(s);
+      end;
+    end;
+end;
+
+procedure tPaintWindow.CalcEdit(R : tRect);
+var
+  i, j,
+  k : Integer;
+  p : pIntegerArray;
+  Rgn : hRgn;
+begin
+  EditStart := Graphic^.GraphicSize;
+  with Graphic^
+  do begin
+    i := 0;
+    while i < EditStart
+    do begin
+      j := GraphicEleRgn(i, Rgn, 0);
+      if RectInRegion(Rgn, R)
+      then begin
+        k := j - i;
+        GetMem(p, k shl 1);
+        Move(Graphic^[i], p^, k shl 1);
+        Move(Graphic^[j], Graphic^[i], (EditStart - j) shl 1);
+        Move(p^, Graphic^[EditStart-k], k shl 1);
+        FreeMem(p, k shl 1);
+        dec(EditStart, k);
+      end
+      else begin
+        i := j;
+      end;
+      DeleteObject(Rgn);
+    end;
+  end
+end;
+
+procedure tPaintWindow.DelEdit;
+var b : Boolean;
+begin
+  b := EditStart < Graphic^.GraphicSize;
+  EditStart := $7fff;
+  if b
+  then begin
+    InvalidateRect(hWindow, nil, TRUE);
+    UpdateWindow(hWindow);
+  end;
+end;
+
+function tPaintWindow.IsEditEmpty : Boolean;
+begin
+  IsEditEmpty := EditStart >= Graphic^.GraphicSize;
+end;
+
+procedure tPaintWindow.InvertEdit(PaintDC : HDC);
+var
+  i : Integer;
+  Rgn : hRgn;
+begin
+  if EditStart < Graphic^.GraphicSize then
+    with Graphic^
+    do begin
+      i := EditStart;
+      while i<GraphicSize
+      do begin
+        i:=GraphicEleRgn(i, Rgn, 0);
+        InvertRgn(PaintDC, Rgn);
+        DeleteObject(Rgn);
+      end;
+    end;
+end;
+
+procedure tPaintWindow.cmEditCopy(var Msg : tMessage);
+var
+  S : tGlobalStream;
+  Graphic_ : tGraphic;
+begin
+  { Edit in Stream speichern. }
+  Graphic_.Graphic := @(Graphic^.Graphic^[EditStart]);
+  Graphic_.GraphicSize := Graphic^.GraphicSize - EditStart;
+  S.Init;
+  Graphic_.Store(S);
+  { Daten ins Clipboard kopieren. }
+  OpenClipBoard(hWindow);
+  EmptyClipBoard;
+  SetClipboardData(cf_Graphic, S.Handle);
+  CloseClipBoard;
+  S.Done_; { Der Handle darf nicht freigegeben werden. }
+  MDI_Act;
+end;
+
+procedure tPaintWindow.cmEditPaste(var Msg : tMessage);
+var
+  S : tGlobalStream; { CF_GRAPHIC }
+  Graphic_ : tGraphic;
+  p : pIntegerArray;
+  Size : Integer;
+  h : tHandle; { CF_TEXT }
+  po : Pointer;
+begin
+  if IsClipboardFormatAvailable(CF_GRAPHIC)
+  then begin
+    EditDel;
+    { Graphic aus Clipboard laden. }
+    S.Init;
+    OpenClipboard(hWindow);
+    S.Handle := GetClipboardData(cf_Graphic);
+    Graphic_.Load(S);
+    CloseClipboard;
+    S.Done_; { Der Handle wird nicht freigegeben. }
+    { Graphic aus Zwischenablage an aktuelle Graphic anhängen. }
+    Size := Graphic^.GraphicSize + Graphic_.GraphicSize;
+    GetMem(p, Size shl 1);
+    Move(Graphic^.Graphic^, p^, Graphic^.GraphicSize shl 1);
+    Move(
+      Graphic_.Graphic^, p^[Graphic^.GraphicSize],
+      Graphic_.GraphicSize shl 1);
+    EditStart := Graphic^.GraphicSize;
+    Graphic_.Done;
+    with Graphic^
+    do begin
+      FreeMem(Graphic, GraphicSize shl 1);
+      Graphic := p;
+      GraphicSize := Size;
+    end;
+    { Clipboard nach Edit und vorherige Schaltung wieder setzen. }
+    BeginDrag;
+    GetMem(Poi, SizeOf(tMoveToRec));
+    with tMoveToRec(Poi^)
+    do begin
+      if (Graphic^.Graphic^[EditStart] and ds_TypeF) = ds_Polygon
+      then begin
+        xA.X := Graphic^.Graphic^[EditStart+2];
+        xA.Y := Graphic^.Graphic^[EditStart+3];
+      end
+      else begin
+        xA.X := Graphic^.Graphic^[EditStart+1];
+        xA.Y := Graphic^.Graphic^[EditStart+2];
+      end;
+      xEditStart:=EditStart;
+    end;
+    State:=ds_MoveTo;
+    MDI_Act;
+  end
+  else begin
+    MessageBeep(29);
+  end;
+end;
+
+procedure tPaintWindow.cmEditDelete(var Msg : tMessage);
+var p : pIntegerArray;
+begin
+  with Graphic^
+  do begin
+    GetMem(p, EditStart shl 1);
+    Move(Graphic^, p^, EditStart shl 1);
+    FreeMem(Graphic, GraphicSize shl 1);
+    Graphic := p;
+    GraphicSize := EditStart;
+  end;
+  InvalidateRect(hWindow, nil, True);
+end;
+
+{ ------ tGraphic ------------------------------------------------------- }
+
+constructor tGraphic.Init;
+begin
+  GraphicSize := 0;
+  GetMem(Graphic, 0);
+end;
+
+destructor tGraphic.Done;
+begin
+  FreeMem(Graphic, GraphicSize shl 1);
+  GraphicSize := 0;
+end;
+
+constructor tGraphic.Load(var S : tStream);
+begin
+  S.Read(GraphicSize, SizeOf(GraphicSize));
+  GetMem(Graphic, GraphicSize shl 1);
+  S.Read(Graphic^, GraphicSize shl 1);
+end;
+
+procedure tGraphic.Store(var S : tStream);
+begin
+  S.Write(GraphicSize, SizeOf(GraphicSize));
+  S.Write(Graphic^, GraphicSize shl 1);
+end;
+
+procedure tGraphic.InsertInteger(i : Integer);
+var
+  p : pIntegerArray;
+begin
+  GetMem(p, (GraphicSize + 1) shl 1);
+  Move(Graphic^, p^, GraphicSize shl 1);
+  FreeMem(Graphic, GraphicSize shl 1);
+  Graphic := p;
+  Graphic^[GraphicSize] := i;
+  inc(GraphicSize);
+end;
+
+procedure tGraphic.SetInteger(Pos, i : Integer);
+begin
+  Graphic^[Pos] := i;
+end;
+
+procedure tGraphic.Insert2Byte(i, j : Byte);
+begin
+  InsertInteger(i + (j shl 8));
+end;
+
+procedure tGraphic.InsertPoint(X, Y : Integer);
+begin
+  InsertInteger(X);
+  InsertInteger(Y);
+end;
+
+procedure tGraphic.InsertPoint_(xPoint : tPoint);
+begin
+  with xPoint do InsertPoint(X, Y);
+end;
+
+procedure tGraphic.InsertRect(xRect : tRect);
+begin
+  with xRect
+  do begin
+    InsertPoint(Left, Top);
+    InsertPoint(Right, Bottom);
+  end;
+end;
+
+procedure tGraphic.DeleteGraphic(Start : Integer);
+var
+  p : pIntegerArray;
+begin
+  if Start < GraphicSize
+  then begin
+    GetMem(p, Start shl 1);
+    Move(Graphic^, p^, Start shl 1);
+    FreeMem(Graphic, GraphicSize shl 1);
+    GraphicSize := Start;
+    Graphic := p;
+  end;
+end;
+
+function tGraphic.GraphicEleRgn(
+  Start : Integer; var Rgn : hRgn; Direction : Shortint) : Integer;
+procedure dsText;
+var
+  FontData : tFontData;
+  X, Y,
+  k : Integer;
+begin
+  with FontData
+  do begin
+    k := Graphic^[Start+3];
+    Height := Lo(k);
+    Width := Hi(k);
+    k := Graphic^[Start+5];
+    FontNr := Lo(k);
+    FontFlag := Hi(k);
+    Direct := Graphic^[Start+4]-(900*Direction);
+  end;
+  Rgn := CreateTextRgn(@(Graphic^[Start+7]), Graphic^[Start+6], FontData);
+  GetPos(X, Y, Graphic^[Start+1], Graphic^[Start+2], Direction);
+  OffsetRgn(Rgn, X, Y);
+  inc(Start, 7 + ((Graphic^[Start+6]+1) shr 1));
+end;
+procedure dsLine;
+var
+  A, B : tPoint;
+begin
+  A.X := Graphic^[Start+1];
+  A.Y := Graphic^[Start+2];
+  B.X := Graphic^[Start+3];
+  B.Y := Graphic^[Start+4];
+  with A do
+    GetPos(X, Y, X, Y, Direction);
+  with B do
+    GetPos(X, Y, X, Y, Direction);
+  Rgn := CreateLineRgn(A, B);
+  inc(Start, 5);
+end;
+procedure dsPolygon;
+var
+  Poly : array [0..MaxPolyPoints-1] of tPoint;
+  j : Integer;
+begin
+  for j := 0 to Graphic^[Start+1]-1 do
+    with Poly[j] do
+      GetPos(
+        X, Y,
+        Graphic^[Start+2+(j shl 1)], Graphic^[Start+3+(j shl 1)],
+        Direction);
+  Rgn := CreatePolygonRgn(Poly, Graphic^[Start+1], 0);
+  inc(Start, 2 + (Graphic^[Start+1] shl 1));
+end;
+procedure dsRectangle;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  GetPos(X1, Y1, Graphic^[Start+1], Graphic^[Start+2], Direction);
+  GetPos(X2, Y2, Graphic^[Start+3], Graphic^[Start+4], Direction);
+  if X2 < X1 then SwapInteger(X1, X2);
+  if Y2 < Y1 then SwapInteger(Y1, Y2);
+  Rgn := CreateRectRgn(X1, Y1, X2, Y2);
+  inc(Start, 5);
+end;
+procedure dsEllipse;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  GetPos(X1, Y1, Graphic^[Start+1], Graphic^[Start+2], Direction);
+  GetPos(X2, Y2, Graphic^[Start+3], Graphic^[Start+4], Direction);
+  Rgn := CreateEllipticRgn(X1, Y1, X2, Y2);
+  inc(Start, 5);
+end;
+procedure dsChord;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  GetPos(X1, Y1, Graphic^[Start+1], Graphic^[Start+2], Direction);
+  GetPos(X2, Y2, Graphic^[Start+3], Graphic^[Start+4], Direction);
+  Rgn := CreateEllipticRgn(X1, Y1, X2, Y2);
+  inc(Start, 9);
+end;
+procedure dsBlock;
+var
+  PinNum,
+  height, direct : integer;
+  X_, Y_,
+  Xa, Ya,
+  Xb, Yb,
+  X1, Y1,
+  X2, Y2,
+  Yinc : integer;
+  k, t : integer;
+  Rgn_ : hRgn;
+begin
+  X_ := Graphic^[start+1];
+  Y_ := Graphic^[start+2];
+  direct := Graphic^[start+3];
+  PinNum := Graphic^[start+4];
+  height := Graphic^[start+5];
+  GetPos(Xa, Ya, 0, 0, direct);
+  GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+  GetPos(Xb, Yb, -2+(10*PinNum), +(10*height), direct);
+  GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+  Rgn := CreateRectRgn(X1, Y1, X2, Y2);
+  inc(start, dsBlockLen);
+
+  for k := 0 to (PinNum-1)
+  do begin
+    t := Graphic^[start];
+    if t>0
+    then begin
+      GetPos(Xa, Ya, +4+(k*10), 0, direct);
+      if t=1
+      then GetPos(Xb, Yb, +4+(k*10), -5, direct)
+      else GetPos(Xb, Yb, +4+(k*10), -3, direct);
+      GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+      GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+      Rgn_ := CreateLineRgn_( X1, Y1, X2, Y2 );
+      CombineRgn( Rgn, Rgn, Rgn_, RGN_OR );
+      DeleteObject(Rgn_);
+    end;
+    inc( start );
+    inc( start, (StrLen(@Graphic^[start])+2) div 2 );
+  end;
+  Yinc := 10*height;
+  for k := 0 to (PinNum-1)
+  do begin
+    t := Graphic^[start];
+    if t>0
+    then begin
+      GetPos(Xa, Ya, +4+(k*10), Yinc, direct);
+      if t=1
+      then GetPos(Xb, Yb, +4+(k*10), Yinc+5, direct)
+      else GetPos(Xb, Yb, +4+(k*10), Yinc+3, direct);
+      GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+      GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+      Rgn_ := CreateLineRgn_( X1, Y1, X2, Y2 );
+      CombineRgn( Rgn, Rgn, Rgn_, RGN_OR );
+      DeleteObject(Rgn_);
+    end;
+    inc( start );
+    inc( start, (StrLen(@Graphic^[start])+2) div 2 );
+  end;
+  (**){Region}
+end;
+var
+  State : Integer;
+begin
+  State := Graphic^[Start] and ds_Type;
+  if State <= 3
+  then
+    case State and ds_Type of
+      ds_Line : dsLine;
+      ds_Text : dsText;
+    end
+  else
+    case State and ds_TypeF of
+      ds_Polygon : dsPolygon;
+      ds_Rectangle : dsRectangle;
+      ds_Ellipse : dsEllipse;
+      ds_Chord : dsChord;
+      ds_Block : dsBlock;
+    end;
+  GraphicEleRgn := Start;
+end;
+
+function tGraphic.SelectGraphicPt_(Pt : tPoint; var Start : Integer) : Integer;
+{ gefundene Grafik liegt: Start <= Grafik < return }
+var
+  i, j : Integer;
+  Rgn_ : hRgn;
+begin
+  i := 0;
+  while i < Start
+  do begin
+    j := GraphicEleRgn(i, Rgn_, 0);
+    if PtInRegion(Rgn_, Pt.X, Pt.Y)
+    then Start := i
+    else i := j;
+    DeleteObject(Rgn_);
+  end;
+  SelectGraphicPt_ := j;
+end;
+
+function tGraphic.GraphicMove(i, j, l : Integer) : Integer;
+{ i <= Grafik < j kopieren vor l }
+var
+  k : Integer;
+  p : pIntegerArray;
+begin
+  k := j - i;
+  GetMem(p, k shl 1);
+  Move(Graphic^[i], p^, k shl 1);
+  Move(Graphic^[j], Graphic^[i], (l - j) shl 1);
+  Move(p^, Graphic^[l-k], k shl 1);
+  FreeMem(p, k shl 1);
+  dec(l, k);
+  GraphicMove := l;
+end;
+
+procedure tGraphic.SelectGraphicPt(Pt : tPoint; var Start : Integer);
+var
+  i, j : Integer;
+begin
+  i := Start;
+  j := SelectGraphicPt_(Pt, i);
+  if i < Start then Start := GraphicMove(i, j, Start);
+end;
+
+procedure tGraphic.NotDraw(i : Integer; PaintDC : hDC; Direction : Shortint);
+var
+  State : Integer;
+procedure dsLine;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  MoveTo(PaintDC, X1, Y1);
+  LineTo(PaintDC, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsText;
+var
+  FontData : tFontData;
+  X, Y,
+  k : Integer;
+  Rgn : hRgn;
+begin
+  with FontData
+  do begin
+    k := Graphic^[i+3];
+    Height := Lo(k);
+    Width := Hi(k);
+    k := Graphic^[i+5];
+    FontNr := Lo(k);
+    FontFlag := Hi(k);
+    Direct := Graphic^[i+4]-(900*Direction);
+  end;
+  Rgn := CreateTextRgn(@(Graphic^[i+7]), Graphic^[i+6], FontData);
+  GetPos(X, Y, Graphic^[i+1], Graphic^[i+2], Direction);
+  OffsetRgn(Rgn, X, Y);
+  FrameRgn(PaintDC, Rgn, GetStockObject(BLACK_BRUSH), 1, 1);
+  DeleteObject(Rgn);
+  inc(i, 7 + ((Graphic^[i+6]+1) shr 1));
+end;
+procedure SelectBrush;
+begin
+  if WordBool(State and ds_Filled)
+  then SelectObject(PaintDC, GetStockObject(Black_Brush))
+  else SelectObject(PaintDC, GetStockObject(Null_Brush));
+end;
+procedure dsPolygon;
+var
+  Poly : array [0..MaxPolyPoints-1] of tPoint;
+  j : Integer;
+begin
+  SelectBrush;
+  for j := 0 to Graphic^[i+1]-1 do
+    with Poly[j] do
+      GetPos(
+        X, Y,
+        Graphic^[i+2+(j shl 1)], Graphic^[i+3+(j shl 1)],
+        Direction);
+  Polygon(PaintDC, Poly, Graphic^[i+1]);
+  inc(i, 2 + (Graphic^[i+1] shl 1));
+end;
+procedure dsRectangle;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  SelectBrush;
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  Rectangle(PaintDC, X1, Y1, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsEllipse;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  SelectBrush;
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  Ellipse(PaintDC, X1, Y1, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsChord;
+var
+  X1, Y1,
+  X2, Y2,
+  X3, Y3,
+  X4, Y4 : Integer;
+begin
+  SelectBrush;
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  GetPos(X3, Y3, Graphic^[i+5], Graphic^[i+6], Direction);
+  GetPos(X4, Y4, Graphic^[i+7], Graphic^[i+8], Direction);
+  if WordBool(Graphic^[i] and ds_Filled)
+  then Pie(PaintDC, X1, Y1, X2, Y2, X3, Y3, X4, Y4)
+  else Arc(PaintDC, X1, Y1, X2, Y2, X3, Y3, X4, Y4);
+  inc(i, 9);
+end;
+procedure dsBlock;
+var
+  PinNum,
+  height, direct : integer;
+  X_, Y_,
+  Xa, Ya,
+  Xb, Yb,
+  X1, Y1,
+  X2, Y2,
+  Yinc : integer;
+  k, t : integer;
+begin
+  SelectBrush;
+  X_ := Graphic^[i+1];
+  Y_ := Graphic^[i+2];
+  direct := Graphic^[i+3];
+  PinNum := Graphic^[i+4];
+  height := Graphic^[i+5];
+  GetPos(Xa, Ya, 0, 0, direct);
+  GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+  GetPos(Xb, Yb, -2+(10*PinNum), +(10*height), direct);
+  GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+  Rectangle(PaintDC, X1, Y1, X2, Y2);
+  inc(i, dsBlockLen);
+
+  for k := 0 to (PinNum-1)
+  do begin
+    t := Graphic^[i];
+    if t>0
+    then begin
+      GetPos(Xa, Ya, +4+(k*10), 0, direct);
+      if t=1
+      then GetPos(Xb, Yb, +4+(k*10), -5, direct)
+      else GetPos(Xb, Yb, +4+(k*10), -3, direct);
+      GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+      GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+      MoveTo(PaintDC, X1, Y1);
+      LineTo(PaintDC, X2, Y2);
+    end;
+    inc( i );
+    inc( i, (StrLen(@Graphic^[i])+2) div 2 );
+  end;
+  Yinc := 10*height;
+  for k := 0 to (PinNum-1)
+  do begin
+    t := Graphic^[i];
+    if t>0
+    then begin
+      GetPos(Xa, Ya, +4+(k*10), Yinc, direct);
+      if t=1
+      then GetPos(Xb, Yb, +4+(k*10), Yinc+5, direct)
+      else GetPos(Xb, Yb, +4+(k*10), Yinc+3, direct);
+      GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+      GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+      MoveTo(PaintDC, X1, Y1);
+      LineTo(PaintDC, X2, Y2);
+    end;
+    inc( i );
+    inc( i, (StrLen(@Graphic^[i])+2) div 2 );
+  end;
+  (**){NotDraw}
+end;
+begin
+  while i < GraphicSize
+  do begin
+    State := Graphic^[i] and ds_Type;
+    if State <= 3
+    then
+      case State and ds_Type of
+        ds_Line : dsLine;
+        ds_Text : dsText;
+      end
+    else
+      case State and ds_TypeF of
+        ds_Polygon : dsPolygon;
+        ds_Rectangle : dsRectangle;
+        ds_Ellipse : dsEllipse;
+        ds_Chord : dsChord;
+        ds_Block : dsBlock;
+      end;
+  end;
+end;
+
+procedure tGraphic.Paint(PaintDC : HDC; Direction : Shortint);
+var
+  i, State : Integer;
+procedure dsLine;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  MoveTo(PaintDC, X1, Y1);
+  LineTo(PaintDC, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsText;
+var
+  font, font_ : hFont;
+  X, Y,
+  k, l : Integer;
+begin
+  k := Graphic^[i+3];
+  l := Graphic^[i+5];
+  font := CreateFont(
+    Lo(k), Hi(k),
+    Graphic^[i+4]-(900*Direction),
+    Graphic^[i+4]-(900*Direction),
+    400 + 300 * (Hi(l) and $01),
+    Hi(l) and $02,
+    Hi(l) and $04,
+    Hi(l) and $08,
+    ANSI_Charset, Font_Precis,
+    0, Font_Quality, 1, FontName[Lo(l)]);
+  GetPos(X, Y, Graphic^[i+1], Graphic^[i+2], Direction);
+  font_ := SelectObject(PaintDC, font);
+  TextOut(PaintDC, X, Y, @Graphic^[i+7], Graphic^[i+6]);
+  SelectObject(PaintDC, font_);
+  DeleteObject(font);
+  inc(i, 7 + ((Graphic^[i+6]+1) shr 1));
+end;
+procedure SelectBrush;
+begin
+  if WordBool(State and ds_Filled)
+  then SelectObject(PaintDC, GetStockObject(Black_Brush))
+  else SelectObject(PaintDC, GetStockObject(Null_Brush));
+end;
+procedure dsPolygon;
+var
+  Poly : array [0..MaxPolyPoints-1] of tPoint;
+  j : Integer;
+begin
+  SelectBrush;
+  for j := 0 to Graphic^[i+1]-1 do
+    with Poly[j] do
+      GetPos(
+        X, Y,
+        Graphic^[i+2+(j shl 1)], Graphic^[i+3+(j shl 1)],
+        Direction);
+  Polygon(PaintDC, Poly, Graphic^[i+1]);
+  inc(i, 2 + (Graphic^[i+1] shl 1));
+end;
+procedure dsRectangle;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  SelectBrush;
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  Rectangle(PaintDC, X1, Y1, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsEllipse;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  SelectBrush;
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  Ellipse(PaintDC, X1, Y1, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsChord;
+var
+  X1, Y1,
+  X2, Y2,
+  X3, Y3,
+  X4, Y4 : Integer;
+begin
+  SelectBrush;
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  GetPos(X3, Y3, Graphic^[i+5], Graphic^[i+6], Direction);
+  GetPos(X4, Y4, Graphic^[i+7], Graphic^[i+8], Direction);
+  if WordBool(Graphic^[i] and ds_Filled)
+  then Pie(PaintDC, X1, Y1, X2, Y2, X3, Y3, X4, Y4)
+  else Arc(PaintDC, X1, Y1, X2, Y2, X3, Y3, X4, Y4);
+  inc(i, 9);
+end;
+procedure dsBlock;
+var
+  PinNum,
+  height, direct : integer;
+  X_, Y_,
+  Xa, Ya,
+  Xb, Yb,
+  X1, Y1,
+  X2, Y2,
+  Yinc : integer;
+  k, t : integer;
+  font, font_ : hFont;
+  A : longint;
+begin
+  SelectBrush;
+  X_ := Graphic^[i+1];
+  Y_ := Graphic^[i+2];
+  direct := Graphic^[i+3];
+  PinNum := Graphic^[i+4];
+  height := Graphic^[i+5];
+
+  k := Graphic^[i+6];
+  t := Graphic^[i+8];
+  font := CreateFont(
+    Lo(k), Hi(k),
+    Graphic^[i+7]-(900*Direction),
+    Graphic^[i+7]-(900*Direction),
+    400 + 300 * (Hi(t) and $01),
+    Hi(t) and $02,
+    Hi(t) and $04,
+    Hi(t) and $08,
+    ANSI_Charset, Font_Precis,
+    0, Font_Quality, 1, FontName[Lo(t)]);
+  font_ := SelectObject(PaintDC, font);
+
+  GetPos(Xa, Ya, 0, 0, direct);
+  GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+  GetPos(Xb, Yb, -2+(10*PinNum), +(10*height), direct);
+  GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+  Rectangle(PaintDC, X1, Y1, X2, Y2);
+  inc(i, dsBlockLen);
+
+  for k := 0 to (PinNum-1)
+  do begin
+    t := Graphic^[i];
+    inc( i );
+    if t>0
+    then begin
+      GetPos(Xa, Ya, +4+(k*10), 0, direct);
+      if t=1
+      then GetPos(Xb, Yb, +4+(k*10), -5, direct)
+      else GetPos(Xb, Yb, +4+(k*10), -3, direct);
+      GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+      GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+      MoveTo(PaintDC, X1, Y1);
+      LineTo(PaintDC, X2, Y2);
+    end;
+    A := GetTextExtent(PaintDC, @Graphic^[i], StrLen(@Graphic^[i]));
+    with tPoint(A) do
+      GetPos(Xa, Ya, +4+(k*10)-(X div 2), 1, direct);
+    GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+    TextOut( PaintDC, X1, Y1, @Graphic^[i], StrLen(@Graphic^[i]) );
+    inc( i, (StrLen(@Graphic^[i])+2) div 2 );
+  end;
+  Yinc := 10*height;
+  for k := 0 to (PinNum-1)
+  do begin
+    t := Graphic^[i];
+    inc( i );
+    if t>0
+    then begin
+      GetPos(Xa, Ya, +4+(k*10), Yinc, direct);
+      if t=1
+      then GetPos(Xb, Yb, +4+(k*10), Yinc+5, direct)
+      else GetPos(Xb, Yb, +4+(k*10), Yinc+3, direct);
+      GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+      GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+      MoveTo(PaintDC, X1, Y1);
+      LineTo(PaintDC, X2, Y2);
+    end;
+    A := GetTextExtent(PaintDC, @Graphic^[i], StrLen(@Graphic^[i]));
+    with tPoint(A) do
+      GetPos(Xa, Ya, +4+(k*10)-(X div 2), Yinc-Y, direct);
+    GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+    TextOut( PaintDC, X1, Y1, @Graphic^[i], StrLen(@Graphic^[i]) );
+    inc( i, (StrLen(@Graphic^[i])+2) div 2 );
+  end;
+  SelectObject(PaintDC, font_);
+  DeleteObject(font);
+  (**) {Paint}
+end;
+begin
+  SelectObject(PaintDC, DrawPen);
+  i := 0;
+  while i < GraphicSize
+  do begin
+    State := Graphic^[i] and ds_Type;
+    if State <= 3
+    then
+      case State and ds_Type of
+        ds_Line : dsLine;
+        ds_Text : dsText;
+      end
+    else
+      case State and ds_TypeF of
+        ds_Polygon : dsPolygon;
+        ds_Rectangle : dsRectangle;
+        ds_Ellipse : dsEllipse;
+        ds_Chord : dsChord;
+        ds_Block : dsBlock;
+      end;
+  end;
+end;
+
+procedure tGraphic.Paint_(PaintDC : HDC; Direction : Shortint);
+var
+  i, State : Integer;
+procedure dsLine;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  MoveTo(PaintDC, X1, Y1);
+  LineTo(PaintDC, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsText;
+var
+  font, font_ : hFont;
+  X, Y,
+  k, l : Integer;
+begin
+  k := Graphic^[i+3];
+  l := Graphic^[i+5];
+  font := CreateFont(
+    Lo(k), Hi(k),
+    Graphic^[i+4]-(900*Direction),
+    Graphic^[i+4]-(900*Direction),
+    400 + 300 * (Hi(l) and $01),
+    Hi(l) and $02,
+    Hi(l) and $04,
+    Hi(l) and $08,
+    ANSI_Charset, Font_Precis,
+    0, Font_Quality, 1, FontName[Lo(l)]);
+  GetPos(X, Y, Graphic^[i+1], Graphic^[i+2], Direction);
+  font_ := SelectObject(PaintDC, font);
+  TextOut(PaintDC, X, Y, @Graphic^[i+7], Graphic^[i+6]);
+  SelectObject(PaintDC, font_);
+  DeleteObject(font);
+  inc(i, 7 + ((Graphic^[i+6]+1) shr 1));
+end;
+procedure dsPolygon;
+var
+  Poly : array [0..MaxPolyPoints-1] of tPoint;
+  j : Integer;
+begin
+  SelectObject(PaintDC, GetStockObject(Null_Brush));
+  for j := 0 to Graphic^[i+1]-1 do
+    with Poly[j] do
+      GetPos(
+        X, Y,
+        Graphic^[i+2+(j shl 1)], Graphic^[i+3+(j shl 1)],
+        Direction);
+  Polygon(PaintDC, Poly, Graphic^[i+1]);
+  inc(i, 2 + (Graphic^[i+1] shl 1));
+end;
+procedure dsRectangle;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  SelectObject(PaintDC, GetStockObject(Null_Brush));
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  Rectangle(PaintDC, X1, Y1, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsEllipse;
+var
+  X1, Y1,
+  X2, Y2 : Integer;
+begin
+  SelectObject(PaintDC, GetStockObject(Null_Brush));
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  Ellipse(PaintDC, X1, Y1, X2, Y2);
+  inc(i, 5);
+end;
+procedure dsChord;
+var
+  X1, Y1,
+  X2, Y2,
+  X3, Y3,
+  X4, Y4 : Integer;
+begin
+  SelectObject(PaintDC, GetStockObject(Null_Brush));
+  GetPos(X1, Y1, Graphic^[i+1], Graphic^[i+2], Direction);
+  GetPos(X2, Y2, Graphic^[i+3], Graphic^[i+4], Direction);
+  GetPos(X3, Y3, Graphic^[i+5], Graphic^[i+6], Direction);
+  GetPos(X4, Y4, Graphic^[i+7], Graphic^[i+8], Direction);
+  if WordBool(Graphic^[i] and ds_Filled)
+  then Pie(PaintDC, X1, Y1, X2, Y2, X3, Y3, X4, Y4)
+  else Arc(PaintDC, X1, Y1, X2, Y2, X3, Y3, X4, Y4);
+  inc(i, 9);
+end;
+procedure dsBlock;
+var
+  PinNum,
+  height, direct : integer;
+  X_, Y_,
+  Xa, Ya,
+  Xb, Yb,
+  X1, Y1,
+  X2, Y2,
+  Yinc : integer;
+  k, t : integer;
+begin
+  X_ := Graphic^[i+1];
+  Y_ := Graphic^[i+2];
+  direct := Graphic^[i+3];
+  PinNum := Graphic^[i+4];
+  height := Graphic^[i+5];
+
+  GetPos(Xa, Ya, 0, 0, direct);
+  GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+  GetPos(Xb, Yb, -2+(10*PinNum), +(10*height), direct);
+  GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+  Rectangle(PaintDC, X1, Y1, X2, Y2);
+  inc(i, dsBlockLen);
+
+  for k := 0 to (PinNum-1)
+  do begin
+    t := Graphic^[i];
+    inc( i );
+    if t>0
+    then begin
+      GetPos(Xa, Ya, +4+(k*10), 0, direct);
+      if t=1
+      then GetPos(Xb, Yb, +4+(k*10), -5, direct)
+      else GetPos(Xb, Yb, +4+(k*10), -3, direct);
+      GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+      GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+      MoveTo(PaintDC, X1, Y1);
+      LineTo(PaintDC, X2, Y2);
+    end;
+    inc( i, (StrLen(@Graphic^[i])+2) div 2 );
+  end;
+  Yinc := 10*height;
+  for k := 0 to (PinNum-1)
+  do begin
+    t := Graphic^[i];
+    inc( i );
+    if t>0
+    then begin
+      GetPos(Xa, Ya, +4+(k*10), Yinc, direct);
+      if t=1
+      then GetPos(Xb, Yb, +4+(k*10), Yinc+5, direct)
+      else GetPos(Xb, Yb, +4+(k*10), Yinc+3, direct);
+      GetPos(X1, Y1, Xa+X_, Ya+Y_, Direction);
+      GetPos(X2, Y2, Xb+X_, Yb+Y_, Direction);
+      MoveTo(PaintDC, X1, Y1);
+      LineTo(PaintDC, X2, Y2);
+    end;
+    inc( i, (StrLen(@Graphic^[i])+2) div 2 );
+  end;
+  (**) {Paint_}
+end;
+begin
+  SelectObject(PaintDC, DrawPen);
+  i := 0;
+  while i < GraphicSize
+  do begin
+    State := Graphic^[i] and ds_Type;
+    if State <= 3
+    then
+      case State and ds_Type of
+        ds_Line : dsLine;
+        ds_Text : dsText;
+      end
+    else
+      case State and ds_TypeF of
+        ds_Polygon : dsPolygon;
+        ds_Rectangle : dsRectangle;
+        ds_Ellipse : dsEllipse;
+        ds_Chord : dsChord;
+        ds_Block : dsBlock;
+      end;
+  end;
+end;
+
+procedure tGraphic.PaintRgn(PaintDC : HDC; Direction : Shortint);
+var
+  Rgn : hRgn;
+begin
+  Rgn := CalcRgn(Direction);
+  FillRgn(PaintDC, Rgn, GetStockObject(WHITE_BRUSH));
+  DeleteObject(Rgn);
+end;
+
+function tGraphic.CalcRgn(Direction : Shortint) : hRgn;
+var
+  Rgn, Rgn_ : hRgn;
+  i : Integer;
+begin
+  Rgn := CreateEmptyRgn;
+  i := 0;
+  while i < GraphicSize
+  do begin
+    i := GraphicEleRgn(i, Rgn_, Direction);
+    CombineRgn(Rgn, Rgn, Rgn_, Rgn_Or);
+    DeleteObject(Rgn_);
+  end;
+  CalcRgn := Rgn;
+end;
+
+procedure tGraphic.ChangeGraphic(
+  xName : pChar; xParent : pWindowsObject;
+  xBg : pGraphic; i : Integer);
+var
+  p : pWindow;
+begin
+  p := pWindow( SendMessage( hMainWin, ms_IsShown, xParent^.hWindow, longint(xName) ) );
+  if p = nil
+  then begin
+    p := New(pPaintWindow, Init(xName, xParent, xBg, @Self, i));
+    SendMessage(hMainWin, ms_NewWin, 0, Longint(p))
+  end
+  else SetFocus(p^.hWindow);
+end;
+
+procedure tGraphic.ChangeRegion(
+  xName : pChar; xParent : pWindowsObject;
+  xBg : pGraphic; i : Integer);
+var
+  p : pWindow;
+begin
+  p := New(pRegionWindow, Init(xName, xParent, xBg, @Self, i));
+  SendMessage(hMainWin, ms_NewWin, 0, Longint(p))
+end;
+
+end.

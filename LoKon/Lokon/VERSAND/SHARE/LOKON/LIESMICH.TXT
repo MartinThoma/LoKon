@@ -1,0 +1,115 @@
+Systemvoraussetzung:
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+  - ein IBM-kompatibler PC mit mind. einem 386er-Prozessor
+  - MS-Windows ab Version 3.1 aufwärts oder OS/Win ab OS/2 Version 2.11 aufwärts
+    oder Windows 95.
+  - 900Kbyte freier Festplattenspeicher, bei der Vollinstallation (Beispieldateien 
+    und Anleitung) werden 3MByte Festplattenspeicher benötigt.
+
+Da LoKon nur mit MS-Windows läuft, sind sonst keine Voraussetzungen 
+notwendig.
+
+Es wird eine Auflösung von 800x600 Punkten und 16 Farben empfohlen.
+
+Digitale Schaltungen werden mit LoKon kinderleicht aufgebaut. Ein
+wichtiger Bestandteil des Programms ist auch die Simualtion der
+Schaltungen.
+
+LoKon ist vor allem für Schüler und Studenten bzw. Schulen und Universitäten
+geeignet. Es kann z.B. zu Lehrzwecken im Informatik-GK eingesetzt werden.
+Im Informatik-Studium ist es für die Technische Informatik interessant und 
+hilft auch dort den gelernten Stoff zu vertiefen.
+LoKon wird z.B. an der Universität Karlsruhe in der Technischen Informatik
+eingesetzt.
+Auch in der Elektrotechnik kann LoKon zum Verständnis und vertiefen des
+Lehrstoffes eingesetzt werden.
+
+Die Bedienung von LoKon ist Windows-konform. Eine Speedbar und Statuszeile
+machen die Bedienung noch einfacher und bequemer.
+Eine ausführliche On-Line Hilfe (eine 500KByte große komprimierte Hilfedatei)
+ist vorhanden.
+
+Sie können sich auch ein kurzes Demo des Programms anschauen.
+Hierfür müssen Sie LoKon in das Verzeichnis C:\LOKON installieren.
+Anschließend starten Sie zuerst LOKON.EXE und dann LOKON.REC
+im Verzeichnis C:\LOKON.
+Sie brechen das Demo ab durch drücken von STRG+PAUSE.
+
+Die Shareware-Version hat keinerlei funktionale Beschränkungen !!!!!
+Folgende Unterschiede bestehen zwischen der Shareware und der Vollversion:
+
+  - Shareware-Fenster zu Beginn und am Ende
+  - Der Shareware Schriftzug, der während des Editierens und
+    im Ausdruck erscheint
+  - Im Dialog Datei->über steht SHAREWARE, in der registrieten Version
+    steht hier Ihr Name
+
+Eine kurze Leistugsbeschreibung:
+           ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+  - Aufbau komplexer digitaler Schaltungen, deren Größe nur durch 
+    den verfügbaren Speicher begrenzt ist.
+  - Die Schaltungen können stufenlos vergrößert und verkleinert werden.
+  - Kontextsensitive Statuszeile und kontextsensitiver Mauszeiger.
+  - Ausdruck der Schaltungen und Grafiken.
+  - Erstellen eigener Elementbibliotheken.
+  - Alle Elemente - inklusive den von Ihnen erstellten Elemente -
+    sind in 90°-Schritten drehbar.
+  - Drei Elementbibliotheken in DIN-Norm und internationaler Norm
+    enthalten.
+  - Jedes Element hat eigene Verzögerungszeiten.
+  - Schaltungen können sowohl in deutscher als auch in 
+    internationaler Norm dargestellt werden.
+  - Schaltungen können auch mit Elementen mit verschiedenen 
+    Verzögerungen simuliert werden.
+  - Standard Bedienung, wie Sie es von Windows-Programmen gewohnt sind:
+        1. Speedbar
+        2. Statuszeile (Informationsfeld und Koordinatenanzeige)
+        3. kontextsensitive Hilfe
+        4. kopieren in die und aus der Zwischenablage
+        5. Verknüpfung in Datei-Manager
+  - Text und Grafiken (nur Bitmaps) können über die Zwischenablage 
+    importiert werden.
+  - Oszilloskop
+  - kontextsensitive Menüs durch Drücken der rechten Maustaste
+  - Jede Schaltung besitzt einen Oszilloskop, das die Zustände
+    ausgewählter Leitungen aufzeichnet.
+  - PLA Baustein
+  - Makro-Element
+  - Rckg„ngig
+
+Installation:
+¯¯¯¯¯¯¯¯¯¯¯¯
+  - Starten Sie das Programm SETUP.EXE unter Windows.
+
+Das Setup-Programm kopiert dann die Dateien für LoKon in ein
+von Ihnen angegebenes Verzeichnis.
+Das Setup-Programm ist selbsterklärend.
+
+Shareware:
+¯¯¯¯¯¯¯¯¯
+LoKon wird als Shareware vertrieben, d.h. Sie können das Programm
+vor dem Kauf (für 30 Tage) testen. Spätestens nach dem Ablauf dieser 
+Zeitspanne müssen Sie sich entscheiden, ob Sie das Programm kaufen
+wollen oder ob Sie es doch nicht benötigen. Im letzten Fall müssen
+Sie das Programm löschen und dürfen es nicht mehr benutzen.
+Wollen Sie sich registrieren, so lesen Sie die Datei REGISTER.WRI
+durch.
+In jedem Fall sollten Sie die Shareware-Version dieses
+Programmes WEITERGEBEN.
+
+Preis:
+¯¯¯¯¯
+  50 DM
+gewerbliche Nutzung: 99 DM
+
+Adresse des Autors:
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+  Heiko Roth
+  Schillerstrasse 14
+  74834 Elztal-Neckarburken
+  Germany
+  Tel: +49 6261 36604
+  Fax: +49 6261 37409
+email: Heiko.Roth@t-online.de
+  WWW: http://home.t-online.de/home/Heiko.Roth
+

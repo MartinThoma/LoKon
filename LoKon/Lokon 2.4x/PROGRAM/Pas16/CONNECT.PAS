@@ -1,0 +1,639 @@
+unit Connect;
+{$I define.inc}
+
+interface
+
+uses
+  Strings,
+  LK_Const,
+  Objects,
+  WinTypes, WinProcs,
+  OWinEx, OWindows,
+  Item,
+  ConNode,
+  Impulse,
+  EleFile;
+
+type
+  pConnection = ^tConnection;
+  tConnection = object (tItem)
+    Con1, Con2 : tCon;
+    on_,
+    NumPt : Integer;
+    Pt : pPointArray;
+    constructor Init(xNum1, xNum2 : Integer; xC1, xC2 : pItem);
+    destructor Done; virtual;
+    function Name : pChar; virtual;
+    procedure Reset; virtual;
+    constructor Load(var S : tStream);
+    procedure Store(var S : tStream);
+    procedure StoreText(var T : Text); virtual;
+    procedure StoreInOut(var S : tStream); virtual;
+    function LoadInOut(var S : tStream) : Boolean; virtual;
+    procedure IncPos(xX, xY : Integer); virtual;
+    procedure IncDirection_; virtual;
+    function Full_in_Lay(Lay : pCollection) : Boolean; virtual;
+    procedure MoveTo_(A : tPoint);
+    function GetRegion_ : hRgn; virtual;
+    function GetInOutCon(Num : Integer) : pCon; virtual;
+    procedure DeleteCon(Layout : pCollection); virtual;
+    procedure InsertCon(Layout : pCollection; PaintDC : hDC); virtual;
+    function GetState(A : tPoint; b : Integer) : Integer; virtual;
+    procedure SetCon(Num : Integer; p : pItem; Num_ : Integer); virtual;
+    function DelCon(Num : Integer) : Integer; virtual;
+    procedure SetPt(Num : Integer; A : tPoint);
+    procedure InsertPt(Num : Integer; A : tPoint);
+    procedure DelPt(Num : Integer);
+    procedure DelAllPt;
+    function GetPtNum(C : tPoint) : Integer;
+    function GetLineNum(C : tPoint) : Integer;
+    function InsertNode(Layout : pWindow; A : tPoint) : pItem;
+    procedure NotPaint(PaintDC: hDC); virtual;
+    procedure Paint(PaintDC: hDC); virtual;
+    procedure Paint_(PaintDC: hDC); virtual;
+    procedure PaintInOut(PaintDC : hDC); virtual;
+    procedure SendImpulse(
+      NumIn, Impulse : Integer;
+      PaintCol : pCollection; Impulses : pCollection); virtual;
+    function CalcEdit(R : tRect) : hRgn; virtual;
+    function Position : pPosition; virtual;
+    function PosPoint : longint; virtual;
+    procedure ItemEdit(Window : pWindowsObject); virtual;
+    function GetMenu( ItemMenu : hMenu; window : hWnd ) : hMenu; virtual;
+  end;
+
+  pConnectionPt = ^tConnectionPt;
+  tConnectionPt = record
+    Connection : pConnection;
+    NumPt : Integer;
+  end;
+
+implementation
+
+{ ------ tConnection ---------------------------------------------------- }
+
+var
+  ConnectionName : pChar;
+
+constructor tConnection.Init(xNum1, xNum2 : Integer; xC1, xC2 : pItem);
+begin
+  Con1.Init(xC1, xNum1);
+  Con2.Init(xC2, xNum2);
+  NumPt := 0;
+  on_ := 0;
+  Pt := nil;
+  CalcItemRect;
+end;
+
+destructor tConnection.Done;
+begin
+  Con1.DelCon;
+  Con2.DelCon; { Wird ja eigentlich von den verbundenen Elementen durchgefuehrt. }
+  FreeMem(Pt, NumPt * SizeOf(tPoint));
+end;
+
+function tConnection.Name : pChar;
+begin
+  Name := ConnectionName;
+end;
+
+procedure tConnection.Reset;
+begin
+  on_ := 0;
+end;
+
+constructor tConnection.Load(var S : tStream);
+var
+  i : Integer;
+begin
+{$ifdef debug}
+  appendLog('Connection.Load 1');
+{$endif}
+  S.Read(NumPt, SizeOf(NumPt));
+  GetMem(Pt, NumPt * SizeOf(tPoint));
+  S.Read(Pt^, NumPt * SizeOf(tPoint));
+  { SetCon erst nachdem die Punkte geladen sind (wegen CalcItemRect). }
+  Con2.Init(nil, 0);
+  with Con1
+  do begin
+    S.Read(Num, SizeOf(Num));
+    S.Read(i, SizeOf(Integer));
+    Con := ActLay^.Layout^.At(i);
+    Con^.SetCon_(Num, @Self, 1);
+  end;
+  with Con2
+  do begin
+    S.Read(Num, SizeOf(Num));
+    S.Read(i, SizeOf(Integer));
+    Con := ActLay^.Layout^.At(i);
+    Con^.SetCon_(Num, @Self, 2);
+  end;
+  CalcItemRect;
+  on_ := 0;
+{$ifdef debug}
+  appendLog('Connection.Load 2');
+{$endif}
+end;
+
+
+procedure tConnection.Store(var S : tStream);
+var
+  i : Integer;
+begin
+  S.Write(NumPt, SizeOf(NumPt));
+  S.Write(Pt^, NumPt * SizeOf(tPoint));
+  with Con1
+  do begin
+    S.Write(Num, SizeOf(Num));
+    i := ActLay^.Layout^.IndexOf(Con);
+    S.Write(i, SizeOf(Integer));
+  end;
+  with Con2
+  do begin
+    S.Write(Num, SizeOf(Num));
+    i := ActLay^.Layout^.IndexOf(Con);
+    S.Write(i, SizeOf(Integer));
+  end;
+end;
+
+procedure tConnection.StoreText(var t : Text);
+var
+  i : Integer;
+begin
+  StoreInt(t, 'numPt', NumPt);
+  for i := 0 to numPt-1
+  do begin
+    write(t, ' ');
+    StorePoint_(t, Pt^[i]);
+  end;
+  with Con1
+  do begin
+    write(t, '  Con1 ');
+    StoreInt_(t, Num);
+    write(t, ' ');
+    StoreInt_(t, i);
+    writeln(t);
+  end;
+  with Con2
+  do begin
+    write(t, '  Con2 ');
+    StoreInt_(t, Num);
+    write(t, ' ');
+    StoreInt_(t, i);
+    writeln(t);
+  end;
+end;
+
+procedure tConnection.StoreInOut(var S : tStream);
+begin
+  S.Write(on_, SizeOf(on_));
+end;
+
+function tConnection.LoadInOut(var S : tStream) : Boolean;
+begin
+  S.Read(on_, SizeOf(on_));
+  LoadInOut := True;
+end;
+
+procedure tConnection.IncPos(xX, xY : Integer);
+var
+  i : Integer;
+begin
+  for i := 0 to NumPt-1 do
+    with Pt^[i]
+    do begin
+      inc(X, xX);
+      inc(Y, xY);
+    end;
+end;
+
+procedure tConnection.IncDirection_;
+var
+  i : Integer;
+begin
+  for i := 0 to NumPt-1 do
+    with Pt^[i] do
+      GetPos(X, Y, X, Y, +1);
+end;
+
+function tConnection.Full_in_Lay(Lay : pCollection) : Boolean;
+begin
+  Full_in_Lay :=
+    (Lay^.IndexOf(Con1.Con) >= 0) and
+    (Lay^.IndexOf(Con2.Con) >= 0);
+end;
+
+procedure tConnection.MoveTo_(A : tPoint);
+begin
+  Con2.Con := Pointer(A);
+  CalcItemRect;
+end;
+
+function tConnection.GetRegion_ : hRgn;
+var
+  i : Integer;
+  A, B : tPoint;
+  Rgn, Rgn_ : hRgn;
+begin
+  Rgn := CreateEmptyRgn;
+  with Con1 do
+    if Num = 0
+    then A := tPoint(Con)
+    else Longint(A) := Con^.GetInOutPos(Num);
+  for i := 0 to NumPt-1
+  do begin
+    B := Pt^[i];
+    Rgn_ := CreateLineRgn(A, B);
+    CombineRgn(Rgn, Rgn, Rgn_, Rgn_Or);
+    DeleteObject(Rgn_);
+    A := B;
+  end;
+  with Con2 do
+    if Num = 0
+    then B := tPoint(Con)
+    else Longint(B) := Con^.GetInOutPos(Num);
+  Rgn_ := CreateLineRgn(A, B);
+  CombineRgn(Rgn, Rgn, Rgn_, Rgn_Or);
+  DeleteObject(Rgn_);
+  GetRegion_ := Rgn;
+end;
+
+function tConnection.GetInOutCon(Num : Integer) : pCon;
+begin
+  case Num of
+    1 : GetInOutCon := @Con1;
+    2 : GetInOutCon := @Con2;
+    else GetInOutCon := nil;
+  end;
+end;
+
+procedure tConnection.DeleteCon(Layout : pCollection);
+begin
+  with Con1 do
+    Num := DelCon;
+  with Con2 do
+    Num := DelCon;
+end;
+
+procedure tConnection.InsertCon(Layout : pCollection; PaintDC : hDC);
+begin
+  with Con1 do
+    if Con <> nil then Con^.SetCon(Num, @Self, 1);
+  with Con2 do
+    if con <> nil then Con^.SetCon(Num, @Self, 2);
+end;
+
+function tConnection.GetState(A : tPoint; b : Integer) : Integer;
+begin
+  if (b and lm_Test) = lm_Test
+  then GetState := ls_test
+  else
+    case (b and lm_First) of
+      lm_MouseMove,
+      lm_LButton :
+        begin
+          if GetPtNum(A) >= 0
+          then GetState := ls_ConPtMove
+          else GetState := ls_ConnectionPt;
+        end;
+      lm_Connect : GetState := ls_ConNode;
+    end;
+end;
+
+procedure tConnection.SetCon(Num : Integer; p : pItem; Num_ : Integer);
+begin
+  case Num of
+    1 : Con1.Init(p, Num_);
+    2 : Con2.Init(p, Num_);
+  end;
+  CalcItemRect;
+end;
+
+function tConnection.DelCon(Num : Integer) : Integer;
+begin
+  case Num of
+    1 : Con1.Done;
+    2 : Con2.Done;
+  end;
+  DelCon := Num;
+end;
+
+procedure tConnection.SetPt(Num : Integer; A : tPoint);
+begin
+  Pt^[Num] := A;
+end;
+
+procedure tConnection.InsertPt(Num : Integer; A : tPoint);
+var
+  Pt_ : pPointArray;
+begin
+  GetMem(Pt_, (NumPt+1) * SizeOf(tPoint));
+  Move(Pt^[0], Pt_^[0], Num * SizeOf(tPoint));
+  Pt_^[Num] := A;
+  Move(Pt^[Num], Pt_^[Num+1], (NumPt-Num) * SizeOf(tPoint));
+  FreeMem(Pt, NumPt * SizeOf(tPoint));
+  inc(NumPt);
+  Pt := Pt_;
+end;
+
+procedure tConnection.DelPt(Num : Integer);
+var
+  Pt_ : pPointArray;
+begin
+  GetMem(Pt_, (NumPt-1) * SizeOf(tPoint));
+  Move(Pt^[0], Pt_^[0], Num * SizeOf(tPoint));
+  Move(Pt^[Num+1], Pt_^[Num], (NumPt-1-Num) * SizeOf(tPoint));
+  FreeMem(Pt, NumPt * SizeOf(tPoint));
+  dec(NumPt);
+  Pt := Pt_;
+end;
+
+procedure tConnection.DelAllPt;
+begin
+  FreeMem(Pt, NumPt * SizeOf(tPoint));
+  NumPt := 0;
+end;
+
+function tConnection.GetPtNum(C : tPoint) : Integer;
+var
+  i : Integer;
+begin
+  GetPtNum := -1;
+  for i := 0 to NumPt-1 do
+    if EqualPt(Pt^[i], C) then GetPtNum := i;
+end;
+
+function tConnection.GetLineNum(C : tPoint) : Integer;
+var
+  A, B : tPoint;
+  Rgn : hRgn;
+  i : Integer;
+begin
+  GetLineNum := -1;
+  if NumPt = 0
+  then GetLineNum := 0
+  else begin
+    with Con1 do
+      Longint(A) := Con^.GetInOutPos(Num);
+    for i := 0 to NumPt-1
+    do begin
+      B := Pt^[i];
+      Rgn := CreateLineRgn(A, B);
+      if PtInRegion(Rgn, C.X, C.Y) then GetLineNum := i;
+      A := B;
+      DeleteObject(Rgn);
+    end;
+  end;
+  with Con2 do
+    Longint(B) := Con^.GetInOutPos(Num);
+  Rgn := CreateLineRgn(A, B);
+  if PtInRegion(Rgn, C.X, C.Y) then GetLineNum := NumPt;
+  DeleteObject(Rgn);
+end;
+
+function tConnection.InsertNode(Layout : pWindow; A : tPoint) : pItem;
+var
+  Node : pConNode;
+  Connect1, Connect2 : pConnection;
+  i : Integer;
+begin
+  SendMessage(Layout^.hWindow, ms_DelInsItem, di_DeleteItem, Longint(@Self));
+  with A do
+    Node := New(pConNode, Init(X, Y));
+  with Con1
+  do begin
+    Connect1 := New(pConnection, Init(Num, 0, Con, nil));
+    Con^.SetCon(Num, Connect1, 1);
+  end;
+  with Con2
+  do begin
+    Connect2 := New(pConnection, Init(0, Num, nil, Con));
+    Con^.SetCon(Num, Connect2, 2);
+  end;
+  { Leitungszug trennen. }
+  i := GetLineNum(A);
+  GetMem(Connect2^.Pt, (NumPt-i) * SizeOf(tPoint));
+  Move(Pt^[i], Connect2^.Pt^[0], (NumPt-i) * SizeOf(tPoint));
+  Connect2^.NumPt := NumPt-i;
+  GetMem(Connect1^.Pt, i * SizeOf(tPoint));
+  Move(Pt^[0], Connect1^.Pt^[0], i * SizeOf(tPoint));
+  Connect1^.NumPt := i;
+  { Neue Leitungen an Verbindungsknoten anschließen. }
+  i := Node^.GetInOutNr(A);
+  Connect1^.SetCon(2, Node, i);
+  Node^.SetCon(i, Connect1, 2);
+  i := Node^.GetInOutNr(A);
+  Connect2^.SetCon(1, Node, i);
+  Node^.SetCon(i, Connect2, 1);
+  { Verbindungsknoten einfügen (die verbundenen Leitungen werden
+    automatisch mit eingefügt) und alte Leitung löschen. }
+  SendMessage(Layout^.hWindow, ms_DelInsItem, di_InsertItem, Longint(Node));
+  InsertNode := Node;
+  DelCon(1);
+  DelCon(2);
+  Free;
+end;
+
+procedure tConnection.NotPaint(PaintDC: hDC);
+var
+  A : tPoint;
+  i : Integer;
+begin
+  SetWindowOrg(PaintDC, 0, 0);
+  SelectObject(PaintDC, DrawPen);
+  with Con1 do
+    if Num = 0
+    then A := tPoint(Con)
+    else Longint(A) := Con^.GetInOutPos(Num);
+  with A do MoveTo(PaintDC, X, Y);
+  for i := 0 to NumPt-1 do
+    with Pt^[i] do LineTo(PaintDC, X, Y);
+  with Con2 do
+    if Num = 0
+    then A := tPoint(Con)
+    else Longint(A) := Con^.GetInOutPos(Num);
+  with A do LineTo(PaintDC, X, Y);
+end;
+
+procedure tConnection.Paint(PaintDC: hDC);
+var
+  A : Longint;
+  i : Integer;
+begin
+  SetWindowOrg(PaintDC, 0, 0);
+  if Boolean(on_)
+  then SelectObject(PaintDC, OnPen)
+  else SelectObject(PaintDC, OffPen);
+  with Con1 do
+    A := Con^.GetInOutPos(Num);
+  with tPoint(A) do MoveTo(PaintDC, X, Y);
+  for i := 0 to NumPt-1 do
+    with Pt^[i] do LineTo(PaintDC, X, Y);
+  with Con2 do
+    A := Con^.GetInOutPos(Num);
+  with tPoint(A) do LineTo(PaintDC, X, Y);
+end;
+
+procedure tConnection.Paint_(PaintDC : hDC);
+begin
+  Paint(PaintDC);
+end;
+
+procedure tConnection.PaintInOut(PaintDC : hDC);
+var
+  i : Integer;
+begin
+  SetWindowOrg(PaintDC, 0, 0);
+  SelectObject(PaintDC, ConPtPen);
+  for i := 0 to NumPt-1 do
+    with Pt^[i]
+    do begin
+      MoveTo(PaintDC, X, Y);
+      LineTo(PaintDC, X, Y);
+    end;
+end;
+
+procedure tConnection.SendImpulse(
+  NumIn, Impulse : Integer;
+  PaintCol : pCollection; Impulses : pCollection);
+var
+  A : longint;
+  xActItem : pItem;
+  xNumIn, i : Integer;
+begin
+  { Nur Impulsweitergabe, wenn sich der
+    neue Impuls vom alten unterscheidet. }
+  if on_ <> Impulse
+  then begin
+    on_ := Impulse;
+    if NumIn = 1
+    then begin
+      xActItem := Con2.Con;
+      xNumIn := Con2.Num;
+    end
+    else begin
+      xActItem := Con1.Con;
+      xNumIn := Con1.Num;
+    end;
+    Impulses^.Insert(
+      New(pImpulse, Init(xActItem, xNumIn, Impulse, 0)));
+    if PaintCol^.IndexOf(@Self)<0 then PaintCol^.Insert(@Self);
+  end;
+end;
+
+function tConnection.CalcEdit(R : tRect) : hRgn;
+begin
+  CalcEdit := 0;
+end;
+
+function tConnection.Position : pPosition;
+begin
+  Position := Con1.Con^.Position;
+end;
+
+function tConnection.PosPoint : longint;
+begin
+  with Con1
+  do PosPoint := con^.GetInOutPos(num);
+end;
+
+type
+  pConnectionDlg = ^tConnectionDlg;
+  tConnectionDlg = object (tDialogSB)
+    p : pConnection;
+    constructor Init(xParent : pWindowsObject; xp : pConnection);
+    procedure SetupWindow; virtual;
+    procedure CMHelp(var Msg : tMessage);
+      virtual CM_FIRST + CM_HELPCONTEXT;
+    procedure OK(var Msg : tMessage);
+      virtual id_First + id_OK;
+  end;
+
+constructor tConnectionDlg.Init(xParent : pWindowsObject; xp : pConnection);
+begin
+  inherited Init(xParent, 'CONNECTIONDLG');
+  p := xp;
+end;
+
+procedure tConnectionDlg.SetupWindow;
+var
+  item : pItem;
+  Pos : pPosition;
+begin
+  inherited SetupWindow;
+  with p^
+  do begin
+    SetDlgItemInt(hWindow, 120, NumPt, false);
+    { Verbindung 1. }
+    Item := Con1.Con;
+    Pos := Item^.Position;
+    SetDlgItemInt(hWindow, 100, Word(Pos^.X), True);
+    SetDlgItemInt(hWindow, 101, Word(Pos^.Y), True);
+    SetDlgItemText(hWindow, 102, Item^.Name);
+    { Verbindung 2. }
+    Item := Con2.Con;
+    Pos := Item^.Position;
+    SetDlgItemInt(hWindow, 110, Word(Pos^.X), True);
+    SetDlgItemInt(hWindow, 111, Word(Pos^.Y), True);
+    SetDlgItemText(hWindow, 112, Item^.Name);
+  end;
+end;
+
+procedure tConnectionDlg.CMHelp(var Msg : tMessage);
+begin
+  WinHelp(hMainWin, 'LOKON.HLP', HELP_CONTEXT, 830);
+end;
+
+procedure tConnectionDlg.OK(var Msg : tMessage);
+var
+  i : Integer;
+  b : Boolean;
+begin
+{  b := False;
+  with p^
+  do begin
+    i := Integer(GetDlgItemInt(hWindow, 100, nil, True));
+    if i <> X then b := True;
+    X := i;
+    i := Integer(GetDlgItemInt(hWindow, 101, nil, True));
+    if i <> Y then b := True;
+    Y := i;
+  end;
+  if b then
+    p^.CalcItemRectCon;}
+  EndDlg(id_OK);
+end;
+
+procedure tConnection.ItemEdit(Window : pWindowsObject);
+begin
+  Application^.ExecDialog(New(pConnectionDlg, Init(Window, @Self)));
+end;
+
+function tConnection.GetMenu( ItemMenu : hMenu; window : hWnd ) : hMenu;
+var
+  Menu : hMenu;
+begin
+  Menu := GetSubMenu( ItemMenu, 5 );
+{$ifdef osc}
+  if LongBool( SendMessage( window, ms_OscIsRecCon, 0, Longint(@Self) ) )
+  then CheckMenuItem( Menu, cm_OscRecord, MF_CHECKED );
+{$endif}
+  GetMenu := Menu;
+end;
+
+{ ------ rConnection ---------------------------------------------------- }
+
+const
+  rConnection : TStreamRec = (
+     ObjType : riConnection;
+     VmtLink : Ofs(TypeOf(tConnection)^);
+     Load  : @tConnection.Load;
+     Store : @tConnection.Store
+  );
+
+{ ------ Registrierung -------------------------------------------------- }
+
+begin
+  ConnectionName := StrNew(LoadString0(26));
+  RegisterType(rConnection);
+end.

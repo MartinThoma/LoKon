@@ -1,0 +1,53 @@
+Exxx: Fehlerbeschreibung eines Fehlers, der BESEITIGT wurde!
+Dxxx: Beschreibung eines Entwicklungsvorschlags, der eingebaut wurde.
+
+     LoKon V2.36     09.02.1999
+     -----------
+
+Euro Preise
+
+
+     LoKon V2.35     06.11.1998
+     -----------
+
+E130: NT bug beseitigt.
+
+
+     LoKon V2.34     05.08.1998
+     -----------
+
+Neue Firmenadresse:
+  RothSoft
+  Technologiezentrum Warnemünde
+  Friedrich-Barnewitz-Srtaße 3
+  18119 Rostock
+  Germany
+  Tel.: +49 381 5196 244
+  Fax: +49 381 5196 266
+  Email:
+   roth@rothsoft.de
+   lokon@rothsoft.de
+  www.rothsoft.de
+
+
+     LoKon V2.32     26.05.1998
+     -----------
+
+Neue Adresse:
+  RothSoft
+  Heiko Roth
+  Stephan-Jantzen-Ring 45
+  18106 Rostock
+  Email:
+   roth@rothsoft.de
+   lokon@rothsoft.de
+  www.rothsoft.de
+
+
+     LoKon V2.3      08.01.1998
+     ----------
+
+D200: Oszilloskop soll bei Simulation mitscrollen.
+D202: Passive Analogbausteine.
+E127: Absturz, wenn eine Leitung von einem Ein/Ausgang an denselben gezogen wird.
+E128: Absturz, wenn eine Leitung von einem Ein/Ausgang nicht an einen anderen gezogen wird.

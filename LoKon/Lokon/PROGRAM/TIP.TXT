@@ -1,0 +1,3 @@
+#
+Wenn ein Element in einer Elementdatei verändert wurde, dann können die Zustände dieses Elements in der Schaltung nicht mehr geladen werden.
+Die Simulation muß zurückgesetzt werden. Nach erneutem Speichern funktioniert dann alles wieder.

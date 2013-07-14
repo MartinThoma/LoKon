@@ -1,0 +1,16 @@
+Exxx: Description of an error that is FIXED now.
+Dxxx: Description of a development proposal that is build in now.
+
+     LoKon V2.4      20.03.1998
+     ----------
+
+D154: InstallShield installation
+D155: deinstallation
+
+     LoKon V2.3      03.01.1998
+     ----------
+
+D200: Scroling oscilloscope at simulation.
+D202: Passive analog elements.
+E127: Crash if an in/output is connected to itself.
+E128: Crash if an in/output isn't connected to another.

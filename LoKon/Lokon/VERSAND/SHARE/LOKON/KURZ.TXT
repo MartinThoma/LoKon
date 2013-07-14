@@ -1,0 +1,5 @@
+Mit LoKon k”nnen Sie auf einfache Weise digitale Schaltungen konstruieren. Der Signalfluá dieser Schaltnetze und -werke kann simuliert und aufgezeichnet werden. Das Programm eignet sich vor allem fr die Ausbildung. Eine kontextsensitive Online Hilfe (700 kB) erkl„rt die Bedienung und reduziert die Einarbeitungszeit auf ein Minimum.
+šber 200 Bauelemente (Gatter, Flipflops, usw.) inklusive TTL-Bausteine sowie Schalter, Feste Null, Feste Eins, Taktgeber, ROM/RAM und PLA stehen zur Verfgung. Texte und Grafiken k”nnen mit in die Schaltungen aufgenommen werden. Es k”nnen eigene Elemente erstellt werden. Zur Verfgung stehen Tabellen, Boolesche Algebra und Makroelement.
+Ein zu jeder Schaltung geh”rendes Oszilloskop zeigt den Signalfluá an.
+Eigene Elemente k”nnen auf komfortable Weise erstellt werden.
+Neu in der Version 2.2: TTL-Bausteine.

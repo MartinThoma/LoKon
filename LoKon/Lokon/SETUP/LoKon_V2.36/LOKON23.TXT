@@ -1,0 +1,29 @@
+Program : LoKon for Windows
+Version : V2.36
+  Date  : 09. February 1999
+
+Purpose : Construction and Simulation of digital circuits. New element files.
+ System : 386er PC with MS-Windows 3.1 or higher respectively OS2 2.11 or higher
+
+ Author : Heiko Roth
+  Firm  : RothSoft
+ Adress : Friedrich-Barnewitz-Srtaﬂe 3
+          18119 Rostock
+          Germany
+ phone  : +49 381 5196 244
+  Fax   : +49 381 5196 266
+  email : roth@rothsoft.de
+   WWW  : www.rothsoft.de
+
+Replaces: LOKON235.ZIP
+
+Description:
+Construction and Simulation of digital circuits. Contextsensitive
+help (600 KByte) and menues.
+More than 100 elements (gates, flipflops ...), oscillator,
+ROM/RAM, PLA and passive analog elements. Oscilloscope.
+Comfortable creation of own elements.
+Now you can create macro elements.
+
+Registration fee: 29 US$ (50 DM/25,56 Euro)
+Use bmtmicro to register outside Germany (bmtmicro.txt)

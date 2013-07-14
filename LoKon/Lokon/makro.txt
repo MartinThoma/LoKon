@@ -1,0 +1,56 @@
+Makroelement:
+
+1. Neue Elementdatei erstellen oder eine vorhandene öffnen
+   tip: Keine Elementdatei verändern, die mit LoKon mitgeliefert wird,
+   da diese bei einem update überschrieben werden !!!
+
+2. Element->Neues Element->Makro
+
+3. Name eingeben
+
+4. Hilfe nachlesen: Hilfe->Wie geht Das?->Elementdatei erstellen
+   Da ist alles beschrieben, bis auf Ein-/Ausgabe
+   Also alles wie dort beschrieben machen, aber am besten mit der Ein-Ausgabe
+   wie ab 5. beschrieben anfangen
+
+5. Ihr Element in der Liste auswählen
+   dann Element->Ein/Ausgabe oder Strg+A drücken
+
+6. Jetzt erscheint eine Schaltung mit drei farbigen Elementen,
+   das sind die Verbindungen nach außen: rot sind Eingänge, grün Ausgänge
+   und schwarz wird für innere Zustände benutzt (Bsp. Flipflop), die
+   graf. angezeigt werden sollen
+
+7. Jetzt überlegen: wieviele Ein- und Ausgänge werden benötigt
+   (kann später noch verändert werden)
+
+8. rotes Kästchen mit der rechten Maustatse anklicken (kontextsensitiv)
+   aus dem Menü Dialog oder Eingang hinzufügen auswählen
+   (im Dialog kann man direkt 10 oder so eingeben und muß
+    das ganze nicht 10x machen :-)
+
+9. Das gleiche geht mit den Ausgängen
+
+10. Über die Zwischenablage kann eine vorhandene Schaltung importiert werden.
+    Alle Schalter werden dann normal entfernt und an die
+    Eingänge angeschlossen, alle Lichter an die Ausgänge
+
+11. Und dann muß noch ne Grafik gemacht werden und die Positionierung
+    der Ein-/Ausgänge in der Grafik nicht vergessen
+
+12. Die Grafik kapselt dann die Makroschaltung, man kann aber reinzoomen
+
+13. Als Beipiel: macro.lay öffnen
+    Den Volladdierer mit der rechten Maustaste anklicken und Makro anwählen
+    Und schon sieht man die inneren Zusammenhänge
+    Auch die Halbaddierer sind Makros
+    (mit rechter Maustaste anklicken und Makro)
+    Zur besseren Übersicht: Fenster->nebeneinander wählen
+    Dann noch: Fenster->Volle Ansicht in allen Fenstern
+    Jetzt noch Simulation starten, Schalter in Hauptdatei drücken und
+    Simulation verfolgen.
+    Bei Bedarf: Einstellungen->Zeitraster langsamer machen oder
+    auf manuell umstellen
+
+Viel Spaß wünscht der Autor.
+Heiko Roth.

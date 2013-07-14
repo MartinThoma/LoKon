@@ -1,0 +1,37 @@
+E - Fehler in der freigegebenen Versionen von LoKon
+e - Fehler waren nur in Beta Version vorhanden
+Die Versionsnummer vor einem Fehler zeigt an, ab welcher Version der Fehler behoben ist.
+
+      E100: schlägt das Laden der Schaltung fehl, so wird das Oszilloskop nicht geschlossen
+      E101: Es werden nicht alle Fenster im Fenster-Menü angezeigt
+      E102: Alle Fenster schließen führt zu Absturz
+V2.0 >E103: Bei Änderungen in der Schaltung über den elementspezifischen Dialog wurde die Variable NotClose nicht gesetzt.
+      E104: Ein-/Ausgänge werden angezeigt beim Einfügen eines Elements
+V2.0 >E105: Die Reihenfolge der Dateieinträge im Dateimenü wird nach jedem Neustart umgekehrt.
+      E106: Nicht alle Icons sind transparent.
+V2.0 >E107: Initialisierungsfehler bei Schalter im Zusammenhang mit Verbindungsknoten bei der Simulation.
+      E108: Falscher Mauszeiger bei Löschen in Grafik
+V2.0 >E109: Bei 2 amerikanischen Elementen fehlt die Region-Grafik
+      E110: Eingang- und Ausgangelement können über Markierung gelöscht werden
+      E111: Eingang- und Ausgangelement können über die Zwischenablage kopiert und dadurch vervielfacht werden
+      E112: -
+V2.1 >E113: Zeitraster! Speedbar button wird nicht aktiviert.
+V2.02>E114: Ausgangsimpuls eines Makroelements kommt ein Zeitraster zu spät
+      E115: Setup: Alles ist im Dialog grau, auch Eingabefenster
+V2.0 >E116: Setup verändert bestehende LoKon Einstellungen
+V2.0 >E117: Makro Fenster schließbar
+      E118: Abstrakte Methode copy in In/Out/StateMacroItem
+      E119: In Schaltung eingefügte Makros können verändert werden
+      E120: -
+      E121: Manipulationsmöglichkeiten im Makrofenster müssen ausgeschaltet werden
+      E122: NotClose wird nach dem Löschen eines Elementes in der Grafik nicht gesetzt
+      E123: Signal auf Ausgang legen führt zu keinem Fehler
+V2.01>E124: Blicken der Speedbar bei verwenden von Makroelementen
+V2.01>E125: Speicherproblem bei grossen bzw. vielen Makroelementen.
+V2.2 >E126: Memory leak beim Ausdruck.
+V2.3 >E127: Absturz, wenn eine Leitung von einem Ein/Ausgang an denselben gezogen wird.
+V2.3 >E128: Absturz, wenn eine Leitung von einem Ein/Ausgang nicht an einen anderen gezogen wird.
+
+V2.3 >D200: Oszilloskop soll bei Simulation mitscrollen.
+V2.3 >D201: Installation mit InstallShield.
+V2.3 >D202: Passive Analogbausteine.

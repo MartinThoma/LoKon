@@ -1,0 +1,38 @@
+
+EasySim is an aid in teaching and
+                           learning digital electronics. It allows
+                           fast prototyping and functional
+                           testing of small to medium digital
+                           circuits. The program provides a
+                           range of logic gates, plus input and
+                           output devices: switches, lamps
+                           and digital displays. The screen
+                           editor allows fast creation and
+              validation of the circuit, and a selectable on-screen grid
+              aids in component placement and alignment. Online
+              help is also provided.
+
+
+                           Digital Works 95 is a freeware
+                           graphical design program that lets
+                           you create digital logic circuits and
+                           analyze their behavior. Circuits can
+                           be composed of simple gates and
+                           flip-flops. Tri-state logic can be
+                           used to construct systems with
+                           buses, plus there are mechanisms
+                           for detecting race conditions and
+              bus contention. One of the program's best features is its
+              ability to create macros. This means you can convert a
+              circuit into a logic element, then use the new logic
+              element as a building block in the construction of
+              more-complex circuits. The complex circuit can also be
+              converted into a new logic element, and so on. With
+              this feature, you can create a hierarchy of digital
+              objects, with each new level hiding the complexity of its
+              implementation. Examples of macros include counters,
+              shift registers, and data registers -- you can even make
+              integrated circuits. Digital Works 95 features an
+              easy-to-use interface with toolbars, a template editor,
+              and a logic history window. Several sample files are
+              included.

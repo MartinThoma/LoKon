@@ -1,0 +1,219 @@
+Historie
+********
+
+Exxx: Fehler, der behoben wurde.
+Dxxx: Weiterentwicklung, die integriert wurde.
+
+# LoKon V2.36     09.02.1998
+
+Euro Preise
+
+
+# LoKon V2.35     06.11.1998
+
+E130: NT bug beseitigt.
+
+
+# LoKon V2.34     05.08.1998
+
+Neue Firmenadresse:
+  RothSoft
+  Technologiezentrum Warnemünde
+  Friedrich-Barnewitz-Srtaße 3
+  18119 Rostock
+  Germany
+  Tel.: +49 381 5196 244
+  Fax: +49 381 5196 266
+ Email:
+   roth@rothsoft.de
+   lokon@rothsoft.de
+  www.rothsoft.de
+
+
+# LoKon V2.32     26.05.1998
+
+Neue Adresse:
+  RothSoft
+  Heiko Roth
+  Stephan-Jantzen-Ring 45
+  18106 Rostock
+  Email:
+   roth@rothsoft.de
+   lokon@rothsoft.de
+  www.rothsoft.de
+
+
+# LoKon V2.3      08.01.1998
+
+D200: Oszilloskop soll bei Simulation mitscrollen.
+D202: Passive Analogbausteine.
+E127: Absturz, wenn eine Leitung von einem Ein/Ausgang an denselben gezogen wird.
+E128: Absturz, wenn eine Leitung von einem Ein/Ausgang nicht an einen anderen gezogen wird.
+
+
+# LoKon V2.2      13.05.1997
+
+D154: Neue Grafikfunktion: Zeichnen->Blockelement
+D155: Mehr TTL-Bausteine
+E126: Memory leak beim Ausdruck.
+
+
+# LoKon V2.1      12.03.1997
+
+D151: Elementdatei Elements erweitert.
+D152: Neue Elementdatei Elements2.
+D153: Neue Elementdatei TTL.
+E113: Zeitraster! Speedbar button wird nicht aktiviert.
+D150: L„ngere Elementnamen.
+
+
+# LoKon V2.02     11.02.1997
+
+D149: neuer Menpunkt im kontextsensitiven Men eines Makroelements: Makro, ”ffnet das zugeh”rige Makrofenster
+E114: Ausgangsimpuls eines Makroelements kommt ein Zeitraster zu spät
+
+
+# LoKon V2.01     14.01.1997
+
+E124: Blicken der Speedbar bei verwenden von Makroelementen
+
+
+# LoKon V2.0      20.12.1996
+
+D148: Neuer INI-Eintrag: [General] Undo=true/false  (Rückgängig an/aus)
+D147: Neuer Menüpunkt: Einstellungen->Rückgängig ein/aus
+
+
+# LoKon V2.0 beta3     11.12.1996
+
+D140: Bei Speicherknappheit Undo-Speicher freigeben
+D138: Rückgängig/Widerrufen
+D099: Makro überarbeitet
+
+
+# LoKon V2.0 beta2     28.11.1996
+
+D131: Neuer Menüpunkt im Fenstermenü: Volle Ansicht in allen Fenstern
+D130: Der Schließen-Button des Oszilloskops verbirgt dieses
+E117: Makro Fenster schließbar
+D129: Neue Menüpunkte im Fenstermenü: Zeige/Verberge alle Makros
+D128: Neue Menüpunkte im Fenstermenü: Zeige/Verberge alle Oszilloskope
+D127: Der Menüpunkt Schaltung im Systemmenü des Oszilloskop zeigt die Schaltung an
+D125: Der Menüpunkt Oszilloskop im Systemmenü der Schaltung zeigt das Oszilloskop an
+D126: Oszilloskop und Makroschaltung werden verdeckt geöffnet
+
+# LoKon V2.0 beta1     15.11.1996
+
+E116: Setup verändert bestehende LoKon Einstellungen
+E109: Bei 2 amerikanischen Elementen fehlt die Region-Grafik
+E107: Initialisierungsfehler bei Schalter im Zusammenhang mit Verbindungsknoten bei der Simulation.
+E105: Die Reihenfolge der Dateieinträge im Dateimenü wird nach jedem Neustart umgekehrt.
+E103: Bei Änderungen in der Schaltung über den elementspezifischen Dialog wurde die Variable NotClose nicht gesetzt.
+D099: Neuer Elementtyp: Makro
+
+# Version 1.9	 4.10.1996
+
+- BMT Micro Registrierung (siehe register.wri)
+- Windows95 und OS/2 konform und getestet.
+- Anzeigen der letzten Dateien im Dateimenü.
+
+# Version compact 1.0	28.06.1996
+
+- Gegenüber der Vollversion von LoKon können mit LoKon pur keine 
+  Elementdateien erstellt oder editiert werden. Ansonsten entspricht 
+  die Funktionalität.
+- Folgeversionen erscheinen mit jeder neuen LoKon Version und tragen 
+  die gleiche Versionsnummer.
+
+# Version mini 1.0	28.06.1996
+
+- Zum Einstieg in die Materie der digitalen Schaltungen. Elementdateien
+  können weder erstellt, noch editiert werden. Die Schaltungsgröße ist
+  beschränkt.
+- Folgeversionen erscheinen mit jeder neuen LoKon Version und tragen die 
+  gleiche Versionsnummer.
+
+# Version 1.8	17.07.1996
+
+- Bugfix.
+- Dialoge in grau.
+
+# Version 1.7	10.06.1996
+
+- PLA Baustein.
+
+# Version 1.6b	02.04.1996
+
+- Fehler beim Löschen einer Selektion mit einer Verbindung, die 
+  aufgezeichnet wird, beseitigt.
+- Oszilloskop trägt nun Name der zugehörigen Schaltung.
+
+# Version 1.6a	20.03.1996
+
+- Bilinguale Version (englisch,deutsch).
+- Neue Icons und Speedbarbuttons mit 3D Effekt.
+
+# Version 1.6	06.03.1996
+
+- Kontextsensitive Menüs durch Drücken der rechten Maustaste.
+- Oszilloskop (Aufzeichnung der Leitungszustände).
+
+# Version 1.5a	12.09.1995
+
+- Registrierung mit Compuserve möglich.
+
+# Version 1.5	13.04.1995
+
+- Debug
+    + Berührt ein Element eines verschobenen Bereichs ein vorhandenes, 
+      so wird der Bereich jetzt tatsächlich an die ursprüngliche Position 
+      zurückgesetzt.
+    + Fehlende Routine im Verbindungsknoten wurde ergänzt. Fehler trat auf, 
+      wenn eine markierte Verbindung zum Verschieben mit der linken Maustaste 
+      ausgewählt wurde.
+- Shareware-Version mit Hilfe eines Codes in registrierte Version umwandelbar.
+- Darstellung beschleunigt.
+- Eine englische Version.
+- Einstellungen werden nun in einer INI-Datei (vorher: OPT-Datei) gespeichert.
+- Schalter und Feste_Null/Feste_Eins haben neues Aussehen. (Sie unterscheiden 
+  sich nun.)
+- Verbindungsknoten werden nun auch auf Rasterpunkte gesetzt.
+- Simulation: Darstellung verbessert.
+   Vorher: Simulation und sofortige Anzeige.
+   Dies hat dazugeführt, daß während eines Zeitraster ein Bauelement mehrmals 
+   dargestellt wurde, wenn sich mehrere Eingangspegel eigentlich gleichzeitig 
+   geändert haben.
+   Jetzt: Zuerst wird intern die Simulation eines Zeitrasters durchgeführt, 
+   und danach werden dann alle Elemente neu angezeigt, bei denen sich mindestens 
+   ein Eingangspegel geändert hat.
+- Die Element-Grafik wird nun aufgeteilt in Grafik und Region (vorher: Region
+  aus Grafik berechnet, langsam)
+- Kollisionsabfrage (bei Verschieben in der Schaltung) abschaltbar (siehe: 
+  Kapitel Bedienung unter Einstellungen).
+- Markierte Grafik/Schaltung wird nicht mehr in Region gespeichert (eine Region 
+  ist auf 64KByte beschränkt).
+- Import von Texten und Bitmaps über die Zwischenablage.
+- Hilfe (kotextsensitiv).
+- Setup-Programm.
+- Speedbar verbessert und erweitert. (Ist die Speedbar zu groß, so ordnet sie 
+  sich in mehreren Zeilen an.)
+- Anleitung neu erarbeitet.
+
+# Version 1.1	15.10.1994
+
+- Speedbar
+- Bedienung verbessert
+- neuer Elementtyp: Bool
+- mehr Elemente (Elements, Register und Display)
+
+# Version 1.0	25.08.1994
+
+- Vollversion
+- Schaltung
+- Elementdatei
+- Elementtyp Tabelle
+- Elements
+
+# Version 0.9	19.07.1994
+
+- erste Shareware-Version

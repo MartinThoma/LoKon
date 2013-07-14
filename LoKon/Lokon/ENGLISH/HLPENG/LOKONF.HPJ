@@ -1,0 +1,80 @@
+[OPTIONS]
+TITLE = LoKon - Hilfe
+COPYRIGHT = (c) 1995-1996 Heiko Roth
+CITATION = (c) 1995-1996 Heiko Roth
+COMPRESS = NO
+REPORT = ON
+ERRORLOG = \PROJEKT\LOKON\english\HLPENG\LOKONF.ERR
+WARNING = 3
+ROOT = \PROJEKT\LOKON\english\HLPENG
+
+[FILES]
+\PROJEKT\LOKON\english\hlpeng\LOKONF.RTF
+\PROJEKT\LOKON\english\hlpeng\LOKONA.RTF
+\PROJEKT\LOKON\english\hlpeng\LOKONROM.RTF
+\PROJEKT\LOKON\english\hlpeng\LOKONPLA.RTF
+\PROJEKT\LOKON\english\hlpeng\LOKONOSC.RTF
+\PROJEKT\LOKON\english\hlpeng\LOKONELE.RTF
+
+[CONFIG]
+BrowseButtons()
+
+[BITMAPS]
+
+
+[WINDOWS]
+main="LoKon - Hilfe",(0,0,1023,1023),,(255,255,255),(192,192,192)
+
+[MAP]
+Topic1 0
+Topic2 1000
+Topic3 101
+Topic4 102
+Topic5 103
+Topic6 200
+Topic7 300
+Topic8 104
+Topic9 105
+Topic10 400
+Topic11 110
+Topic12 120
+Topic13 500
+Topic14 600
+Topic15 700
+Topic16 201
+Topic17 800
+Topic18 202
+Topic19 810
+Topic20 820
+Topic21 830
+Topic22 840
+Topic23 850
+Topic24 860
+Topic25 210
+Topic26 501
+Topic27 510
+Topic28 520
+Topic29 540
+Topic30 107
+Topic31 505
+Topic32 610
+Topic33 620
+Topic34 621
+Topic35 622
+Topic36 630
+Topic37 511
+Topic38 521
+Topic39 522
+Topic40 525
+Topic41 523
+Topic42 910
+Topic43 900
+Topic44 920
+Topic45 108
+Topic46 930
+Topic51 1001
+Topic52 1002
+Topic53 1016
+Topic54 1010
+Topic55 1207
+Topic56 1209

@@ -1,0 +1,13 @@
+HC505.EXE contains four files: HC.EXE, HCP.EXE, and two .ERR files.
+
+HC.EXE and HCP.EXE versions 3.10.505 correct the following problems:
+
+ - Some new RTF items (font header information) that Word for Windows
+   version 6.0 generates.
+
+ - Increase the number of entries (around 8,000) in the map section
+   and the alias sections in the .HPJ file.
+
+ - Increase the number of bitmaps in the .RTF file to around 2,970.
+
+ - Increase the internal compiler limit from 32K to 64K.
